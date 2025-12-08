@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view('user.home');
 })->name('home');
 
+Route::get('/about', function () {
+    return view('user.about');
+})->name('about');
+
 Route::get('/vendors', function () {
     return view('user.vendors');
 })->name('vendors');
@@ -20,6 +24,7 @@ Route::get('/events', function () {
 Route::get('/contact', function () {
     return view('user.contact');
 })->name('contact');
+
 // Dashboard - redirect based on user role
 Route::get('/dashboard', function () {
     if (Auth::user()?->is_admin) {

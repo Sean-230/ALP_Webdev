@@ -8,7 +8,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="hero-section" style="background: linear-gradient(135deg, #4E61D3 0%, #CFADC1 100%); padding: 140px 0 100px; margin-top: 76px;">
+    <section class="hero-section" style="background-color:#4E61D3; padding: 140px 0 100px; margin-top: 76px;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-5 mb-lg-0">
