@@ -1,0 +1,203 @@
+/* Home Page Styles */
+
+.hero-section {
+    position: relative;
+}
+
+/* Remove any remaining gradient styles */
+* {
+    background-image: none !important;
+}
+
+.card {
+    border: none !important;
+}
+
+/* Ensure all backgrounds are solid */
+section {
+    background-image: none !important;
+}
+
+/* Ensure solid colors only */
+section {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* Override any gradient styles */
+* {
+    background-image: none !important;
+}
+
+/* Keep only solid background colors */
+.hero-section,
+.trust-section,
+.stats-section {
+    background-image: none !important;
+}
+
+.btn-custom-outline {
+    border: 2px solid white;
+    color: white;
+    background-color: transparent;
+    padding: 12px 30px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-custom-outline:hover {
+    background-color: white;
+    color: #173648;
+}
+
+.feature-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    height: 100%;
+    border: 2px solid rgba(10, 90, 153, 0.2);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    border-color: #1C7FDD;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(28, 127, 221, 0.2);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+    color: white;
+}
+
+.icon-dark {
+    background-color: #173648;
+}
+
+.icon-teal {
+    background-color: #0A5A99;
+}
+
+.icon-pink {
+    background-color: #1C7FDD;
+    color: white;
+}
+
+.icon-peach {
+    background-color: #0FB7D4;
+    color: white;
+}
+
+.product-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: none;
+    background-color: white;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(28, 127, 221, 0.2);
+}
+
+.product-card img {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    padding: 20px;
+}
+
+.product-card .badge {
+    background-color: #1C7FDD;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.badge-pink {
+    background-color: #1C7FDD;
+    color: white;
+}
+
+.badge-teal {
+    background-color: #0FB7D4;
+    color: white;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.testimonial-card {
+    border: none;
+    border-radius: 15px;
+    padding: 30px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-card .stars {
+    color: #0FB7D4;
+}
+
+footer {
+    background-color: #173648;
+    color: white;
+    padding: 40px 0 20px;
+}
+
+footer a {
+    color: #1C7FDD;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #0FB7D4;
+}
