@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+<nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-        <a class="navbar-brand fw-bold d-flex align-items-center" href="/" style="color: #173648; font-size: 1.5rem;">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="/" style="color: #360185; font-size: 1.5rem;">
             <img src="{{ asset('images/logo.png') }}" alt="" width="45" height="45" class="me-2"
                 style="object-fit: contain;">
             Festivo
@@ -37,10 +37,11 @@
                                 href="/about">Explore</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ Request::is('vendors*') ? 'active' : '' }}" 
+                            <a class="nav-link dropdown-toggle" 
                                 href="#" id="servicesDropdown" role="button" 
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 Categories
+                                <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
                             </a>
                             <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="servicesDropdown">
                                 <li><a class="dropdown-item" href="/vendors?category=conference">Conference</a></li>
@@ -68,10 +69,11 @@
                             href="/about">Explore</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ Request::is('vendors*') ? 'active' : '' }}" 
+                        <a class="nav-link dropdown-toggle" 
                             href="#" id="servicesDropdown" role="button" 
                             data-bs-toggle="dropdown" aria-expanded="false">
                             Categories
+                            <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
                         </a>
                         <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="servicesDropdown">
                             <li><a class="dropdown-item" href="/vendors?category=conference">Conference</a></li>
@@ -98,7 +100,7 @@
                         <a href="{{ route('bookings.index') }}"
                             class="btn btn-link position-relative p-2 navbar-cart-icon {{ Request::is('bookings*') ? 'active' : '' }}"
                             title="My Bookings">
-                            <i class="bi bi-calendar-check fs-5" style="color: #173648;"></i>
+                            <i class="bi bi-calendar-check fs-5" style="color: #360185;"></i>
                             @if (isset($bookingCount) && $bookingCount > 0)
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     {{ $bookingCount > 99 ? '99+' : $bookingCount }}
@@ -144,3 +146,5 @@
         </div>
     </div>
 </nav>
+
+

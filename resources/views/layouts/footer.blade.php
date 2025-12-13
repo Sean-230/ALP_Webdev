@@ -1,5 +1,5 @@
 <!-- filepath: resources/views/layouts/footer.blade.php -->
-<footer class="py-5 text-white" style="background-color: #173648;">
+<footer class="py-5 text-white" style="background-color: #360185;">
     <div class="container">
         <div class="row g-4 justify-content-between">
             <!-- Company Info -->
@@ -18,35 +18,35 @@
                 </p>
 
                 <!-- Social Media Links -->
-                <h6 class="fw-semibold mb-3" style="color: #0FB7D4;">Ikuti Kami</h6>
+                <h6 class="fw-semibold mb-3" style="color: #F4B342;">Ikuti Kami</h6>
                 <div class="d-flex gap-2">
                     <a href="#"
                         class="btn btn-sm rounded-circle border d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px; color: white; border-color: #0A5A99 !important; transition: all 0.3s ease;"
-                        onmouseover="this.style.backgroundColor='#1C7FDD'; this.style.borderColor='#1C7FDD'; this.style.transform='translateY(-3px)';"
-                        onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#0A5A99'; this.style.transform='translateY(0)';">
+                        style="width: 40px; height: 40px; color: white; border-color: #8F0177 !important; transition: all 0.3s ease;"
+                        onmouseover="this.style.backgroundColor='#8F0177'; this.style.borderColor='#8F0177'; this.style.transform='translateY(-3px)';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#8F0177'; this.style.transform='translateY(0)';">
                         <i class="bi bi-facebook"></i>
                     </a>
                     <a href="#"
                         class="btn btn-sm rounded-circle border d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px; color: white; border-color: #0A5A99 !important; transition: all 0.3s ease;"
-                        onmouseover="this.style.backgroundColor='#1C7FDD'; this.style.borderColor='#1C7FDD'; this.style.transform='translateY(-3px)';"
-                        onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#0A5A99'; this.style.transform='translateY(0)';">
+                        style="width: 40px; height: 40px; color: white; border-color: #8F0177 !important; transition: all 0.3s ease;"
+                        onmouseover="this.style.backgroundColor='#8F0177'; this.style.borderColor='#8F0177'; this.style.transform='translateY(-3px)';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#8F0177'; this.style.transform='translateY(0)';">
                         <i class="bi bi-instagram"></i>
                     </a>
                     <a href="#"
                         class="btn btn-sm rounded-circle border d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px; color: white; border-color: #0A5A99 !important; transition: all 0.3s ease;"
-                        onmouseover="this.style.backgroundColor='#1C7FDD'; this.style.borderColor='#1C7FDD'; this.style.transform='translateY(-3px)';"
-                        onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#0A5A99'; this.style.transform='translateY(0)';">
+                        style="width: 40px; height: 40px; color: white; border-color: #8F0177 !important; transition: all 0.3s ease;"
+                        onmouseover="this.style.backgroundColor='#8F0177'; this.style.borderColor='#8F0177'; this.style.transform='translateY(-3px)';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#8F0177'; this.style.transform='translateY(0)';">
                         <i class="bi bi-twitter"></i>
                     </a>
                     <a href="https://wa.me/6285852772500"
                         class="btn btn-sm rounded-circle border d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px; color: white; border-color: #0A5A99 !important; transition: all 0.3s ease;"
+                        style="width: 40px; height: 40px; color: white; border-color: #8F0177 !important; transition: all 0.3s ease;"
                         target="_blank"
-                        onmouseover="this.style.backgroundColor='#1C7FDD'; this.style.borderColor='#1C7FDD'; this.style.transform='translateY(-3px)';"
-                        onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#0A5A99'; this.style.transform='translateY(0)';">
+                        onmouseover="this.style.backgroundColor='#8F0177'; this.style.borderColor='#8F0177'; this.style.transform='translateY(-3px)';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#8F0177'; this.style.transform='translateY(0)';">
                         <i class="bi bi-whatsapp"></i>
                     </a>
                 </div>
@@ -54,7 +54,7 @@
 
             <!-- Quick Links -->
             <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="fw-bold mb-4" style="color: #0FB7D4;">Tautan Cepat</h5>
+                <h5 class="fw-bold mb-4" style="color: #F4B342;">Tautan Cepat</h5>
                 <ul class="list-unstyled">
                     <li class="mb-3">
                         <a href="{{ route('home') }}" class="footer-link">
@@ -80,9 +80,9 @@
 
                 <!-- Additional Info -->
                 <div class="mt-4 pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                    <h6 class="fw-semibold mb-3" style="color: #0FB7D4; font-size: 0.95rem;">Informasi Kontak</h6>
+                    <h6 class="fw-semibold mb-3" style="color: #F4B342; font-size: 0.95rem;">Informasi Kontak</h6>
                     <div class="d-flex align-items-start mb-2">
-                        <i class="bi bi-telephone-fill me-2 mt-1" style="color: #0FB7D4; font-size: 0.9rem;"></i>
+                        <i class="bi bi-telephone-fill me-2 mt-1" style="color: #F4B342; font-size: 0.9rem;"></i>
                         <div>
                             <a href="tel:+6285852772500" class="footer-contact-link d-block mb-1">
                                 +62 858-5277-2500
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-start">
-                        <i class="bi bi-envelope-fill me-2 mt-1" style="color: #0FB7D4; font-size: 0.9rem;"></i>
+                        <i class="bi bi-envelope-fill me-2 mt-1" style="color: #F4B342; font-size: 0.9rem;"></i>
                         <div>
                             <a href="mailto:info@festivo.com" class="footer-contact-link d-block">
                                 info@festivo.com
@@ -105,16 +105,16 @@
 
             <!-- Operating Hours -->
             <div class="col-lg-4 col-md-6 mb-4">
-                <h5 class="fw-bold mb-4" style="color: #0FB7D4;">Jam Operasional</h5>
+                <h5 class="fw-bold mb-4" style="color: #F4B342;">Jam Operasional</h5>
 
                 <!-- Operating Hours List -->
                 <div class="mb-4">
                     <!-- Senin - Jumat -->
                     <div class="p-4 rounded-3 mb-3"
-                        style="background: linear-gradient(135deg, rgba(28, 127, 221, 0.15) 0%, rgba(15, 183, 212, 0.15) 100%); border-left: 4px solid #0FB7D4;">
+                        style="background: linear-gradient(135deg, rgba(247, 82, 112, 0.15) 0%, rgba(247, 202, 201, 0.15) 100%); border-left: 4px solid #DE1A58;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center flex-grow-1">
-                                <i class="bi bi-calendar-check fs-4 me-3" style="color: #0FB7D4;"></i>
+                                <i class="bi bi-calendar-check fs-4 me-3" style="color: #F4B342;"></i>
                                 <div>
                                     <h6 class="fw-bold mb-1 text-white">Senin - Jumat</h6>
                                     <p class="mb-0 opacity-75">09:00 - 18:00</p>
@@ -129,7 +129,7 @@
                         style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0.1) 100%); border-left: 4px solid #ffc107;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center flex-grow-1">
-                                <i class="bi bi-calendar-event fs-4 me-3" style="color: #ffc107;"></i>
+                                <i class="bi bi-calendar-event fs-4 me-3" style="color: #F4B342;"></i>
                                 <div>
                                     <h6 class="fw-bold mb-1 text-white">Sabtu</h6>
                                     <p class="mb-0 opacity-75">09:00 - 15:00</p>
@@ -144,7 +144,7 @@
                         style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(220, 53, 69, 0.1) 100%); border-left: 4px solid #dc3545;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center flex-grow-1">
-                                <i class="bi bi-calendar-x fs-4 me-3" style="color: #dc3545;"></i>
+                                <i class="bi bi-calendar-x fs-4 me-3" style="color: #F4B342;"></i>
                                 <div>
                                     <h6 class="fw-bold mb-0 text-white">Minggu / Hari Libur</h6>
                                 </div>
@@ -156,9 +156,9 @@
 
                 <!-- Emergency Service Card -->
                 <div class="p-4 rounded"
-                    style="background: linear-gradient(135deg, rgba(15, 183, 212, 0.2) 0%, rgba(28, 127, 221, 0.2) 100%); border: 2px solid rgba(15, 183, 212, 0.3);">
+                    style="background: linear-gradient(135deg, rgba(247, 202, 201, 0.2) 0%, rgba(253, 235, 208, 0.2) 100%); border: 2px solid rgba(247, 202, 201, 0.3);">
                     <div class="d-flex align-items-start mb-3">
-                        <i class="bi bi-headset fs-4 me-3" style="color: #0FB7D4;"></i>
+                        <i class="bi bi-headset fs-4 me-3" style="color: #F4B342;"></i>
                         <div>
                             <h6 class="fw-semibold mb-2" style="color: white;">Konsultasi Event</h6>
                             <p class="mb-0 opacity-75 small">
@@ -168,16 +168,16 @@
                     </div>
                     <div class="d-flex gap-2">
                         <a href="tel:+6285852772500" class="btn btn-sm flex-fill fw-semibold"
-                            style="background-color: #1C7FDD; color: white; border-radius: 8px; padding: 8px 16px; transition: all 0.3s ease;"
-                            onmouseover="this.style.backgroundColor='#0FB7D4';"
-                            onmouseout="this.style.backgroundColor='#1C7FDD';">
+                            style="background-color: #8F0177; color: white; border-radius: 8px; padding: 8px 16px; transition: all 0.3s ease;"
+                            onmouseover="this.style.backgroundColor='#DE1A58';"
+                            onmouseout="this.style.backgroundColor='#8F0177';">
                             <i class="bi bi-telephone-fill me-1"></i>Call
                         </a>
                         <a href="https://wa.me/6285852772500" class="btn btn-sm flex-fill fw-semibold"
-                            style="background-color: transparent; color: white; border: 2px solid #0FB7D4; border-radius: 8px; padding: 8px 16px; transition: all 0.3s ease;"
+                            style="background-color: transparent; color: white; border: 2px solid #DE1A58; border-radius: 8px; padding: 8px 16px; transition: all 0.3s ease;"
                             target="_blank"
-                            onmouseover="this.style.backgroundColor='#0FB7D4'; this.style.borderColor='#0FB7D4';"
-                            onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#0FB7D4';">
+                            onmouseover="this.style.backgroundColor='#DE1A58'; this.style.borderColor='#DE1A58';"
+                            onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='#DE1A58';">
                             <i class="bi bi-whatsapp me-1"></i>Chat
                         </a>
                     </div>
@@ -209,7 +209,7 @@
 
         .footer-link:hover {
             opacity: 1;
-            color: #0FB7D4;
+            color: #F4B342;
             transform: translateX(5px);
         }
 
@@ -223,7 +223,7 @@
 
         .footer-contact-link:hover {
             opacity: 1;
-            color: #0FB7D4;
+            color: #F4B342;
         }
 
         /* Responsive adjustments */
@@ -250,3 +250,5 @@
         }
     </style>
 </footer>
+
+

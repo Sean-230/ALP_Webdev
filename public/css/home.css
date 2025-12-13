@@ -2,40 +2,31 @@
 
 .hero-section {
     position: relative;
-}
-
-/* Remove any remaining gradient styles */
-* {
-    background-image: none !important;
-}
-
-.card {
-    border: none !important;
-}
-
-/* Ensure all backgrounds are solid */
-section {
-    background-image: none !important;
-}
-
-/* Ensure solid colors only */
-section {
+    background-image: url('../images/Festivo_Home_Background1.jpg');
     background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
+    background-attachment: scroll;
 }
 
-/* Override any gradient styles */
-* {
-    background-image: none !important;
+/* Add overlay to make text readable */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(248, 249, 250, 0.5), rgba(233, 236, 239, 0.5));
+    z-index: 1;
 }
 
-/* Keep only solid background colors */
-.hero-section,
-.trust-section,
-.stats-section {
-    background-image: none !important;
+.hero-section > .container {
+    position: relative;
+    z-index: 2;
 }
 
+/* Keep all your existing CSS below - DO NOT CHANGE ANYTHING */
 .btn-custom-outline {
     border: 2px solid white;
     color: white;
@@ -48,7 +39,7 @@ section {
 
 .btn-custom-outline:hover {
     background-color: white;
-    color: #173648;
+    color: #360185;
 }
 
 .feature-card {
@@ -57,14 +48,14 @@ section {
     padding: 30px;
     text-align: center;
     height: 100%;
-    border: 2px solid rgba(10, 90, 153, 0.2);
+    border: 2px solid rgba(220, 20, 60, 0.2);
     transition: all 0.3s ease;
 }
 
 .feature-card:hover {
-    border-color: #1C7FDD;
+    border-color: #8F0177;
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(28, 127, 221, 0.2);
+    box-shadow: 0 10px 25px rgba(247, 82, 112, 0.2);
 }
 
 .feature-icon {
@@ -80,21 +71,21 @@ section {
 }
 
 .icon-dark {
-    background-color: #173648;
+    background-color: #360185;
 }
 
 .icon-teal {
-    background-color: #0A5A99;
+    background-color: #8F0177;
 }
 
 .icon-pink {
-    background-color: #1C7FDD;
-    color: white;
+    background-color: #DE1A58;
+    color: #360185;
 }
 
 .icon-peach {
-    background-color: #0FB7D4;
-    color: white;
+    background-color: #F4B342;
+    color: #360185;
 }
 
 .product-card {
@@ -108,7 +99,7 @@ section {
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(28, 127, 221, 0.2);
+    box-shadow: 0 10px 30px rgba(220, 20, 60, 0.2);
 }
 
 .product-card img {
@@ -122,7 +113,7 @@ section {
 }
 
 .product-card .badge {
-    background-color: #1C7FDD;
+    background-color: #360185;
     color: white;
     padding: 5px 15px;
     border-radius: 20px;
@@ -148,13 +139,13 @@ section {
 }
 
 .badge-pink {
-    background-color: #1C7FDD;
+    background-color: #8F0177;
     color: white;
 }
 
 .badge-teal {
-    background-color: #0FB7D4;
-    color: white;
+    background-color: #DE1A58;
+    color: #360185;
 }
 
 .stat-card {
@@ -183,21 +174,23 @@ section {
 }
 
 .testimonial-card .stars {
-    color: #0FB7D4;
+    color: #F4B342;
 }
 
 footer {
-    background-color: #173648;
+    background-color: #360185;
     color: white;
     padding: 40px 0 20px;
 }
 
 footer a {
-    color: #1C7FDD;
+    color: #DE1A58;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 footer a:hover {
-    color: #0FB7D4;
+    color: #F4B342;
 }
+
+
