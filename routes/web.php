@@ -13,7 +13,6 @@ Route::get('/about', function () {
     return view('user.about');
 })->name('about');
 
-// UPDATED: Change explore route
 Route::get('/explore', function () {
     return view('user.explore');
 })->name('explore');
@@ -51,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

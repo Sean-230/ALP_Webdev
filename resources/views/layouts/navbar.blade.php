@@ -121,15 +121,20 @@
                             {{ Auth::user()->name }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm" aria-labelledby="userDropdown">
+                            {{-- Profile Link for All Users --}}
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                <i class="bi bi-person me-2"></i>My Profile</a>
+                            </li>
+                            
                             @if (!Auth::user()->is_admin)
                                 <li><a class="dropdown-item" href="{{ route('bookings.index') }}">
                                     <i class="bi bi-calendar-event me-2"></i>My Bookings</a>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('account.change-password') }}">
-                                    <i class="bi bi-shield-lock me-2"></i>Change Password</a>
-                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                            @else
                                 <li><hr class="dropdown-divider"></li>
                             @endif
+                            
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
@@ -149,5 +154,3 @@
         </div>
     </div>
 </nav>
-
-
