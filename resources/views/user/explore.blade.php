@@ -521,28 +521,6 @@
             </div>
         </div>
     </section>
-
-    <!-- CTA Section -->
-    <section class="py-5" style="background: linear-gradient(135deg, #360185 0%, #8F0177 50%, #DE1A58 100%);">
-        <div class="container py-5">
-            <div class="row align-items-center">
-                <div class="col-lg-8 text-white mb-4 mb-lg-0">
-                    <h2 class="display-5 fw-bold mb-3">Ready to Start Planning Your Event?</h2>
-                    <p class="fs-5 mb-0 opacity-90">
-                        Join thousands of satisfied clients who trust Festivo for their events
-                    </p>
-                </div>
-                <div class="col-lg-4 text-lg-end">
-                    <a href="/contact" class="btn btn-lg px-5 py-3 fw-semibold"
-                        style="background-color: white; color: #360185; border-radius: 10px; transition: all 0.3s ease;"
-                        onmouseover="this.style.backgroundColor='#F4B342';"
-                        onmouseout="this.style.backgroundColor='white';">
-                        Get Started Now <i class="bi bi-arrow-right ms-2"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 @endsection
 
 @push('scripts')
