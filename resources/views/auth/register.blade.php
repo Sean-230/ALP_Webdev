@@ -1,4 +1,5 @@
 <x-guest-layout>
+    @section('body-class', 'register-page')
     <div class="auth-card">
         <div class="auth-header">
             <div class="logo-circle">
@@ -30,7 +31,7 @@
                     <input type="email" class="form-control @error('email') is-invalid @enderror" 
                            id="email" name="email" value="{{ old('email') }}" 
                            required autocomplete="username"
-                           placeholder="name@email.com">
+                           placeholder="Enter your email">
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

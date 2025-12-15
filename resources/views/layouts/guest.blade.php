@@ -17,13 +17,21 @@
 
     <!-- Auth CSS -->
     <style>
+        :root {
+            --primary-purple: #360185;
+            --primary-magenta: #8F0177;
+            --primary-pink: #DE1A58;
+            --primary-orange: #F4B342;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
             background: white;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
         
         /* Hide scrollbars */
@@ -39,6 +47,12 @@
         body.login-page {
             height: 100vh;
         }
+        
+        body.register-page {
+            min-height: 100vh;
+            height: auto;
+            overflow-y: auto;
+        }
 
         .auth-card {
             background: white;
@@ -51,7 +65,7 @@
         }
 
         .auth-header {
-            background: #173648;
+            background: #2196F3;
             color: white;
             padding: 2rem;
             text-align: center;

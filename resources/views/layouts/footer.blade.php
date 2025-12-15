@@ -13,12 +13,12 @@
                     <h4 class="fw-bold mb-0" style="font-size: 1.5rem;">Festivo</h4>
                 </div>
                 <p class="opacity-75 mb-4 lh-lg" style="font-size: 0.95rem;">
-                    Platform profesional untuk manajemen event dan vendor. Menghubungkan klien dengan vendor terpercaya 
-                    untuk acara impian Anda.
+                    Professional platform for event management and vendors. Connecting clients with trusted vendors
+                    for your dream events.
                 </p>
 
                 <!-- Social Media Links -->
-                <h6 class="fw-semibold mb-3" style="color: #F4B342;">Ikuti Kami</h6>
+                <h6 class="fw-semibold mb-3" style="color: #F4B342;">Follow Us</h6>
                 <div class="d-flex gap-2">
                     <a href="#"
                         class="btn btn-sm rounded-circle border d-flex align-items-center justify-content-center"
@@ -54,33 +54,33 @@
 
             <!-- Quick Links -->
             <div class="col-lg-3 col-md-6 mb-4">
-                <h5 class="fw-bold mb-4" style="color: #F4B342;">Tautan Cepat</h5>
+                <h5 class="fw-bold mb-4" style="color: #F4B342;">Quick Links</h5>
                 <ul class="list-unstyled">
                     <li class="mb-3">
                         <a href="{{ route('home') }}" class="footer-link">
-                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Beranda
+                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Home
                         </a>
                     </li>
                     <li class="mb-3">
                         <a href="{{ route('vendors') }}" class="footer-link">
-                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Vendor
+                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Vendors
                         </a>
                     </li>
                     <li class="mb-3">
                         <a href="{{ route('events') }}" class="footer-link">
-                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Event
+                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Events
                         </a>
                     </li>
                     <li class="mb-3">
                         <a href="{{ route('contact') }}" class="footer-link">
-                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Kontak
+                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Contact
                         </a>
                     </li>
                 </ul>
 
                 <!-- Additional Info -->
                 <div class="mt-4 pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                    <h6 class="fw-semibold mb-3" style="color: #F4B342; font-size: 0.95rem;">Informasi Kontak</h6>
+                    <h6 class="fw-semibold mb-3" style="color: #F4B342; font-size: 0.95rem;">Contact Information</h6>
                     <div class="d-flex align-items-start mb-2">
                         <i class="bi bi-telephone-fill me-2 mt-1" style="color: #F4B342; font-size: 0.9rem;"></i>
                         <div>
@@ -105,51 +105,22 @@
 
             <!-- Operating Hours -->
             <div class="col-lg-4 col-md-6 mb-4">
-                <h5 class="fw-bold mb-4" style="color: #F4B342;">Jam Operasional</h5>
+                <h5 class="fw-bold mb-4" style="color: #F4B342;">Operating Hours</h5>
 
                 <!-- Operating Hours List -->
                 <div class="mb-4">
-                    <!-- Senin - Jumat -->
+                    <!-- Every Day -->
                     <div class="p-4 rounded-3 mb-3"
                         style="background: linear-gradient(135deg, rgba(247, 82, 112, 0.15) 0%, rgba(247, 202, 201, 0.15) 100%); border-left: 4px solid #DE1A58;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center flex-grow-1">
                                 <i class="bi bi-calendar-check fs-4 me-3" style="color: #F4B342;"></i>
                                 <div>
-                                    <h6 class="fw-bold mb-1 text-white">Senin - Jumat</h6>
-                                    <p class="mb-0 opacity-75">09:00 - 18:00</p>
+                                    <h6 class="fw-bold mb-1 text-white">Every Day</h6>
+                                    <p class="mb-0 opacity-75">09:00 AM - 06:00 PM</p>
                                 </div>
                             </div>
-                            <span class="badge bg-success fs-6 px-3 py-2 ms-3">Buka</span>
-                        </div>
-                    </div>
-
-                    <!-- Sabtu -->
-                    <div class="p-4 rounded-3 mb-3"
-                        style="background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0.1) 100%); border-left: 4px solid #ffc107;">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center flex-grow-1">
-                                <i class="bi bi-calendar-event fs-4 me-3" style="color: #F4B342;"></i>
-                                <div>
-                                    <h6 class="fw-bold mb-1 text-white">Sabtu</h6>
-                                    <p class="mb-0 opacity-75">09:00 - 15:00</p>
-                                </div>
-                            </div>
-                            <span class="badge bg-warning text-dark fs-6 px-3 py-2 ms-3">Terbatas</span>
-                        </div>
-                    </div>
-
-                    <!-- Minggu / Libur -->
-                    <div class="p-4 rounded-3"
-                        style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.15) 0%, rgba(220, 53, 69, 0.1) 100%); border-left: 4px solid #dc3545;">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center flex-grow-1">
-                                <i class="bi bi-calendar-x fs-4 me-3" style="color: #F4B342;"></i>
-                                <div>
-                                    <h6 class="fw-bold mb-0 text-white">Minggu / Hari Libur</h6>
-                                </div>
-                            </div>
-                            <span class="badge bg-danger fs-6 px-3 py-2 ms-3">Tutup</span>
+                            <span class="badge bg-success fs-6 px-3 py-2 ms-3">Open</span>
                         </div>
                     </div>
                 </div>
@@ -160,9 +131,9 @@
                     <div class="d-flex align-items-start mb-3">
                         <i class="bi bi-headset fs-4 me-3" style="color: #F4B342;"></i>
                         <div>
-                            <h6 class="fw-semibold mb-2" style="color: white;">Konsultasi Event</h6>
+                            <h6 class="fw-semibold mb-2" style="color: white;">Event Consultation</h6>
                             <p class="mb-0 opacity-75 small">
-                                Hubungi kami untuk konsultasi gratis dan perencanaan event Anda
+                                Contact us for free consultation and planning your event
                             </p>
                         </div>
                     </div>
@@ -250,5 +221,3 @@
         }
     </style>
 </footer>
-
-
