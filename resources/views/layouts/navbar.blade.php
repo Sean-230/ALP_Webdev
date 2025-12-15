@@ -15,6 +15,7 @@
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                 @auth
                     @if (Auth::user()->is_admin)
+                        <!-- Admin menu -->
                         <li class="nav-item">
                             <a class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}"
                                 href="/admin/dashboard">Dashboard</a>
@@ -28,13 +29,14 @@
                                 href="/admin/bookings">Bookings</a>
                         </li>
                     @else
+                        <!-- User authenticated menu -->
                         <li class="nav-item">
                             <a class="nav-link {{ Request::is('/') ? 'active' : '' }}"
                                 href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('about') ? 'active' : '' }}"
-                                href="/about">Explore</a>
+                            <a class="nav-link {{ Request::is('explore') ? 'active' : '' }}"
+                                href="/explore">Explore</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" 
@@ -60,13 +62,14 @@
                         </li>
                     @endif
                 @else
+                    <!-- Guest menu -->
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('/') ? 'active' : '' }}"
                             href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('about') ? 'active' : '' }}"
-                            href="/about">Explore</a>
+                        <a class="nav-link {{ Request::is('explore') ? 'active' : '' }}"
+                            href="/explore">Explore</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" 

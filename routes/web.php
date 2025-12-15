@@ -13,6 +13,11 @@ Route::get('/about', function () {
     return view('user.about');
 })->name('about');
 
+// UPDATED: Change explore route
+Route::get('/explore', function () {
+    return view('user.explore');
+})->name('explore');
+
 Route::get('/vendors', function () {
     return view('user.vendors');
 })->name('vendors');
