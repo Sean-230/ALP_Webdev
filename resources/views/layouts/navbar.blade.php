@@ -18,15 +18,11 @@
                         <!-- Admin menu -->
                         <li class="nav-item">
                             <a class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}"
-                                href="/admin/dashboard">Dashboard</a>
+                                href="{{ route('admin.dashboard') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('admin/vendors') ? 'active' : '' }}"
-                                href="/admin/vendors">Vendors</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ Request::is('admin/bookings') ? 'active' : '' }}"
-                                href="/admin/bookings">Bookings</a>
+                            <a class="nav-link {{ Request::is('admin/users') ? 'active' : '' }}"
+                                href="{{ route('admin.users') }}">Users</a>
                         </li>
                     @else
                         <!-- User authenticated menu -->

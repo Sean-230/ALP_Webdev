@@ -18,8 +18,19 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('user.profile.edit', [
-            'user' => $request->user(),
+        $user = $request->user();
+        $pendingApplication = \App\Models\ManagerApplication::where('user_id', $user->id)
+            ->where('status', 'pending')
+            ->first();
+        
+        $applicationHistory = \App\Models\ManagerApplication::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+        
+        return view('user.profile', [
+            'user' => $user,
+            'pendingApplication' => $pendingApplication,
+            'applicationHistory' => $applicationHistory,
         ]);
     }
 
@@ -30,6 +41,7 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
+        // Only reset email verification if email is actually changed
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
@@ -37,6 +49,36 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('success', 'Profile updated successfully!');
+    }
+
+    /**
+     * Apply for event manager status.
+     */
+    public function applyForManager(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        // Check if already an event manager or admin
+        if ($user->role === 'eventManager' || $user->role === 'admin') {
+            return Redirect::route('profile.edit')->with('error', 'You already have manager or admin privileges.');
+        }
+
+        // Check if there's already a pending application
+        $existingApplication = \App\Models\ManagerApplication::where('user_id', $user->id)
+            ->where('status', 'pending')
+            ->first();
+
+        if ($existingApplication) {
+            return Redirect::route('profile.edit')->with('error', 'You already have a pending application.');
+        }
+
+        // Create new application
+        \App\Models\ManagerApplication::create([
+            'user_id' => $user->id,
+            'status' => 'pending'
+        ]);
+
+        return Redirect::route('profile.edit')->with('success', 'Your application has been submitted! An admin will review it shortly.');
     }
 
     /**
@@ -58,15 +100,9 @@ class ProfileController extends Controller
 
     /**
      * Delete the user's account.
-     * Only admins can delete their own accounts.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // Check if user is admin
-        if (!$request->user()->is_admin) {
-            return Redirect::route('profile.edit')->with('error', 'You do not have permission to delete your account. Please contact an administrator.');
-        }
-
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);

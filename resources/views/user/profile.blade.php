@@ -289,24 +289,91 @@
                                 </div>
                             </form>
 
-                            <!-- Delete Account Section (Admin Only) -->
-                            @if (Auth::user()->is_admin)
-                                <div class="danger-zone">
-                                    <h4 class="danger-zone-title">
-                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Danger Zone
-                                    </h4>
-                                    <p class="text-muted mb-3">
-                                        Once you delete your account, there is no going back. Please be certain.
-                                    </p>
+                            <!-- Apply for Event Manager Section -->
+                            @if (Auth::user()->role === 'user')
+                                <hr class="my-5">
 
-                                    <button type="button" 
-                                            class="btn btn-danger-custom" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#deleteAccountModal">
-                                        <i class="bi bi-trash me-2"></i>Delete Account
-                                    </button>
-                                </div>
+                                <h3 class="section-title">
+                                    <i class="bi bi-briefcase me-2"></i>Become an Event Manager
+                                </h3>
+
+                                @if (isset($pendingApplication))
+                                    <div class="alert alert-warning alert-custom mb-4" role="alert">
+                                        <i class="bi bi-clock-history me-2"></i>
+                                        Your application is currently <strong>pending review</strong>. An admin will review it shortly.
+                                        <br><small class="text-muted">Submitted: {{ $pendingApplication->created_at->format('M d, Y h:i A') }}</small>
+                                    </div>
+                                @elseif (isset($applicationHistory) && $applicationHistory->status === 'rejected')
+                                    <div class="alert alert-danger alert-custom mb-4" role="alert">
+                                        <i class="bi bi-x-circle-fill me-2"></i>
+                                        Your previous application was <strong>rejected</strong>.
+                                        @if ($applicationHistory->rejection_reason)
+                                            <br><small>Reason: {{ $applicationHistory->rejection_reason }}</small>
+                                        @endif
+                                        <br><small class="text-muted">You can apply again.</small>
+                                    </div>
+                                @else
+                                    <div class="alert alert-info alert-custom mb-4" role="alert">
+                                        <i class="bi bi-info-circle-fill me-2"></i>
+                                        As an Event Manager, you'll be able to create and manage events on our platform.
+                                    </div>
+                                @endif
+
+                                @if (!isset($pendingApplication))
+                                    <form method="POST" action="{{ route('profile.applyManager') }}">
+                                        @csrf
+                                        
+                                        <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px;">
+                                            <div class="card-body p-4">
+                                                <h5 class="fw-bold mb-3" style="color: #360185;">
+                                                    <i class="bi bi-star-fill me-2"></i>Benefits of Being an Event Manager
+                                                </h5>
+                                                <ul class="list-unstyled mb-0">
+                                                    <li class="mb-2">
+                                                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                        Create and manage your own events
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                        Access to event analytics and insights
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                        Manage vendors and performers
+                                                    </li>
+                                                    <li class="mb-2">
+                                                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                        Handle event registrations
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-save">
+                                                <i class="bi bi-award me-2"></i>Apply for Event Manager Status
+                                            </button>
+                                        </div>
+                                    </form>
+                                @endif
                             @endif
+
+                            <!-- Delete Account Section -->
+                            <div class="danger-zone">
+                                <h4 class="danger-zone-title">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>Danger Zone
+                                </h4>
+                                <p class="text-muted mb-3">
+                                    Once you delete your account, there is no going back. Please be certain.
+                                </p>
+
+                                <button type="button" 
+                                        class="btn btn-danger-custom" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#deleteAccountModal">
+                                    <i class="bi bi-trash me-2"></i>Delete Account
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,30 +381,29 @@
         </div>
     </div>
 
-    <!-- Delete Account Modal (Admin Only) -->
-    @if (Auth::user()->is_admin)
-        <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" style="border-radius: 20px; border: none;">
-                    <div class="modal-header" style="background-color: #dc3545; color: white; border-radius: 20px 20px 0 0;">
-                        <h5 class="modal-title fw-bold" id="deleteAccountModalLabel">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirm Account Deletion
-                        </h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="POST" action="{{ route('profile.destroy') }}">
-                        @csrf
-                        @method('DELETE')
+    <!-- Delete Account Modal -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 20px; border: none;">
+                <div class="modal-header" style="background-color: #dc3545; color: white; border-radius: 20px 20px 0 0;">
+                    <h5 class="modal-title fw-bold" id="deleteAccountModalLabel">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Confirm Account Deletion
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{{ route('profile.destroy') }}">
+                    @csrf
+                    @method('DELETE')
 
-                        <div class="modal-body p-4">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="bi bi-exclamation-circle me-2"></i>
-                                <strong>Warning!</strong> This action cannot be undone.
-                            </div>
+                    <div class="modal-body p-4">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="bi bi-exclamation-circle me-2"></i>
+                            <strong>Warning!</strong> This action cannot be undone.
+                        </div>
 
-                            <p class="mb-4">
-                                Are you sure you want to delete your account? All of your data will be permanently removed from our servers forever. This action cannot be undone.
-                            </p>
+                        <p class="mb-4">
+                            Are you sure you want to delete your account? All of your data will be permanently removed from our servers forever. This action cannot be undone.
+                        </p>
 
                             <label for="password_delete" class="form-label fw-semibold">
                                 <i class="bi bi-key me-2"></i>Please enter your password to confirm:
@@ -365,7 +431,6 @@
                 </div>
             </div>
         </div>
-    @endif
 @endsection
 
 @push('scripts')

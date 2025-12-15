@@ -18,7 +18,10 @@ class Event extends Model
         'category_id',
         'event_picture',
         'capacity',
-        'status'
+        'status',
+        'approval_status',
+        'approved_by',
+        'approved_at'
     ];
 
     protected $casts = [

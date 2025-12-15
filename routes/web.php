@@ -55,22 +55,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
+    Route::post('/profile/apply-manager', [ProfileController::class, 'applyForManager'])->name('profile.applyManager');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/users', [\App\Http\Controllers\AdminController::class, 'users'])->name('admin.users');
     
-    Route::get('/vendors', function () {
-        return view('admin.vendors');
-    })->name('admin.vendors');
+    // Manager Applications
+    Route::post('/applications/{id}/approve', [\App\Http\Controllers\AdminController::class, 'approveApplication'])->name('admin.applications.approve');
+    Route::post('/applications/{id}/reject', [\App\Http\Controllers\AdminController::class, 'rejectApplication'])->name('admin.applications.reject');
     
-    Route::get('/bookings', function () {
-        return view('admin.bookings');
-    })->name('admin.bookings');
+    // Event Approvals
+    Route::post('/events/{id}/approve', [\App\Http\Controllers\AdminController::class, 'approveEvent'])->name('admin.events.approve');
+    Route::post('/events/{id}/reject', [\App\Http\Controllers\AdminController::class, 'rejectEvent'])->name('admin.events.reject');
 });
 
 require __DIR__.'/auth.php';
