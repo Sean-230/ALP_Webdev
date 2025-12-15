@@ -25,6 +25,10 @@ Route::get('/events', function () {
     return view('user.events');
 })->name('events');
 
+Route::get('/faq', function () {
+    return view('user.faq');
+})->name('faq');
+
 Route::get('/contact', function () {
     return view('user.contact');
 })->name('contact');

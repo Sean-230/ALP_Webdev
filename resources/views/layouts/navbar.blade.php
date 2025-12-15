@@ -57,8 +57,8 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('events') ? 'active' : '' }}"
-                                href="/events">FAQ</a>
+                            <a class="nav-link {{ Request::is('faq') ? 'active' : '' }}"
+                                href="/faq">FAQ</a>
                         </li>
                     @endif
                 @else
@@ -90,8 +90,8 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('events') ? 'active' : '' }}"
-                            href="/events">FAQ</a>
+                        <a class="nav-link {{ Request::is('faq') ? 'active' : '' }}"
+                            href="/faq">FAQ</a>
                     </li>
                 @endauth
             </ul>

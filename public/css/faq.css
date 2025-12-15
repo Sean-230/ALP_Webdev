@@ -1,0 +1,206 @@
+/* FAQ Page Styles */
+
+.faq-hero {
+    background: linear-gradient(135deg, #360185 0%, #8F0177 50%, #DE1A58 100%);
+    padding: 120px 0 80px;
+    margin-top: -70px;
+    padding-top: 140px;
+    color: white;
+}
+
+.faq-hero-illustration {
+    text-align: center;
+    font-size: 15rem;
+    color: rgba(255, 255, 255, 0.2);
+    line-height: 1;
+}
+
+/* FAQ Category Cards */
+.faq-category-card {
+    display: block;
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    height: 100%;
+    border: 2px solid transparent;
+}
+
+.faq-category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(54, 1, 133, 0.15);
+    border-color: #360185;
+}
+
+.faq-category-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #360185 0%, #8F0177 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.faq-category-card:hover .faq-category-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.faq-category-card h5 {
+    color: #360185;
+    transition: all 0.3s ease;
+}
+
+.faq-category-card:hover h5 {
+    color: #8F0177;
+}
+
+/* FAQ Section Header */
+.faq-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.faq-section-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #360185 0%, #8F0177 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.faq-section-header h2 {
+    color: #360185;
+    margin: 0;
+}
+
+/* FAQ Accordion */
+.faq-accordion-item {
+    background: white;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.faq-accordion-item:hover {
+    border-color: #360185;
+    box-shadow: 0 8px 25px rgba(54, 1, 133, 0.12);
+}
+
+.faq-accordion-item .accordion-button {
+    background: white;
+    color: #360185;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 1.5rem 2rem;
+    border: none;
+    box-shadow: none;
+}
+
+.faq-accordion-item .accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, rgba(54, 1, 133, 0.05) 0%, rgba(143, 1, 119, 0.05) 100%);
+    color: #360185;
+}
+
+.faq-accordion-item .accordion-button:focus {
+    box-shadow: none;
+    border: none;
+}
+
+.faq-accordion-item .accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23360185'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.faq-accordion-item .accordion-body {
+    padding: 1.5rem 2rem 2rem;
+    color: #4a5568;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .faq-hero {
+        padding: 100px 0 60px;
+        padding-top: 120px;
+    }
+
+    .faq-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .faq-hero-illustration {
+        font-size: 8rem;
+    }
+
+    .faq-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .faq-section-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .faq-section-header h2 {
+        font-size: 2rem;
+    }
+
+    .faq-accordion-item .accordion-button {
+        font-size: 1rem;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .faq-accordion-item .accordion-body {
+        padding: 1.25rem 1.5rem 1.75rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.faq-accordion-item {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.faq-accordion-item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.faq-accordion-item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.faq-accordion-item:nth-child(3) {
+    animation-delay: 0.3s;
+}
