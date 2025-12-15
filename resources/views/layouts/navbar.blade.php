@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand fw-bold d-flex align-items-center" href="/" style="color: #360185; font-size: 1.5rem;">
-            <img src="{{ asset('images/logo.png') }}" alt="" width="45" height="45" class="me-2"
-                style="object-fit: contain;">
+            <img src="{{ asset('images/Logo ALP Webdev.png') }}" alt="" width="45" height="45" class="me-2"
+                style="object-fit: contain; border-radius: 10px;">
             Festivo
         </a>
 
