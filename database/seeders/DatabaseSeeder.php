@@ -22,18 +22,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create test user
-        $testUser = User::firstOrCreate(
-            ['email' => 'test@example.com'],
+        // Create 3 specific role-based accounts
+        $adminUser = User::firstOrCreate(
+            ['email' => 'Admin@gmail.com'],
             [
-                'name' => 'Test User',
-                'password' => 'password',
+                'name' => 'Admin',
+                'role' => 'admin',
+                'password' => '12345678',
                 'email_verified_at' => now(),
             ]
         );
 
-        // Create additional users
-        $users = User::factory(10)->create();
+        $eventManagerUser = User::firstOrCreate(
+            ['email' => 'Sean.tandjaja05@gmail.com'],
+            [
+                'name' => 'Event Manager',
+                'role' => 'eventManager',
+                'password' => '12345678',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $regularUser = User::firstOrCreate(
+            ['email' => 'Sean.tandjaja2005@gmail.com'],
+            [
+                'name' => 'User',
+                'role' => 'user',
+                'password' => '12345678',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // Only these 3 users
+        $users = collect([$adminUser, $eventManagerUser, $regularUser]);
         
         // Create categories
         $categories = Category::factory(10)->create();
@@ -74,11 +95,10 @@ class DatabaseSeeder extends Seeder
         }
         
         // Create event registrations
-        $allUsers = $users->push($testUser);
         foreach ($events->random(min(15, $events->count())) as $event) {
             EventRegister::factory(rand(3, 8))->create([
                 'event_id' => $event->id,
-                'user_id' => $allUsers->random()->id,
+                'user_id' => $users->random()->id,
             ]);
         }
         
@@ -86,7 +106,7 @@ class DatabaseSeeder extends Seeder
         foreach ($events->random(min(12, $events->count())) as $event) {
             Qna::factory(rand(2, 5))->create([
                 'event_id' => $event->id,
-                'user_id' => $allUsers->random()->id,
+                'user_id' => $users->random()->id,
             ]);
         }
     }

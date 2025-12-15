@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('event_categories', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('event_id')->constrained('events')->onDelete('cascade');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['user', 'eventManager', 'admin'])->default('user')->after('email');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('event_categories');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
     }
 };
