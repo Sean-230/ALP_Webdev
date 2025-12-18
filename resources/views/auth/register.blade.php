@@ -3,7 +3,7 @@
     <div class="auth-card">
         <div class="auth-header">
             <div class="logo-circle">
-                <img src="{{ asset('images/logo_transparan.png') }}" alt="Depo Es Krim">
+                <img src="{{ asset('images/Logo ALP Webdev.png') }}" alt="Depo Es Krim">
             </div>
             <h3 class="mb-0">Create New Account</h3>
             <p class="mb-0 opacity-75">Join us today</p>
@@ -31,6 +31,8 @@
                     <input type="email" class="form-control @error('email') is-invalid @enderror" 
                            id="email" name="email" value="{{ old('email') }}" 
                            required autocomplete="username"
+                           pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                           title="Please enter a valid email address (e.g., user@example.com)"
                            placeholder="Enter your email">
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>

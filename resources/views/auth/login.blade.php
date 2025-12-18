@@ -3,7 +3,7 @@
     <div class="auth-card">
         <div class="auth-header">
             <div class="logo-circle">
-                <img src="{{ asset('images/logo_transparan.png') }}" alt="Depo Es Krim">
+                <img src="{{ asset('images/Logo ALP Webdev.png') }}" alt="Depo Es Krim">
             </div>
             <h3 class="mb-1">Welcome Back</h3>
             <p class="mb-0 opacity-75">Sign in to your account</p>

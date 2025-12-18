@@ -7,7 +7,7 @@
                 <div class="d-flex align-items-center mb-4">
                     <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
                         style="width: 70px; height: 70px; background-color: white; padding: 8px; flex-shrink: 0;">
-                        <img src="{{ asset('images/logo_transparan.png') }}" alt="Festivo"
+                        <img src="{{ asset('images/Logo ALP Webdev.png') }}" alt="Festivo"
                             style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                     <h4 class="fw-bold mb-0" style="font-size: 1.5rem;">Festivo</h4>

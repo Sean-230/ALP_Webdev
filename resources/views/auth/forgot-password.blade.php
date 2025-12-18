@@ -1,14 +1,17 @@
 <x-guest-layout>
+    @section('body-class', 'forgot-password-page')
     <div class="auth-card">
         <div class="auth-header">
-            <img src="{{ asset('images/logo.png') }}" alt="Depo Es Krim">
-            <h3 class="mb-1">Lupa Kata Sandi?</h3>
-            <p class="mb-0 opacity-75">Reset kata sandi Anda</p>
+            <div class="logo-circle" style="width: 70px; height: 70px;">
+                <img src="{{ asset('images/Logo ALP Webdev.png') }}" alt="Festivo" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <h3 class="mb-1">Forgot Password?</h3>
+            <p class="mb-0 opacity-75">Reset your password</p>
         </div>
 
         <div class="auth-body">
             <p class="text-muted mb-4">
-                Tidak masalah! Masukkan email Anda dan kami akan mengirimkan link untuk mereset kata sandi.
+                No problem! Enter your email and we will send you a link to reset your password.
             </p>
 
             @if (session('status'))
@@ -26,7 +29,7 @@
                     <input type="email" class="form-control @error('email') is-invalid @enderror" 
                            id="email" name="email" value="{{ old('email') }}" 
                            required autofocus
-                           placeholder="nama@email.com">
+                           placeholder="name@email.com">
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -34,13 +37,13 @@
 
                 <div class="d-grid mb-3">
                     <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-envelope me-2"></i>Kirim Link Reset
+                        <i class="bi bi-envelope me-2"></i>Send Reset Link
                     </button>
                 </div>
 
                 <div class="text-center">
                     <a href="{{ route('login') }}" class="auth-link">
-                        <i class="bi bi-arrow-left me-1"></i>Kembali ke Login
+                        <i class="bi bi-arrow-left me-1"></i>Back to Login
                     </a>
                 </div>
             </form>
