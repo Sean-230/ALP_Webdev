@@ -1,19 +1,51 @@
-/* Navbar Styles with Liquid Glass Effect */
+/* Navbar Styles - Liquid Glass with Gradient Line */
 .navbar {
     transition: all 0.3s ease;
-    height: 70px;
+    height: 85px;
     padding: 0;
-    background: rgba(255, 255, 255, 0.01) !important;
-    backdrop-filter: blur(80px) saturate(500%) brightness(120%);
-    -webkit-backdrop-filter: blur(80px) saturate(500%) brightness(120%);
-    box-shadow: 
-        0 8px 32px 0 rgba(31, 38, 135, 0.05),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 0 rgba(255, 255, 255, 0.1) !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1030;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
     display: flex;
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: none;
+}
+
+/* Gradient line at the bottom */
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        transparent 25%,
+        #360185 40%, 
+        #8F0177 50%, 
+        #360185 60%,
+        transparent 75%,
+        transparent 100%);
+    opacity: 0.6;
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+.navbar.scrolled::after {
+    opacity: 0.8;
 }
 
 .navbar-brand {
@@ -114,6 +146,7 @@
     margin-top: 0.5rem;
     padding: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
+
 }
 
 .dropdown-item {

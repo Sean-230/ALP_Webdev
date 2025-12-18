@@ -1,33 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-</head>
-<body>
-    @include('layouts.navbar')
+@extends('layouts.app')
 
-    <div class="container mt-5">
-        <h1 class="mb-4">Admin Dashboard</h1>
+@section('title', 'Admin Dashboard - Festivo')
 
-        @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        @endif
+@push('styles')
+    <style>
+        .admin-dashboard {
+            padding: 120px 0 60px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+@endpush
 
-        <!-- Statistics Cards -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card text-white bg-primary mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title"><i class="bi bi-people-fill"></i> Total Users</h5>
-                        <h2>{{ $stats['total_users'] }}</h2>
-                    </div>
+@section('content')
+    <div class="admin-dashboard">
+        <div class="container">
+            <h1 class="mb-4 fw-bold" style="color: #360185;">Admin Dashboard</h1>
+
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            @endif
+
+            <!-- Statistics Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-people-fill"></i> Total Users</h5>
+                            <h2>{{ $stats['total_users'] }}</h2>
+                        </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -188,19 +192,17 @@
             </div>
         </div>
 
-        <!-- Quick Links -->
-        <div class="card">
-            <div class="card-header">
-                <h4 class="mb-0">Quick Actions</h4>
-            </div>
-            <div class="card-body">
-                <a href="{{ route('admin.users') }}" class="btn btn-primary me-2">
-                    <i class="bi bi-people"></i> Manage All Users
-                </a>
+            <!-- Quick Links -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Quick Actions</h4>
+                </div>
+                <div class="card-body">
+                    <a href="{{ route('admin.users') }}" class="btn btn-primary me-2">
+                        <i class="bi bi-people"></i> Manage All Users
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection
