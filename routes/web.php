@@ -71,6 +71,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Event Approvals
     Route::post('/events/{id}/approve', [\App\Http\Controllers\AdminController::class, 'approveEvent'])->name('admin.events.approve');
     Route::post('/events/{id}/reject', [\App\Http\Controllers\AdminController::class, 'rejectEvent'])->name('admin.events.reject');
+    
+    // User Management
+    Route::post('/users/{id}/revoke-manager', [\App\Http\Controllers\AdminController::class, 'revokeEventManager'])->name('admin.users.revoke-manager');
 });
 
 require __DIR__.'/auth.php';

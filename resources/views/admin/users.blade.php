@@ -41,6 +41,7 @@
                                 <th>Role</th>
                                 <th>Email Verified</th>
                                 <th>Registered</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,6 +67,20 @@
                                     @endif
                                 </td>
                                 <td>{{ $user->created_at->format('M d, Y') }}</td>
+                                <td>
+                                    @if($user->role === 'eventManager')
+                                    <form action="{{ route('admin.users.revoke-manager', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to revoke Event Manager role from {{ $user->name }}?');">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-warning" title="Revoke Event Manager Role">
+                                            <i class="bi bi-x-circle"></i> Revoke Role
+                                        </button>
+                                    </form>
+                                    @elseif($user->role === 'user')
+                                    <span class="text-muted">-</span>
+                                    @else
+                                    <span class="text-muted">Admin</span>
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

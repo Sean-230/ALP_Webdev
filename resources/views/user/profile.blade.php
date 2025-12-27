@@ -126,17 +126,19 @@
                 <div class="col-lg-8">
                     <!-- Success Message -->
                     @if (session('success'))
-                        <div class="alert alert-success alert-custom mb-4" role="alert">
+                        <div class="alert alert-success alert-dismissible alert-custom mb-4" role="alert">
                             <i class="bi bi-check-circle-fill me-2"></i>
                             {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 
                     <!-- Error Message -->
                     @if (session('error'))
-                        <div class="alert alert-danger alert-custom mb-4" role="alert">
+                        <div class="alert alert-danger alert-dismissible alert-custom mb-4" role="alert">
                             <i class="bi bi-exclamation-circle-fill me-2"></i>
                             {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     @endif
 
@@ -151,15 +153,26 @@
                             <p class="mb-0 opacity-90">
                                 <i class="bi bi-envelope me-2"></i>{{ Auth::user()->email }}
                             </p>
-                            @if (Auth::user()->is_admin)
-                                <span class="badge bg-warning text-dark mt-3 px-3 py-2">
-                                    <i class="bi bi-shield-fill me-1"></i>Administrator
-                                </span>
-                            @else
-                                <span class="badge bg-light text-dark mt-3 px-3 py-2">
-                                    <i class="bi bi-person-fill me-1"></i>User
-                                </span>
-                            @endif
+                            <div class="mt-3">
+                                @if (Auth::user()->role === 'admin')
+                                    <span class="badge bg-warning text-dark px-3 py-2">
+                                        <i class="bi bi-shield-fill me-1"></i>Administrator
+                                    </span>
+                                @elseif (Auth::user()->role === 'eventManager')
+                                    <span class="badge bg-success px-3 py-2">
+                                        <i class="bi bi-briefcase-fill me-1"></i>Event Manager
+                                    </span>
+                                @else
+                                    <span class="badge bg-light text-dark px-3 py-2">
+                                        <i class="bi bi-person-fill me-1"></i>User
+                                    </span>
+                                    @if (isset($pendingApplication))
+                                        <span class="badge bg-info text-dark px-3 py-2 ms-2">
+                                            <i class="bi bi-clock-history me-1"></i>Applied for Event Manager
+                                        </span>
+                                    @endif
+                                @endif
+                            </div>
                         </div>
 
                         <!-- Profile Body -->
@@ -435,15 +448,6 @@
 
 @push('scripts')
     <script>
-        // Auto-dismiss alerts after 5 seconds
-        setTimeout(function() {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
-            });
-        }, 5000);
-
         // Show delete modal if there are errors
         @if ($errors->userDeletion->any())
             const deleteModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));

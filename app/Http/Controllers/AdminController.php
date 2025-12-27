@@ -115,4 +115,26 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Event rejected.');
     }
+
+    /**
+     * Revoke event manager role from user
+     */
+    public function revokeEventManager($id): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+
+        // Prevent revoking admin role
+        if ($user->role === 'admin') {
+            return redirect()->back()->with('error', 'Cannot revoke admin role.');
+        }
+
+        // Check if user is an event manager
+        if ($user->role !== 'eventManager') {
+            return redirect()->back()->with('error', 'User is not an event manager.');
+        }
+
+        $user->update(['role' => 'user']);
+
+        return redirect()->back()->with('success', 'Event Manager role revoked successfully! User is now a regular user.');
+    }
 }

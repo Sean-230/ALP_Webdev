@@ -87,6 +87,7 @@
             width: 70px;
             height: 70px;
             object-fit: contain;
+            mix-blend-mode: multiply;
         }
 
         .auth-body {

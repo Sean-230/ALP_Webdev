@@ -3,7 +3,7 @@
     <div class="auth-card">
         <div class="auth-header">
             <div class="logo-circle" style="width: 70px; height: 70px;">
-                <img src="{{ asset('images/Logo ALP Webdev.png') }}" alt="Festivo" style="width: 100%; height: 100%; object-fit: contain;">
+                <img src="{{ asset('images/Logo ALP Webdev.png') }}" alt="Festivo" style="width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply;">
             </div>
             <h3 class="mb-1">Forgot Password?</h3>
             <p class="mb-0 opacity-75">Reset your password</p>
