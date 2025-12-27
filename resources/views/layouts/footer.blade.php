@@ -84,11 +84,8 @@
                     <div class="d-flex align-items-start mb-2">
                         <i class="bi bi-telephone-fill me-2 mt-1" style="color: #F4B342; font-size: 0.9rem;"></i>
                         <div>
-                            <a href="tel:+6285852772500" class="footer-contact-link d-block mb-1">
-                                +62 858-5277-2500
-                            </a>
-                            <a href="tel:+6281331900500" class="footer-contact-link d-block">
-                                +62 813-3190-0500
+                            <a href="https://api.whatsapp.com/send/?phone=%2B6281330330450&text&type=phone_number&app_absent=0" class="footer-contact-link d-block mb-1">
+                                +62 813-3033-0450
                             </a>
                         </div>
                     </div>
