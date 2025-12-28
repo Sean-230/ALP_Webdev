@@ -65,11 +65,14 @@ class DatabaseSeeder extends Seeder
         // Create performers
         $performers = Performer::factory(20)->create();
         
-        // Create events with existing categories
+        // Create events with existing categories and assign to event manager
         $events = collect();
         foreach ($categories->random(8) as $category) {
             $events = $events->merge(
-                Event::factory(rand(2, 5))->create(['category_id' => $category->id])
+                Event::factory(rand(2, 5))->create([
+                    'category_id' => $category->id,
+                    'user_id' => $eventManagerUser->id
+                ])
             );
         }
         

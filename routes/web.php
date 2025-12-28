@@ -13,17 +13,13 @@ Route::get('/about', function () {
     return view('user.about');
 })->name('about');
 
-Route::get('/explore', function () {
-    return view('user.explore');
-})->name('explore');
+Route::get('/explore', [\App\Http\Controllers\ExploreController::class, 'index'])->name('explore');
 
 Route::get('/vendors', function () {
     return view('user.vendors');
 })->name('vendors');
 
-Route::get('/events', function () {
-    return view('user.events');
-})->name('events');
+Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('events');
 
 Route::get('/faq', function () {
     return view('user.faq');

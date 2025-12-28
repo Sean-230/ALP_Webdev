@@ -17,6 +17,7 @@ class EventFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => \App\Models\User::factory(),
             'name' => fake()->sentence(3),
             'description' => fake()->paragraph(3),
             'event_date' => fake()->dateTimeBetween('now', '+6 months'),

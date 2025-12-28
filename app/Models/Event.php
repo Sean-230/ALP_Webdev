@@ -11,6 +11,7 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'description',
         'event_date',
@@ -27,6 +28,11 @@ class Event extends Model
     protected $casts = [
         'event_date' => 'date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function category()
     {

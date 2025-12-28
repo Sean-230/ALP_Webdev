@@ -28,13 +28,10 @@
 .logo-circle {
     width: 80px;
     height: 80px;
-    background: white;
-    border-radius: 50%;
     margin: 0 auto 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
 }
 
 .logo-circle img {
