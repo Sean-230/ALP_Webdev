@@ -6,7 +6,7 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="d-flex align-items-center mb-4">
                     <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                        style="width: 70px; height: 70px; background-color: transparent; padding: 8px; flex-shrink: 0;">
+                        style="width: 90px; height: 90px; background-color: transparent; padding: 8px; flex-shrink: 0;">
                         <img src="{{ asset('images/Logo ALP Webdev.png') }}" alt="Festivo"
                             style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
