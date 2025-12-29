@@ -1,11 +1,54 @@
 /* FAQ Page Styles */
 
 .faq-hero {
-    background: linear-gradient(135deg, #360185 0%, #8F0177 50%, #DE1A58 100%);
-    padding: 120px 0 80px;
+    background-color: #360185;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
     margin-top: -70px;
-    padding-top: 140px;
+    padding-top: 70px;
     color: white;
+}
+
+/* Animated background elements */
+.faq-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(244, 179, 66, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 20s ease-in-out infinite;
+}
+
+.faq-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(143, 1, 119, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 15s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-30px) translateX(30px);
+    }
+}
+
+.faq-hero .container {
+    position: relative;
+    z-index: 2;
 }
 
 .faq-hero-illustration {
@@ -71,7 +114,7 @@
 .faq-section-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #360185 0%, #8F0177 100%);
+    background: #360185;
     border-radius: 15px;
     display: flex;
     align-items: center;

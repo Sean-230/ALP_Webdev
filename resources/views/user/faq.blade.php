@@ -30,91 +30,8 @@
         </div>
     </section>
 
-    <!-- FAQ Categories -->
-    <section class="py-5" style="background-color: #ffffff;">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h2 class="display-5 fw-bold mb-3" style="color: #360185;">Browse by Category</h2>
-                <p class="text-muted fs-5">Select a category to find answers</p>
-            </div>
-
-            <div class="row g-4 mb-5">
-                <!-- Category 1 -->
-                <div class="col-md-4">
-                    <a href="#general" class="faq-category-card">
-                        <div class="faq-category-icon">
-                            <i class="bi bi-info-circle"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">General Questions</h5>
-                        <p class="text-muted mb-0 small">Basic information about Festivo</p>
-                    </a>
-                </div>
-
-                <!-- Category 2 -->
-                <div class="col-md-4">
-                    <a href="#booking" class="faq-category-card">
-                        <div class="faq-category-icon"
-                            style="background: linear-gradient(135deg, #8F0177 0%, #DE1A58 100%);">
-                            <i class="bi bi-calendar-check"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Booking & Payment</h5>
-                        <p class="text-muted mb-0 small">How to book and pay for services</p>
-                    </a>
-                </div>
-
-                <!-- Category 3 -->
-                <div class="col-md-4">
-                    <a href="#vendors" class="faq-category-card">
-                        <div class="faq-category-icon"
-                            style="background: linear-gradient(135deg, #DE1A58 0%, #F4B342 100%);">
-                            <i class="bi bi-shop"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Vendor Information</h5>
-                        <p class="text-muted mb-0 small">About our vendors and services</p>
-                    </a>
-                </div>
-
-                <!-- Category 4 -->
-                <div class="col-md-4">
-                    <a href="#account" class="faq-category-card">
-                        <div class="faq-category-icon"
-                            style="background: linear-gradient(135deg, #F4B342 0%, #360185 100%);">
-                            <i class="bi bi-person-circle"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Account & Profile</h5>
-                        <p class="text-muted mb-0 small">Managing your account settings</p>
-                    </a>
-                </div>
-
-                <!-- Category 5 -->
-                <div class="col-md-4">
-                    <a href="#events" class="faq-category-card">
-                        <div class="faq-category-icon"
-                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <i class="bi bi-calendar-event"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Event Planning</h5>
-                        <p class="text-muted mb-0 small">Tips for planning your event</p>
-                    </a>
-                </div>
-
-                <!-- Category 6 -->
-                <div class="col-md-4">
-                    <a href="#support" class="faq-category-card">
-                        <div class="faq-category-icon"
-                            style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-                            <i class="bi bi-headset"></i>
-                        </div>
-                        <h5 class="fw-bold mb-2">Support & Help</h5>
-                        <p class="text-muted mb-0 small">Getting help when you need it</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- General Questions -->
-    <section id="general" class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+    <section id="general" class="py-5" style="background-color: #ffffff;">
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -137,10 +54,10 @@
                             <div id="general1" class="accordion-collapse collapse show" data-bs-parent="#generalAccordion">
                                 <div class="accordion-body">
                                     Festivo is a comprehensive event planning platform that connects event organizers with
-                                    verified vendors.
-                                    We help you plan, manage, and execute successful events by providing access to hundreds
-                                    of trusted vendors
-                                    across multiple categories including catering, photography, venues, and more.
+                                    verified vendors. We help you plan, manage, and execute successful events by providing
+                                    access to hundreds
+                                    of trusted vendors across multiple categories including catering, photography, venues,
+                                    and more.
                                 </div>
                             </div>
                         </div>
@@ -156,10 +73,9 @@
                             <div id="general2" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
                                 <div class="accordion-body">
                                     Simply browse our vendor categories, select the services you need, and book directly
-                                    through our platform.
-                                    You can compare vendors, read reviews, check availability, and manage all your bookings
-                                    in one place.
-                                    Our team ensures all vendors are verified and professional.
+                                    through our platform. You can compare vendors, read reviews, check availability, and
+                                    manage all your bookings
+                                    in one place. Our team ensures all vendors are verified and professional.
                                 </div>
                             </div>
                         </div>
@@ -175,8 +91,44 @@
                             <div id="general3" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
                                 <div class="accordion-body">
                                     Yes! Creating an account and browsing vendors is completely free. You only pay for the
-                                    services you book.
-                                    There are no hidden fees or subscription charges for using Festivo.
+                                    services you book. There are no hidden fees or subscription charges for using Festivo.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="faq-accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#general4">
+                                    What types of events can I plan on Festivo?
+                                </button>
+                            </h3>
+                            <div id="general4" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
+                                <div class="accordion-body">
+                                    You can plan any type of event on Festivo including weddings, birthday parties,
+                                    corporate events,
+                                    conferences, music concerts, festivals, and more. Our platform supports events of all
+                                    sizes and types.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="faq-accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#general5">
+                                    How do I get started with Festivo?
+                                </button>
+                            </h3>
+                            <div id="general5" class="accordion-collapse collapse" data-bs-parent="#generalAccordion">
+                                <div class="accordion-body">
+                                    Simply create a free account by clicking the "Register" button. Once logged in, you can
+                                    browse
+                                    events, explore vendors, and start planning your event. You can also register as an
+                                    event manager
+                                    to create and manage your own events.
                                 </div>
                             </div>
                         </div>
@@ -187,13 +139,12 @@
     </section>
 
     <!-- Booking & Payment -->
-    <section id="booking" class="py-5" style="background-color: #ffffff;">
+    <section id="booking" class="py-5" style="background-color: #f8f9fa;">
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="faq-section-header mb-5">
-                        <div class="faq-section-icon"
-                            style="background: linear-gradient(135deg, #8F0177 0%, #DE1A58 100%);">
+                        <div class="faq-section-icon">
                             <i class="bi bi-calendar-check"></i>
                         </div>
                         <h2 class="display-6 fw-bold">Booking & Payment</h2>
@@ -205,17 +156,16 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#booking1">
-                                    How do I book a vendor?
+                                    How do I register for an event?
                                 </button>
                             </h3>
-                            <div id="booking1" class="accordion-collapse collapse show"
-                                data-bs-parent="#bookingAccordion">
+                            <div id="booking1" class="accordion-collapse collapse show" data-bs-parent="#bookingAccordion">
                                 <div class="accordion-body">
-                                    Browse vendors, select the one you want, check their availability, and click the "Book
-                                    Now" button.
-                                    Fill in your event details, choose your package, and proceed to payment. You'll receive
-                                    instant confirmation
-                                    via email once your booking is confirmed.
+                                    Browse available events, select the one you want to attend, check the details and
+                                    available slots,
+                                    then click the "Register" button. Fill in your information and the number of tickets you
+                                    need.
+                                    You'll receive instant confirmation via email once your registration is complete.
                                 </div>
                             </div>
                         </div>
@@ -231,8 +181,8 @@
                             <div id="booking2" class="accordion-collapse collapse" data-bs-parent="#bookingAccordion">
                                 <div class="accordion-body">
                                     We accept all major credit cards (Visa, Mastercard, American Express), debit cards, and
-                                    bank transfers.
-                                    All payments are processed securely through our encrypted payment gateway.
+                                    bank transfers. All payments are processed securely through our encrypted payment
+                                    gateway.
                                 </div>
                             </div>
                         </div>
@@ -242,15 +192,54 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#booking3">
-                                    Can I cancel or modify my booking?
+                                    Can I cancel or modify my registration?
                                 </button>
                             </h3>
                             <div id="booking3" class="accordion-collapse collapse" data-bs-parent="#bookingAccordion">
                                 <div class="accordion-body">
-                                    Yes, you can cancel or modify bookings according to the vendor's cancellation policy.
-                                    Most vendors offer free cancellation up to 7 days before the event. Please check the
+                                    Yes, you can cancel or modify your event registration according to the event organizer's
+                                    policy.
+                                    Most events offer free cancellation up to 7 days before the event date. Please check the
                                     specific
-                                    vendor's policy before booking.
+                                    event's cancellation policy before registering.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="faq-accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#booking4">
+                                    How do I receive my event tickets?
+                                </button>
+                            </h3>
+                            <div id="booking4" class="accordion-collapse collapse" data-bs-parent="#bookingAccordion">
+                                <div class="accordion-body">
+                                    After successful registration, you'll receive your tickets via email. You can also
+                                    access and
+                                    download your tickets from your account dashboard. Simply show the ticket (digital or
+                                    printed)
+                                    at the event entrance.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="faq-accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#booking5">
+                                    What if an event is sold out?
+                                </button>
+                            </h3>
+                            <div id="booking5" class="accordion-collapse collapse" data-bs-parent="#bookingAccordion">
+                                <div class="accordion-body">
+                                    If an event shows "Sold out", all available slots are currently filled. You can add
+                                    yourself
+                                    to the waitlist to be notified if spots become available due to cancellations. We'll
+                                    email you
+                                    immediately if a slot opens up.
                                 </div>
                             </div>
                         </div>
@@ -261,13 +250,12 @@
     </section>
 
     <!-- Vendor Information -->
-    <section id="vendors" class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+    <section id="vendors" class="py-5" style="background-color: #ffffff;">
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="faq-section-header mb-5">
-                        <div class="faq-section-icon"
-                            style="background: linear-gradient(135deg, #DE1A58 0%, #F4B342 100%);">
+                        <div class="faq-section-icon">
                             <i class="bi bi-shop"></i>
                         </div>
                         <h2 class="display-6 fw-bold">Vendor Information</h2>
@@ -279,17 +267,17 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#vendors1">
-                                    Are all vendors verified?
+                                    What are F&B vendor stands?
                                 </button>
                             </h3>
                             <div id="vendors1" class="accordion-collapse collapse show"
                                 data-bs-parent="#vendorsAccordion">
                                 <div class="accordion-body">
-                                    Yes! All vendors on Festivo undergo a thorough verification process. We check their
-                                    credentials,
-                                    business licenses, and review their portfolio. Only professional and reliable vendors
-                                    are approved
-                                    to list their services on our platform.
+                                    F&B (Food & Beverage) vendor stands are food and drink stalls that can be booked for
+                                    your event.
+                                    Event managers can select and book multiple vendors to provide diverse food options for
+                                    their attendees.
+                                    Each vendor brings their unique menu and culinary expertise to your event.
                                 </div>
                             </div>
                         </div>
@@ -299,15 +287,16 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#vendors2">
-                                    How can I contact a vendor?
+                                    How can event managers book vendors?
                                 </button>
                             </h3>
                             <div id="vendors2" class="accordion-collapse collapse" data-bs-parent="#vendorsAccordion">
                                 <div class="accordion-body">
-                                    You can message vendors directly through our platform's messaging system. Once you're
-                                    logged in,
-                                    visit the vendor's profile and click "Contact Vendor" to send them a message about your
-                                    requirements.
+                                    Event managers can browse available vendors on the platform, view their menus and
+                                    pricing,
+                                    and send booking requests directly. Vendors will confirm availability and finalize
+                                    details
+                                    with you for your specific event date and requirements.
                                 </div>
                             </div>
                         </div>
@@ -317,16 +306,54 @@
                             <h3 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#vendors3">
-                                    Can I leave a review for a vendor?
+                                    Are all vendors verified?
                                 </button>
                             </h3>
                             <div id="vendors3" class="accordion-collapse collapse" data-bs-parent="#vendorsAccordion">
                                 <div class="accordion-body">
-                                    Absolutely! We encourage all clients to leave honest reviews after their event. Your
-                                    feedback helps
-                                    other users make informed decisions and helps vendors improve their services. You can
-                                    leave a review
-                                    from your bookings page after the event date.
+                                    Yes! All vendors on Festivo undergo a thorough verification process. We check their
+                                    credentials, business licenses, food safety certifications, and review their portfolio.
+                                    Only professional
+                                    and reliable vendors are approved to offer their services on our platform.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="faq-accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#vendors4">
+                                    How do I become a vendor on Festivo?
+                                </button>
+                            </h3>
+                            <div id="vendors4" class="accordion-collapse collapse" data-bs-parent="#vendorsAccordion">
+                                <div class="accordion-body">
+                                    Register as a vendor manager on our platform, submit your business information and
+                                    required documents,
+                                    and wait for our team to review your application. Once approved, you can create your
+                                    vendor profile,
+                                    upload menu items, set pricing, and start receiving booking requests from event
+                                    organizers.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="faq-accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#vendors5">
+                                    Can I customize vendor services for my event?
+                                </button>
+                            </h3>
+                            <div id="vendors5" class="accordion-collapse collapse" data-bs-parent="#vendorsAccordion">
+                                <div class="accordion-body">
+                                    Absolutely! After booking a vendor, you can communicate directly with them to discuss
+                                    custom
+                                    menu options, special dietary requirements, portion sizes, and any other specific needs
+                                    for your event.
+                                    Most vendors are happy to accommodate reasonable customization requests.
                                 </div>
                             </div>
                         </div>
