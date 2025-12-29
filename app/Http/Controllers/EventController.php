@@ -13,6 +13,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $query = Event::with('category')
+            ->withCount('eventRegisters')
             ->whereIn('status', ['upcoming', 'ongoing']);
 
         // Filter by category if provided
@@ -35,7 +36,7 @@ class EventController extends Controller
             $query->orderBy('name', 'asc');
         }
 
-        $events = $query->paginate(12);
+        $events = $query->get();
         $categories = Category::all();
 
         return view('user.events', compact('events', 'categories'));

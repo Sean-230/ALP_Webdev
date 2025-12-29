@@ -38,23 +38,9 @@
                             <a class="nav-link {{ Request::is('explore') ? 'active' : '' }}"
                                 href="/explore">Explore</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" 
-                                href="#" id="servicesDropdown" role="button" 
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Categories
-                                <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
-                            </a>
-                            <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="servicesDropdown">
-                                <li><a class="dropdown-item" href="/vendors?category=conference">Conference</a></li>
-                                <li><a class="dropdown-item" href="/vendors?category=concert">Concert & Music</a></li>
-                                <li><a class="dropdown-item" href="/vendors?category=wedding">Wedding</a></li>
-                                <li><a class="dropdown-item" href="/vendors?category=festival">Festival</a></li>
-                                <li><a class="dropdown-item" href="/vendors?category=corporate">Corporate Event</a></li>
-                                <li><a class="dropdown-item" href="/vendors?category=exhibition">Exhibition</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item fw-semibold" href="/vendors">All Services</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('events') ? 'active' : '' }}"
+                                href="/events">Events</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ Request::is('faq') ? 'active' : '' }}"
@@ -71,23 +57,9 @@
                         <a class="nav-link {{ Request::is('explore') ? 'active' : '' }}"
                             href="/explore">Explore</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" 
-                            href="#" id="servicesDropdown" role="button" 
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Categories
-                            <i class="bi bi-chevron-down ms-1" style="font-size: 0.75rem;"></i>
-                        </a>
-                        <ul class="dropdown-menu border-0 shadow-sm" aria-labelledby="servicesDropdown">
-                            <li><a class="dropdown-item" href="/vendors?category=conference">Conference</a></li>
-                            <li><a class="dropdown-item" href="/vendors?category=concert">Concert & Music</a></li>
-                            <li><a class="dropdown-item" href="/vendors?category=wedding">Wedding</a></li>
-                            <li><a class="dropdown-item" href="/vendors?category=festival">Festival</a></li>
-                            <li><a class="dropdown-item" href="/vendors?category=corporate">Corporate Event</a></li>
-                            <li><a class="dropdown-item" href="/vendors?category=exhibition">Exhibition</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item fw-semibold" href="/vendors">All Services</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('events') ? 'active' : '' }}"
+                            href="/events">Events</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('faq') ? 'active' : '' }}"
