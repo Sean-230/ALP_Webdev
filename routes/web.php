@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 // Public Routes
 Route::get('/', function () {
-    return view('user.home');
+    $upcomingEvent = \App\Models\Event::with(['category', 'eventRegisters'])
+        ->where('event_date', '>=', now())
+        ->where('status', 'upcoming')
+        ->orderBy('event_date', 'asc')
+        ->first();
+    return view('user.home', compact('upcomingEvent'));
 })->name('home');
 
 Route::get('/about', function () {

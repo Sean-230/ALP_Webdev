@@ -184,19 +184,13 @@
                 <div class="no-events">
                     <i class="bi bi-calendar-x"></i>
                     <h3 style="color: #360185;">No Events Found</h3>
-                    <p class="text-muted">
+                    <p class="text-muted mb-0">
                         @if (request()->hasAny(['search', 'category']))
                             Try adjusting your filters to find more events.
                         @else
                             There are no events available at the moment. Check back soon!
                         @endif
                     </p>
-                    @if (request()->hasAny(['search', 'category', 'sort']))
-                        <a href="{{ route('events') }}" class="btn btn-lg mt-3"
-                            style="background-color: #F4B342; color: #360185;">
-                            <i class="bi bi-arrow-counterclockwise me-2"></i>View All Events
-                        </a>
-                    @endif
                 </div>
             @endif
         </div>
