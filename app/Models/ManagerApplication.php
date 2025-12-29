@@ -8,6 +8,7 @@ class ManagerApplication extends Model
 {
     protected $fillable = [
         'user_id',
+        'role_type',
         'status',
         'reviewed_by',
         'reviewed_at',

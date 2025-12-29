@@ -52,14 +52,18 @@ class ProfileController extends Controller
     }
 
     /**
-     * Apply for event manager status.
+     * Apply for manager status.
      */
     public function applyForManager(Request $request): RedirectResponse
     {
+        $request->validate([
+            'role_type' => 'required|in:event_manager,vendor_manager'
+        ]);
+
         $user = $request->user();
 
-        // Check if already an event manager or admin
-        if ($user->role === 'eventManager' || $user->role === 'admin') {
+        // Check if already a manager or admin
+        if (in_array($user->role, ['eventManager', 'vendorManager', 'admin'])) {
             return Redirect::route('profile.edit')->with('error', 'You already have manager or admin privileges.');
         }
 
@@ -75,6 +79,7 @@ class ProfileController extends Controller
         // Create new application
         \App\Models\ManagerApplication::create([
             'user_id' => $user->id,
+            'role_type' => $request->role_type,
             'status' => 'pending'
         ]);
 

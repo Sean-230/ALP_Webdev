@@ -45,6 +45,17 @@
                 </div>
             </div>
             <div class="col-md-4">
+                <div class="card text-white" style="background-color: #17a2b8;">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-shop"></i> Vendor Managers</h5>
+                        <h2>{{ $stats['vendor_managers'] }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
                 <div class="card text-white bg-warning mb-3">
                     <div class="card-body">
                         <h5 class="card-title"><i class="bi bi-calendar-event"></i> Total Events</h5>
@@ -52,9 +63,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row mb-4">
             <div class="col-md-4">
                 <div class="card text-white bg-info mb-3">
                     <div class="card-body">
@@ -96,6 +104,7 @@
                             <tr>
                                 <th>Applicant</th>
                                 <th>Email</th>
+                                <th>Role Type</th>
                                 <th>Applied Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -105,6 +114,13 @@
                             <tr>
                                 <td>{{ $application->user->name }}</td>
                                 <td>{{ $application->user->email }}</td>
+                                <td>
+                                    @if($application->role_type === 'event_manager')
+                                        <span class="badge bg-primary"><i class="bi bi-calendar-event me-1"></i>Event Manager</span>
+                                    @else
+                                        <span class="badge bg-success"><i class="bi bi-shop me-1"></i>Vendor Manager</span>
+                                    @endif
+                                </td>
                                 <td>{{ $application->created_at->format('M d, Y h:i A') }}</td>
                                 <td>
                                     <form action="{{ route('admin.applications.approve', $application->id) }}" method="POST" class="d-inline">
@@ -203,18 +219,6 @@
                 @endif
             </div>
         </div>
-
-            <!-- Quick Links -->
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="mb-0">Quick Actions</h4>
-                </div>
-                <div class="card-body">
-                    <a href="{{ route('admin.users') }}" class="btn btn-primary me-2">
-                        <i class="bi bi-people"></i> Manage All Users
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 @endsection

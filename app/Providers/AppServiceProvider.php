@@ -19,6 +19,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Share data with all views
+        view()->composer('*', function ($view) {
+            if (auth()->check()) {
+                $pendingApplication = \App\Models\ManagerApplication::where('user_id', auth()->id())
+                    ->where('status', 'pending')
+                    ->first();
+                $view->with('userPendingApplication', $pendingApplication);
+            }
+        });
     }
 }

@@ -31,6 +31,7 @@ class AdminController extends Controller
         $stats = [
             'total_users' => User::where('role', 'user')->count(),
             'event_managers' => User::where('role', 'eventManager')->count(),
+            'vendor_managers' => User::where('role', 'vendorManager')->count(),
             'admins' => User::where('role', 'admin')->count(),
             'pending_applications' => $pendingApplications->count(),
             'pending_events' => $pendingEvents->count(),
@@ -64,9 +65,12 @@ class AdminController extends Controller
             'reviewed_at' => now()
         ]);
 
-        $application->user->update(['role' => 'eventManager']);
+        // Assign role based on application type
+        $role = $application->role_type === 'event_manager' ? 'eventManager' : 'vendorManager';
+        $application->user->update(['role' => $role]);
 
-        return redirect()->back()->with('success', 'Application approved! User is now an Event Manager.');
+        $roleLabel = $application->role_type === 'event_manager' ? 'Event Manager' : 'Vendor Manager';
+        return redirect()->back()->with('success', "Application approved! User is now a {$roleLabel}.");
     }
 
     /**
@@ -119,7 +123,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Revoke event manager role from user
+     * Revoke manager role from user
      */
     public function revokeEventManager($id): RedirectResponse
     {
@@ -130,14 +134,15 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Cannot revoke admin role.');
         }
 
-        // Check if user is an event manager
-        if ($user->role !== 'eventManager') {
-            return redirect()->back()->with('error', 'User is not an event manager.');
+        // Check if user is a manager
+        if (!in_array($user->role, ['eventManager', 'vendorManager'])) {
+            return redirect()->back()->with('error', 'User is not a manager.');
         }
 
+        $roleLabel = $user->role === 'eventManager' ? 'Event Manager' : 'Vendor Manager';
         $user->update(['role' => 'user']);
 
-        return redirect()->back()->with('success', 'Event Manager role revoked successfully! User is now a regular user.');
+        return redirect()->back()->with('success', "{$roleLabel} role revoked successfully! User is now a regular user.");
     }
 
     /**

@@ -54,7 +54,9 @@
                                     @if($user->role === 'admin')
                                     <span class="badge bg-danger">Admin</span>
                                     @elseif($user->role === 'eventManager')
-                                    <span class="badge bg-success">Event Manager</span>
+                                    <span class="badge bg-success"><i class="bi bi-calendar-event me-1"></i>Event Manager</span>
+                                    @elseif($user->role === 'vendorManager')
+                                    <span class="badge bg-info"><i class="bi bi-shop me-1"></i>Vendor Manager</span>
                                     @else
                                     <span class="badge bg-primary">User</span>
                                     @endif
@@ -68,10 +70,13 @@
                                 </td>
                                 <td>{{ $user->created_at->format('M d, Y') }}</td>
                                 <td>
-                                    @if($user->role === 'eventManager')
-                                    <form action="{{ route('admin.users.revoke-manager', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to revoke Event Manager role from {{ $user->name }}?');">
+                                    @if($user->role === 'eventManager' || $user->role === 'vendorManager')
+                                    @php
+                                        $roleLabel = $user->role === 'eventManager' ? 'Event Manager' : 'Vendor Manager';
+                                    @endphp
+                                    <form action="{{ route('admin.users.revoke-manager', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to revoke {{ $roleLabel }} role from {{ $user->name }}?');">
                                         @csrf
-                                        <button type="submit" class="btn btn-sm btn-warning" title="Revoke Event Manager Role">
+                                        <button type="submit" class="btn btn-sm btn-warning" title="Revoke {{ $roleLabel }} Role">
                                             <i class="bi bi-x-circle"></i> Revoke Role
                                         </button>
                                     </form>

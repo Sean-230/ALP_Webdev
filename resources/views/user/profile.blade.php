@@ -321,69 +321,110 @@
                                 </div>
                             </form>
 
-                            <!-- Apply for Event Manager Section -->
-                            @if (Auth::user()->role === 'user')
-                                <hr class="my-5">
+<!-- Apply for Manager Section -->
+            @if (Auth::user()->role === 'user')
+                <hr class="my-5">
 
-                                <h3 class="section-title">
-                                    <i class="bi bi-briefcase me-2"></i>Become an Event Manager
-                                </h3>
+                <h3 class="section-title">
+                    <i class="bi bi-briefcase me-2"></i>Become a Manager
+                </h3>
 
-                                @if (isset($pendingApplication))
-                                    <div class="alert alert-warning alert-custom mb-4" role="alert">
-                                        <i class="bi bi-clock-history me-2"></i>
-                                        Your application is currently <strong>pending review</strong>. An admin will review it shortly.
-                                        <br><small class="text-muted">Submitted: {{ $pendingApplication->created_at->format('M d, Y h:i A') }}</small>
+                @if (isset($pendingApplication))
+                    <div class="alert alert-warning alert-custom mb-4" role="alert">
+                        <i class="bi bi-clock-history me-2"></i>
+                        Your application for <strong>{{ ucfirst(str_replace('_', ' ', $pendingApplication->role_type)) }}</strong> is currently <strong>pending review</strong>. An admin will review it shortly.
+                        <br><small class="text-muted">Submitted: {{ $pendingApplication->created_at->format('M d, Y h:i A') }}</small>
+                    </div>
+                @elseif (isset($applicationHistory) && $applicationHistory->status === 'rejected')
+                    <div class="alert alert-danger alert-custom mb-4" role="alert">
+                        <i class="bi bi-x-circle-fill me-2"></i>
+                        Your previous application was <strong>rejected</strong>.
+                        @if ($applicationHistory->rejection_reason)
+                            <br><small>Reason: {{ $applicationHistory->rejection_reason }}</small>
+                        @endif
+                        <br><small class="text-muted">You can apply again.</small>
+                    </div>
+                @else
+                    <div class="alert alert-info alert-custom mb-4" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Choose your role and unlock special features on our platform.
+                    </div>
+                @endif
+
+                @if (!isset($pendingApplication))
+                    <form method="POST" action="{{ route('profile.applyManager') }}">
+                        @csrf
+                        
+                        <!-- Role Selection -->
+                        <div class="mb-4">
+                            <label class="form-label"><i class="bi bi-person-badge me-2"></i>Select Role</label>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <input type="radio" class="btn-check" name="role_type" id="event_manager" value="event_manager" checked required>
+                                    <label class="btn btn-outline-primary w-100 p-4" for="event_manager" style="border: 2px solid; border-radius: 15px;">
+                                        <i class="bi bi-calendar-event d-block mb-2" style="font-size: 2rem;"></i>
+                                        <h5 class="mb-2">Event Manager</h5>
+                                        <small class="text-muted">Create and manage events</small>
+                                    </label>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <input type="radio" class="btn-check" name="role_type" id="vendor_manager" value="vendor_manager" required>
+                                    <label class="btn btn-outline-primary w-100 p-4" for="vendor_manager" style="border: 2px solid; border-radius: 15px;">
+                                        <i class="bi bi-shop d-block mb-2" style="font-size: 2rem;"></i>
+                                        <h5 class="mb-2">Vendor Manager</h5>
+                                        <small class="text-muted">Manage vendor services</small>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px;">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-3" style="color: #360185;">
+                                    <i class="bi bi-star-fill me-2"></i>Manager Benefits
+                                </h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="fw-bold mb-2" style="color: #360185;">Event Manager:</p>
+                                        <ul class="list-unstyled mb-3">
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                Create and manage events
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                Access event analytics
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                Manage registrations
+                                            </li>
+                                        </ul>
                                     </div>
-                                @elseif (isset($applicationHistory) && $applicationHistory->status === 'rejected')
-                                    <div class="alert alert-danger alert-custom mb-4" role="alert">
-                                        <i class="bi bi-x-circle-fill me-2"></i>
-                                        Your previous application was <strong>rejected</strong>.
-                                        @if ($applicationHistory->rejection_reason)
-                                            <br><small>Reason: {{ $applicationHistory->rejection_reason }}</small>
-                                        @endif
-                                        <br><small class="text-muted">You can apply again.</small>
+                                    <div class="col-md-6">
+                                        <p class="fw-bold mb-2" style="color: #360185;">Vendor Manager:</p>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                Manage vendor services
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                Handle vendor bookings
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
+                                                Access vendor dashboard
+                                            </li>
+                                        </ul>
                                     </div>
-                                @else
-                                    <div class="alert alert-info alert-custom mb-4" role="alert">
-                                        <i class="bi bi-info-circle-fill me-2"></i>
-                                        As an Event Manager, you'll be able to create and manage events on our platform.
-                                    </div>
-                                @endif
+                                </div>
+                            </div>
+                        </div>
 
-                                @if (!isset($pendingApplication))
-                                    <form method="POST" action="{{ route('profile.applyManager') }}">
-                                        @csrf
-                                        
-                                        <div class="card border-0 shadow-sm mb-4" style="border-radius: 15px;">
-                                            <div class="card-body p-4">
-                                                <h5 class="fw-bold mb-3" style="color: #360185;">
-                                                    <i class="bi bi-star-fill me-2"></i>Benefits of Being an Event Manager
-                                                </h5>
-                                                <ul class="list-unstyled mb-0">
-                                                    <li class="mb-2">
-                                                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
-                                                        Create and manage your own events
-                                                    </li>
-                                                    <li class="mb-2">
-                                                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
-                                                        Access to event analytics and insights
-                                                    </li>
-                                                    <li class="mb-2">
-                                                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
-                                                        Manage vendors and performers
-                                                    </li>
-                                                    <li class="mb-2">
-                                                        <i class="bi bi-check-circle-fill me-2" style="color: #28a745;"></i>
-                                                        Handle event registrations
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-save">
-                                                <i class="bi bi-award me-2"></i>Apply for Event Manager Status
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-save">
+                                <i class="bi bi-award me-2"></i>Submit Application
                                             </button>
                                         </div>
                                     </form>
