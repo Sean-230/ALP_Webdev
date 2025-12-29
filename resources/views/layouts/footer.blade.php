@@ -135,13 +135,13 @@
                         </div>
                     </div>
                     <div class="d-flex gap-2">
-                        <a href="tel:+6285852772500" class="btn btn-sm flex-fill fw-semibold"
+                        <a href="tel:+6281330330450" class="btn btn-sm flex-fill fw-semibold"
                             style="background-color: #8F0177; color: white; border-radius: 8px; padding: 8px 16px; transition: all 0.3s ease;"
                             onmouseover="this.style.backgroundColor='#DE1A58';"
                             onmouseout="this.style.backgroundColor='#8F0177';">
                             <i class="bi bi-telephone-fill me-1"></i>Call
                         </a>
-                        <a href="https://wa.me/6285852772500" class="btn btn-sm flex-fill fw-semibold"
+                        <a href="https://wa.me/6281330330450" class="btn btn-sm flex-fill fw-semibold"
                             style="background-color: transparent; color: white; border: 2px solid #DE1A58; border-radius: 8px; padding: 8px 16px; transition: all 0.3s ease;"
                             target="_blank"
                             onmouseover="this.style.backgroundColor='#DE1A58'; this.style.borderColor='#DE1A58';"

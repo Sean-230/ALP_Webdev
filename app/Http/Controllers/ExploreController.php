@@ -10,11 +10,12 @@ class ExploreController extends Controller
 {
     public function index()
     {
-        // Get featured events (latest 6 upcoming events)
+        // Get featured events (sorted by earliest date first)
         $featuredEvents = Event::with('category')
+            ->withCount('eventRegisters')
             ->where('event_date', '>=', now())
             ->whereIn('status', ['upcoming', 'ongoing'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('event_date', 'asc')
             ->limit(6)
             ->get();
 

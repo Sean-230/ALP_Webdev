@@ -16,19 +16,24 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $categories = [
+            'Music Concert' => 'images/Music_Concert.jpg',
+            'Tech Conference' => 'images/Tech_Conference.jpeg',
+            'Art Exhibition' => 'images/Art_Exhibition.jpg',
+            'Food Festival' => 'images/Food_Festival.jpg',
+            'Sports Event' => 'images/Sport_Event.jpg',
+            'Theater Show' => 'images/Theatre_Show.jpg',
+            'Workshop' => 'images/Workshop.jpeg',
+            'Networking Event' => 'images/Networking_Event.png',
+            'Charity Event' => 'images/Charity_Event.png',
+            'Trade Show' => 'images/Trade_Show.jpg'
+        ];
+
+        $categoryName = fake()->unique()->randomElement(array_keys($categories));
+
         return [
-            'name' => fake()->unique()->randomElement([
-                'Music Concert',
-                'Tech Conference',
-                'Art Exhibition',
-                'Food Festival',
-                'Sports Event',
-                'Theater Show',
-                'Workshop',
-                'Networking Event',
-                'Charity Event',
-                'Trade Show'
-            ]),
+            'name' => $categoryName,
+            'image' => $categories[$categoryName],
         ];
     }
 }
