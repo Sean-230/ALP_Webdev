@@ -28,6 +28,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
         }
 
         .event-card:hover {
@@ -247,7 +248,7 @@
                 <div class="row g-4 mb-5">
                     @foreach($events as $event)
                         <div class="col-lg-4 col-md-6">
-                            <div class="card event-card">
+                            <div class="card event-card" onclick="window.location='{{ route('events.show', $event->id) }}'">
                                 <div class="position-relative">
                                     @php
                                         $gradients = [
@@ -284,15 +285,9 @@
                                     <p class="card-text small description-text mb-3">
                                         {{ $event->description }}
                                     </p>
-                                    <div class="d-flex justify-content-between align-items-center card-footer-actions">
-                                        <div class="text-muted small">
-                                            <i class="bi bi-people-fill me-1"></i>
-                                            Capacity: {{ $event->capacity }}
-                                        </div>
-                                        <a href="#" class="btn btn-sm fw-semibold"
-                                           style="background-color: #360185; color: white; border-radius: 8px;">
-                                            View Details
-                                        </a>
+                                    <div class="mt-auto text-muted small">
+                                        <i class="bi bi-people-fill me-1"></i>
+                                        {{ number_format($event->max_attends ?? $event->capacity ?? 0) }} capacity
                                     </div>
                                 </div>
                             </div>

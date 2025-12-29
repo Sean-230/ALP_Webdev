@@ -15,7 +15,9 @@
 @section('content')
     <div class="admin-dashboard">
         <div class="container">
-            <h1 class="mb-4 fw-bold" style="color: #360185;">Admin Dashboard</h1>
+            <h1 class="mb-4 fw-bold" style="color: #360185;">
+                <i class="bi bi-speedometer2 me-2"></i>Admin Dashboard
+            </h1>
 
             @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -53,7 +55,7 @@
         </div>
 
         <div class="row mb-4">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card text-white bg-info mb-3">
                     <div class="card-body">
                         <h5 class="card-title"><i class="bi bi-clock-history"></i> Pending Applications</h5>
@@ -61,13 +63,23 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card text-white bg-danger mb-3">
                     <div class="card-body">
                         <h5 class="card-title"><i class="bi bi-exclamation-circle"></i> Pending Events</h5>
                         <h2>{{ $stats['pending_events'] }}</h2>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-4">
+                <a href="{{ route('admin.payments') }}" class="text-decoration-none">
+                    <div class="card text-white bg-warning mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-credit-card"></i> Pending Payments</h5>
+                            <h2>{{ $stats['pending_payments'] }}</h2>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
 

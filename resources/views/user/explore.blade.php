@@ -117,6 +117,20 @@
 @endpush
 
 @section('content')
+    <!-- Success/Error Messages -->
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show mx-auto" role="alert" style="max-width: 600px; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+            <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show mx-auto" role="alert" style="max-width: 600px; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <!-- Hero Section -->
     <section class="explore-hero text-white">
         <div class="container">
@@ -320,7 +334,7 @@
             <div class="row g-4">
                 @forelse($featuredEvents as $event)
                     <div class="col-md-4">
-                        <div class="card vendor-card border-0 shadow-sm">
+                        <div class="card vendor-card border-0 shadow-sm" style="cursor: pointer; transition: all 0.3s ease;" onclick="window.location='{{ route('events.show', $event->id) }}'">
                             @php
                                 $gradients = [
                                     'linear-gradient(135deg, #360185 0%, #8F0177 100%)',
@@ -351,10 +365,11 @@
                                 <p class="text-muted mb-3 description-info">
                                     {{ $event->description }}
                                 </p>
-                                <a href="{{ route('events') }}" class="btn btn-sm w-100" 
-                                    style="background-color: #360185; color: white; font-weight: 600;">
-                                    View Details
-                                </a>
+                                <div class="mt-auto pt-2">
+                                    <small class="text-muted">
+                                        <i class="bi bi-people me-1"></i>{{ number_format($event->max_attends ?? $event->capacity ?? 0) }} capacity
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </div>

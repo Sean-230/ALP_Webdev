@@ -99,6 +99,24 @@ class ProfileController extends Controller
     }
 
     /**
+     * Dummy email verification (for testing purposes)
+     */
+    public function verifyEmail(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        
+        if ($user->hasVerifiedEmail()) {
+            return Redirect::route('profile.edit')->with('error', 'Your email is already verified.');
+        }
+        
+        // Mark email as verified without sending actual email
+        $user->email_verified_at = now();
+        $user->save();
+        
+        return Redirect::route('profile.edit')->with('success', 'Email verified successfully! You can now register for events.');
+    }
+
+    /**
      * Delete the user's account.
      */
     public function destroy(Request $request): RedirectResponse

@@ -218,10 +218,24 @@
                                         @error('email')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                        @if (Auth::user()->email_verified_at === null)
-                                            <div class="form-text text-warning">
-                                                <i class="bi bi-exclamation-triangle me-1"></i>
-                                                Your email address is unverified.
+                                        @if (!Auth::user()->hasVerifiedEmail())
+                                            <div class="alert alert-warning mt-2 d-flex align-items-center justify-content-between" style="border-radius: 10px;">
+                                                <div>
+                                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                                    <strong>Email Not Verified</strong>
+                                                    <p class="mb-0 mt-1 small">Click the button to verify your email address (Dummy verification for testing)</p>
+                                                </div>
+                                                <div class="ms-3">
+                                                    <button type="button" class="btn btn-sm" style="background-color: #F4B342; color: #360185; font-weight: 600; white-space: nowrap;"
+                                                        onclick="document.getElementById('verifyEmailForm').submit()">
+                                                        <i class="bi bi-check-circle me-1"></i>Verify Email
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="form-text text-success">
+                                                <i class="bi bi-check-circle-fill me-1"></i>
+                                                Your email address is verified.
                                             </div>
                                         @endif
                                     </div>
@@ -232,6 +246,11 @@
                                         <i class="bi bi-check-circle me-2"></i>Save Changes
                                     </button>
                                 </div>
+                            </form>
+
+                            <!-- Hidden Verify Email Form (outside profile form) -->
+                            <form id="verifyEmailForm" method="POST" action="{{ route('profile.verifyEmail') }}" style="display: none;">
+                                @csrf
                             </form>
 
                             <!-- Update Password Section -->

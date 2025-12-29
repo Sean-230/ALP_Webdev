@@ -74,6 +74,11 @@ class Event extends Model
         return $this->hasMany(EventRegister::class);
     }
 
+    public function registrations()
+    {
+        return $this->hasMany(EventRegister::class);
+    }
+
     public function qnas()
     {
         return $this->hasMany(Qna::class);

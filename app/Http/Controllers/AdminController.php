@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Event;
+use App\Models\EventRegister;
 use App\Models\ManagerApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,7 @@ class AdminController extends Controller
             'admins' => User::where('role', 'admin')->count(),
             'pending_applications' => $pendingApplications->count(),
             'pending_events' => $pendingEvents->count(),
+            'pending_payments' => EventRegister::where('payment_status', 'pending')->count(),
             'total_events' => Event::count(),
         ];
 
@@ -136,5 +138,51 @@ class AdminController extends Controller
         $user->update(['role' => 'user']);
 
         return redirect()->back()->with('success', 'Event Manager role revoked successfully! User is now a regular user.');
+    }
+
+    /**
+     * Show all pending payments
+     */
+    public function payments(): View
+    {
+        $pendingPayments = EventRegister::with(['user', 'event'])
+            ->where('payment_status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        $stats = [
+            'pending' => EventRegister::where('payment_status', 'pending')->count(),
+            'paid' => EventRegister::where('payment_status', 'paid')->count(),
+            'total' => EventRegister::count(),
+        ];
+
+        return view('admin.payments', compact('pendingPayments', 'stats'));
+    }
+
+    /**
+     * Approve payment
+     */
+    public function approvePayment($id): RedirectResponse
+    {
+        $payment = EventRegister::findOrFail($id);
+
+        $payment->update([
+            'payment_status' => 'paid',
+        ]);
+
+        return redirect()->back()->with('success', 'Payment approved successfully!');
+    }
+
+    /**
+     * Reject payment
+     */
+    public function rejectPayment($id): RedirectResponse
+    {
+        $payment = EventRegister::findOrFail($id);
+
+        // Delete the registration
+        $payment->delete();
+
+        return redirect()->back()->with('success', 'Payment rejected and registration removed.');
     }
 }
