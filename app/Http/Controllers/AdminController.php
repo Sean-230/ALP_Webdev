@@ -65,11 +65,17 @@ class AdminController extends Controller
             'reviewed_at' => now()
         ]);
 
-        // Assign role based on application type
-        $role = $application->role_type === 'event_manager' ? 'eventManager' : 'vendorManager';
+        // Assign role based on application type - handle both underscore and non-underscore versions
+        if ($application->role_type === 'eventManager' || $application->role_type === 'event_manager') {
+            $role = 'eventManager';
+            $roleLabel = 'Event Manager';
+        } else {
+            $role = 'vendorManager';
+            $roleLabel = 'Vendor Manager';
+        }
+        
         $application->user->update(['role' => $role]);
 
-        $roleLabel = $application->role_type === 'event_manager' ? 'Event Manager' : 'Vendor Manager';
         return redirect()->back()->with('success', "Application approved! User is now a {$roleLabel}.");
     }
 

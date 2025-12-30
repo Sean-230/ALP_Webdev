@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Category;
 use App\Models\EventRegister;
+use App\Models\Performer;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -112,5 +114,100 @@ class EventController extends Controller
             ->firstOrFail();
         
         return view('user.bookings.ticket', compact('booking'));
+    }
+
+    /**
+     * Show the form for creating a new event (Event Manager only)
+     */
+    public function create()
+    {
+        // Check if user is an event manager
+        if (Auth::user()->role !== 'eventManager') {
+            return redirect()->route('home')->with('error', 'You do not have permission to create events.');
+        }
+
+        $categories = Category::all();
+        $performers = Performer::all();
+        $vendors = Vendor::all();
+
+        return view('event_manager.create-event', compact('categories', 'performers', 'vendors'));
+    }
+
+    /**
+     * Store a newly created event in storage
+     */
+    public function store(Request $request)
+    {
+        // Check if user is an event manager
+        if (Auth::user()->role !== 'eventManager') {
+            return redirect()->route('home')->with('error', 'You do not have permission to create events.');
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'event_date' => 'required|date|after:now',
+            'venue' => 'required|string|max:255',
+            'capacity' => 'required|integer|min:10',
+            'event_picture' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            'performer_names' => 'nullable|array|max:5',
+            'performer_names.*' => 'nullable|string|max:255',
+            'performer_genres' => 'nullable|array|max:5',
+            'performer_genres.*' => 'nullable|string|max:255',
+            'vendors' => 'nullable|array',
+            'vendors.*' => 'exists:vendors,id',
+        ]);
+
+        // Handle image upload
+        $imagePath = null;
+        if ($request->hasFile('event_picture')) {
+            $image = $request->file('event_picture');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images/events'), $imageName);
+            $imagePath = 'images/events/' . $imageName;
+        }
+
+        // Create the event
+        $event = Event::create([
+            'user_id' => Auth::id(),
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'category_id' => $validated['category_id'],
+            'price' => $validated['price'],
+            'event_date' => $validated['event_date'],
+            'venue' => $validated['venue'],
+            'capacity' => $validated['capacity'],
+            'max_attends' => $validated['capacity'], // Set max_attends to capacity initially
+            'event_picture' => $imagePath,
+            'status' => 'upcoming', // All new events are upcoming by default
+            'approval_status' => 'pending', // Events need admin approval
+        ]);
+
+        // Create performers from manual input
+        if (!empty($validated['performer_names'])) {
+            foreach ($validated['performer_names'] as $index => $name) {
+                if (!empty($name)) {
+                    $genre = $validated['performer_genres'][$index] ?? '';
+                    
+                    // Check if performer already exists
+                    $performer = Performer::firstOrCreate(
+                        ['name' => $name],
+                        ['genre' => $genre]
+                    );
+                    
+                    // Attach to event
+                    $event->performers()->attach($performer->id);
+                }
+            }
+        }
+
+        // Attach vendors if selected
+        if (!empty($validated['vendors'])) {
+            $event->vendors()->attach($validated['vendors']);
+        }
+
+        return redirect()->route('events.create')->with('success', 'Event created successfully! Waiting for admin approval.');
     }
 }

@@ -70,8 +70,19 @@
 
             <div class="d-flex gap-2 align-items-center">
                 @auth
-                    {{-- Bookings Icon (Only for non-admin users) --}}
-                    @if (!Auth::user()->is_admin)
+                    {{-- Create Event Button (Only for Event Managers) --}}
+                    @if (Auth::user()->role === 'eventManager')
+                        <a href="{{ route('events.create') }}"
+                            class="btn btn-sm px-3 py-2 fw-semibold {{ Request::is('events/create') ? 'active' : '' }}"
+                            style="background-color: #F4B342; color: #360185; border-radius: 8px; transition: all 0.3s ease; font-size: 0.9rem;"
+                            onmouseover="this.style.backgroundColor='#360185'; this.style.color='white';"
+                            onmouseout="this.style.backgroundColor='#F4B342'; this.style.color='#360185';">
+                            <i class="bi bi-plus-lg me-1"></i>Create
+                        </a>
+                    @endif
+
+                    {{-- Bookings Icon (Only for regular users, not event managers or admins) --}}
+                    @if (Auth::user()->role === 'user')
                         <a href="{{ route('bookings.index') }}"
                             class="btn btn-link position-relative p-2 navbar-cart-icon {{ Request::is('bookings*') ? 'active' : '' }}"
                             title="My Bookings">

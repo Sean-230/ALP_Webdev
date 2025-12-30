@@ -26,6 +26,8 @@ Route::get('/vendors', function () {
 })->name('vendors');
 
 Route::get('/events', [\App\Http\Controllers\EventController::class, 'index'])->name('events');
+Route::get('/events/create', [EventController::class, 'create'])->middleware(['auth'])->name('events.create');
+Route::post('/events/store', [EventController::class, 'store'])->middleware(['auth'])->name('events.store');
 Route::get('/events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 Route::post('/events/{event}/register', [\App\Http\Controllers\EventController::class, 'register'])->middleware(['auth', 'verified'])->name('events.register');
 
@@ -49,11 +51,11 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/bookings', [EventController::class, 'bookings'])->name('bookings.index');
     Route::get('/bookings/{id}/ticket', [EventController::class, 'viewTicket'])->name('bookings.ticket');
-    
+
     Route::get('/account/change-password', function () {
         return view('user.account.change-password');
     })->name('account.change-password');
-    
+
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -68,21 +70,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [\App\Http\Controllers\AdminController::class, 'users'])->name('admin.users');
     Route::get('/payments', [\App\Http\Controllers\AdminController::class, 'payments'])->name('admin.payments');
-    
+
     // Manager Applications
     Route::post('/applications/{id}/approve', [\App\Http\Controllers\AdminController::class, 'approveApplication'])->name('admin.applications.approve');
     Route::post('/applications/{id}/reject', [\App\Http\Controllers\AdminController::class, 'rejectApplication'])->name('admin.applications.reject');
-    
+
     // Event Approvals
     Route::post('/events/{id}/approve', [\App\Http\Controllers\AdminController::class, 'approveEvent'])->name('admin.events.approve');
     Route::post('/events/{id}/reject', [\App\Http\Controllers\AdminController::class, 'rejectEvent'])->name('admin.events.reject');
-    
+
     // Payment Approvals
     Route::post('/payments/{id}/approve', [\App\Http\Controllers\AdminController::class, 'approvePayment'])->name('admin.payments.approve');
     Route::post('/payments/{id}/reject', [\App\Http\Controllers\AdminController::class, 'rejectPayment'])->name('admin.payments.reject');
-    
+
     // User Management
     Route::post('/users/{id}/revoke-manager', [\App\Http\Controllers\AdminController::class, 'revokeEventManager'])->name('admin.users.revoke-manager');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

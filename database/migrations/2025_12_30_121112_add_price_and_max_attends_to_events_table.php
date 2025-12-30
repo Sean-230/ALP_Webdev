@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('manager_applications', function (Blueprint $table) {
-            $table->enum('role_type', ['eventManager', 'vendor_manager'])->default('eventManager')->after('user_id');
+        Schema::table('events', function (Blueprint $table) {
+            $table->decimal('price', 10, 2)->default(0)->after('category_id');
+            $table->integer('max_attends')->nullable()->after('capacity');
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('manager_applications', function (Blueprint $table) {
-            $table->dropColumn('role_type');
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropColumn(['price', 'max_attends']);
         });
     }
 };
