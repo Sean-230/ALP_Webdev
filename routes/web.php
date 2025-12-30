@@ -65,6 +65,22 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Event Manager Routes
+Route::middleware(['auth'])->prefix('event-manager')->group(function () {
+    Route::get('/my-events', [\App\Http\Controllers\EventManagerController::class, 'myEvents'])->name('event-manager.my-events');
+    Route::get('/edit/{id}', [\App\Http\Controllers\EventManagerController::class, 'edit'])->name('event-manager.edit');
+    Route::put('/update/{id}', [\App\Http\Controllers\EventManagerController::class, 'update'])->name('event-manager.update');
+});
+
+// Vendor Manager Routes
+Route::middleware(['auth'])->prefix('vendor')->group(function () {
+    Route::get('/profile', [\App\Http\Controllers\VendorManagerController::class, 'profile'])->name('vendor.profile');
+    Route::post('/profile', [\App\Http\Controllers\VendorManagerController::class, 'storeProfile'])->name('vendor.profile.store');
+    Route::get('/events', [\App\Http\Controllers\VendorManagerController::class, 'events'])->name('vendor.events');
+    Route::post('/apply/{event}', [\App\Http\Controllers\VendorManagerController::class, 'applyToEvent'])->name('vendor.apply');
+    Route::get('/applications', [\App\Http\Controllers\VendorManagerController::class, 'myApplications'])->name('vendor.applications');
+});
+
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');

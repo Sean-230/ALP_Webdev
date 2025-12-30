@@ -10,7 +10,12 @@ class Vendor extends Model
     /** @use HasFactory<\Database\Factories\VendorFactory> */
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'logo'];
+    protected $fillable = ['user_id', 'name', 'description', 'logo'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function eventVendors()
     {

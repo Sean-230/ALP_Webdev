@@ -238,7 +238,7 @@
 
                             <div id="performersContainer">
                                 <div class="row g-3 performer-row mb-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-10">
                                         <label class="form-label">
                                             <i class="bi bi-person"></i>
                                             Performer Name
@@ -246,19 +246,10 @@
                                         <input type="text" class="form-control" name="performer_names[]"
                                             placeholder="Enter performer name" value="{{ old('performer_names.0') }}">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">
-                                            <i class="bi bi-music-note"></i>
-                                            Genre/Type
-                                        </label>
-                                        <input type="text" class="form-control" name="performer_genres[]"
-                                            placeholder="e.g., Rock Band, DJ, Singer"
-                                            value="{{ old('performer_genres.0') }}">
-                                    </div>
                                 </div>
                             </div>
 
-                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="addPerformer()"
+                            <button type="button" class="btn btn-sm btn-outline-primary mb-4" onclick="addPerformer()"
                                 id="addPerformerBtn">
                                 <i class="bi bi-plus-circle me-1"></i>Add Another Performer
                             </button>
@@ -344,7 +335,7 @@
             const newRow = document.createElement('div');
             newRow.className = 'row g-3 performer-row mb-3';
             newRow.innerHTML = `
-                <div class="col-md-6">
+                <div class="col-md-10">
                     <label class="form-label">
                         <i class="bi bi-person"></i>
                         Performer Name
@@ -352,15 +343,7 @@
                     <input type="text" class="form-control" name="performer_names[]" 
                         placeholder="Enter performer name">
                 </div>
-                <div class="col-md-5">
-                    <label class="form-label">
-                        <i class="bi bi-music-note"></i>
-                        Genre/Type
-                    </label>
-                    <input type="text" class="form-control" name="performer_genres[]" 
-                        placeholder="e.g., Rock Band, DJ, Singer">
-                </div>
-                <div class="col-md-1 d-flex align-items-end">
+                <div class="col-md-2 d-flex align-items-end">
                     <button type="button" class="btn btn-danger w-100" onclick="removePerformer(this)" title="Remove">
                         <i class="bi bi-trash"></i>
                     </button>

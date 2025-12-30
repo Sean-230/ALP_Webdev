@@ -231,7 +231,8 @@
                                         <div class="text-center p-3"
                                             style="background: linear-gradient(135deg, rgba(54, 1, 133, 0.05) 0%, rgba(143, 1, 119, 0.05) 100%); border-radius: 10px;">
                                             <small class="text-muted d-block">Price Per Ticket</small>
-                                            <h2 class="fw-bold mb-0" style="color: #360185;">Rp 150,000</h2>
+                                            <h2 class="fw-bold mb-0" style="color: #360185;">Rp
+                                                {{ number_format($event->price, 0, ',', '.') }}</h2>
                                         </div>
                                     </div>
 
@@ -258,13 +259,14 @@
                                             </div>
                                             <div class="d-flex justify-content-between mb-2">
                                                 <span class="text-muted">Price per Ticket:</span>
-                                                <span class="fw-bold">Rp 150,000</span>
+                                                <span class="fw-bold">Rp
+                                                    {{ number_format($event->price, 0, ',', '.') }}</span>
                                             </div>
                                             <hr>
                                             <div class="d-flex justify-content-between">
                                                 <span class="fw-bold" style="color: #360185;">Total Amount:</span>
                                                 <span class="fw-bold fs-5" style="color: #360185;" id="totalAmount">Rp
-                                                    150,000</span>
+                                                    {{ number_format($event->price, 0, ',', '.') }}</span>
                                             </div>
                                         </div>
 
@@ -282,7 +284,8 @@
                                     <div class="text-center p-3"
                                         style="background: linear-gradient(135deg, rgba(54, 1, 133, 0.05) 0%, rgba(143, 1, 119, 0.05) 100%); border-radius: 10px;">
                                         <small class="text-muted d-block">Price Per Ticket</small>
-                                        <h2 class="fw-bold mb-0" style="color: #360185;">Rp 150,000</h2>
+                                        <h2 class="fw-bold mb-0" style="color: #360185;">Rp
+                                            {{ number_format($event->price, 0, ',', '.') }}</h2>
                                     </div>
                                 </div>
                                 <a href="{{ route('login') }}" class="btn btn-lg w-100"
@@ -338,7 +341,7 @@
         // Update total amount calculation
         function updateTotal() {
             const qty = document.getElementById('ticketQty').value || 1;
-            const pricePerTicket = 150000;
+            const pricePerTicket = {{ $event->price }};
             const total = qty * pricePerTicket;
 
             document.getElementById('displayQty').textContent = qty;

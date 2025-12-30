@@ -76,10 +76,13 @@ class ProfileController extends Controller
             return Redirect::route('profile.edit')->with('error', 'You already have a pending application.');
         }
 
+        // Convert snake_case to camelCase for database enum
+        $roleType = $request->role_type === 'event_manager' ? 'eventManager' : 'vendorManager';
+
         // Create new application
         \App\Models\ManagerApplication::create([
             'user_id' => $user->id,
-            'role_type' => $request->role_type,
+            'role_type' => $roleType,
             'status' => 'pending'
         ]);
 

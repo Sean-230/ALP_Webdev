@@ -79,4 +79,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Event::class);
     }
+
+    /**
+     * Get the vendor profile for this user
+     */
+    public function vendor()
+    {
+        return $this->hasOne(Vendor::class);
+    }
 }

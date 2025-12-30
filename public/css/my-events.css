@@ -1,0 +1,233 @@
+/* My Events Page Styles */
+
+.events-header {
+    background-color: #f0f0f5;
+    padding: 60px 0 40px;
+    margin-top: 70px;
+}
+
+.event-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(54, 1, 133, 0.15);
+}
+
+.event-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.badge-upcoming {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.badge-ongoing {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge-completed {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.badge-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.badge-pending {
+    background-color: #ffeaa7;
+    color: #6c5ce7;
+}
+
+.badge-approved {
+    background-color: #55efc4;
+    color: #00b894;
+}
+
+.badge-rejected {
+    background-color: #ff7675;
+    color: #d63031;
+}
+
+.event-stats {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.icon-category {
+    background: linear-gradient(135deg, #360185 0%, #8F0177 100%);
+    color: white;
+}
+
+.icon-price {
+    background: linear-gradient(135deg, #8F0177 0%, #DE1A58 100%);
+    color: white;
+}
+
+.icon-attendees {
+    background: linear-gradient(135deg, #DE1A58 0%, #F4B342 100%);
+    color: white;
+}
+
+.icon-date {
+    background: linear-gradient(135deg, #F4B342 0%, #360185 100%);
+    color: white;
+}
+
+.btn-edit-event {
+    background: linear-gradient(135deg, #360185 0%, #8F0177 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-edit-event:hover {
+    background: linear-gradient(135deg, #8F0177 0%, #DE1A58 100%);
+    transform: translateY(-2px);
+    color: white;
+}
+
+.btn-view-event {
+    background-color: white;
+    color: #360185;
+    border: 2px solid #360185;
+    border-radius: 10px;
+    padding: 10px 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-view-event:hover {
+    background-color: #360185;
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state i {
+    font-size: 5rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.empty-state h4 {
+    color: #360185;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.stats-overview {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.stat-box {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(54, 1, 133, 0.05) 0%, rgba(143, 1, 119, 0.05) 100%);
+}
+
+.stat-box h3 {
+    color: #360185;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+
+.stat-box p {
+    color: #666;
+    font-weight: 600;
+    margin: 0;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 2px solid #360185;
+    background: white;
+    color: #360185;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: #360185;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .event-card {
+        padding: 20px;
+    }
+
+    .btn-edit-event,
+    .btn-view-event {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .stat-box h3 {
+        font-size: 2rem;
+    }
+}
