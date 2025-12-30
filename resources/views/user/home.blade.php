@@ -109,30 +109,27 @@
                                                 <div>
                                                     <small class="text-muted d-block">Slots Remaining</small>
                                                     @php
-                                                        $capacity = $upcomingEvent->capacity ?? 0;
-                                                        $registered = $upcomingEvent->eventRegisters->count();
-                                                        $remaining = $capacity - $registered;
+                                                        $maxAttends =
+                                                            $upcomingEvent->max_attends ??
+                                                            ($upcomingEvent->capacity ?? 0);
+                                                        $registeredCount = $upcomingEvent->eventRegisters->sum(
+                                                            'ticket_qty',
+                                                        );
+                                                        $remaining = $maxAttends - $registeredCount;
                                                     @endphp
                                                     <span class="fw-semibold" style="color: #360185;">{{ $remaining }} /
-                                                        {{ $capacity }}</span>
+                                                        {{ $maxAttends }}</span>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="d-flex gap-3">
+                                        <div>
                                             <a href="{{ route('events.show', $upcomingEvent->id) }}"
-                                                class="btn btn-lg px-4 fw-semibold"
+                                                class="btn btn-lg px-5 fw-semibold"
                                                 style="background-color: #360185; color: white; border-radius: 10px; transition: all 0.3s ease;"
                                                 onmouseover="this.style.backgroundColor='#8F0177';"
                                                 onmouseout="this.style.backgroundColor='#360185';">
                                                 View Details
-                                            </a>
-                                            <a href="{{ route('events.show', $upcomingEvent->id) }}"
-                                                class="btn btn-lg px-4 fw-semibold"
-                                                style="background-color: white; color: #360185; border: 2px solid #360185; border-radius: 10px; transition: all 0.3s ease;"
-                                                onmouseover="this.style.backgroundColor='#f8f9fa';"
-                                                onmouseout="this.style.backgroundColor='white';">
-                                                Register Now
                                             </a>
                                         </div>
                                     </div>
