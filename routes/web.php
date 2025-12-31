@@ -67,9 +67,13 @@ Route::middleware(['auth'])->group(function () {
 
 // Event Manager Routes
 Route::middleware(['auth'])->prefix('event-manager')->group(function () {
+    Route::get('/manage', [\App\Http\Controllers\EventManagerController::class, 'manageEvents'])->name('event-manager.manage');
     Route::get('/my-events', [\App\Http\Controllers\EventManagerController::class, 'myEvents'])->name('event-manager.my-events');
+    Route::get('/payments', [\App\Http\Controllers\EventManagerController::class, 'payments'])->name('event-manager.payments');
     Route::get('/edit/{id}', [\App\Http\Controllers\EventManagerController::class, 'edit'])->name('event-manager.edit');
     Route::put('/update/{id}', [\App\Http\Controllers\EventManagerController::class, 'update'])->name('event-manager.update');
+    Route::post('/payments/{id}/approve', [\App\Http\Controllers\EventManagerController::class, 'approvePayment'])->name('event-manager.payments.approve');
+    Route::post('/payments/{id}/reject', [\App\Http\Controllers\EventManagerController::class, 'rejectPayment'])->name('event-manager.payments.reject');
 });
 
 // Vendor Manager Routes

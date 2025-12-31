@@ -70,14 +70,14 @@
 
             <div class="d-flex gap-2 align-items-center">
                 @auth
-                    {{-- Create Event Button (Only for Event Managers) --}}
+                    {{-- Manage Events Button (Only for Event Managers) --}}
                     @if (Auth::user()->role === 'eventManager')
-                        <a href="{{ route('events.create') }}"
-                            class="btn btn-sm px-3 py-2 fw-semibold {{ Request::is('events/create') ? 'active' : '' }}"
+                        <a href="{{ route('event-manager.manage') }}"
+                            class="btn btn-sm px-3 py-2 fw-semibold {{ Request::is('event-manager/manage') ? 'active' : '' }}"
                             style="background-color: #F4B342; color: #360185; border-radius: 8px; transition: all 0.3s ease; font-size: 0.9rem;"
                             onmouseover="this.style.backgroundColor='#360185'; this.style.color='white';"
                             onmouseout="this.style.backgroundColor='#F4B342'; this.style.color='#360185';">
-                            <i class="bi bi-plus-lg me-1"></i>Create
+                            <i class="bi bi-gear me-1"></i>Manage Events
                         </a>
                     @endif
 
@@ -121,10 +121,10 @@
                                     <i class="bi bi-person me-2"></i>My Profile</a>
                             </li>
 
-                            {{-- My Events Link (Only for Event Managers) --}}
+                            {{-- Manage Events Link (Only for Event Managers) --}}
                             @if (Auth::user()->role === 'eventManager')
-                                <li><a class="dropdown-item" href="{{ route('event-manager.my-events') }}">
-                                        <i class="bi bi-calendar-event me-2"></i>My Events</a>
+                                <li><a class="dropdown-item" href="{{ route('event-manager.manage') }}">
+                                        <i class="bi bi-gear me-2"></i>Manage Events</a>
                                 </li>
                             @endif
 

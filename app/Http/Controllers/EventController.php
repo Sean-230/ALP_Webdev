@@ -93,7 +93,7 @@ class EventController extends Controller
             'created_at' => now(),
         ]);
         
-        return redirect()->back()->with('success', 'Payment request submitted! Please wait for admin approval.');
+        return redirect()->back()->with('success', 'Registration submitted! Please wait for the event manager to approve your payment.');
     }
 
     public function bookings()

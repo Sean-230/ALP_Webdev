@@ -146,8 +146,8 @@
 }
 
 .empty-state i {
-    font-size: 5rem;
-    color: #ddd;
+    font-size: 3rem;
+    color: #360185;
     margin-bottom: 20px;
 }
 
@@ -161,6 +161,10 @@
     color: #666;
     font-size: 1.1rem;
     margin-bottom: 30px;
+}
+
+.empty-state .btn-edit-event i {
+    font-size: 1rem;
 }
 
 .stats-overview {

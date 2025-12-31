@@ -194,17 +194,13 @@
                                 @endphp
 
                                 @if (!Auth::user()->hasVerifiedEmail())
-                                    <div class="alert alert-warning\" role=\"alert\">
-                                        <i class="bi
-                                        bi-exclamation-triangle-fill me-2"></i>
+                                    <div class="alert alert-warning" role="alert">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
                                         <strong>Email Verification Required</strong>
                                         <p class="mb-2 mt-2">Please verify your email address to register for events.</p>
-                                        <form method="POST" action="{{ route('verification.send') }}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-primary">
-                                                <i class="bi bi-envelope me-2"></i>Resend Verification Email
-                                            </button>
-                                        </form>
+                                        <a href="{{ route('profile.edit') }}" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-person-circle me-2"></i>Go to Profile to Verify Email
+                                        </a>
                                     </div>
                                 @elseif($userRegistered)
                                     <div class="alert alert-success" role="alert">

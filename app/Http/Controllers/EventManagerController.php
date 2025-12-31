@@ -8,23 +8,49 @@ use App\Models\Performer;
 use App\Models\Vendor;
 use App\Models\EventPerformer;
 use App\Models\EventVendor;
+use App\Models\EventRegister;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class EventManagerController extends Controller
 {
+    /**
+     * Show all events created by the event manager with payments tab
+     */
+    public function manageEvents()
+    {
+        $events = Event::with(['category', 'performers', 'vendors', 'eventRegisters'])
+            ->where('user_id', Auth::id())
+            ->orderBy('event_date', 'desc')
+            ->get();
+
+        // Get all events created by this event manager
+        $eventIds = Event::where('user_id', Auth::id())->pluck('id');
+
+        // Get pending payments for these events
+        $pendingPayments = EventRegister::with(['user', 'event'])
+            ->whereIn('event_id', $eventIds)
+            ->where('payment_status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        $paymentStats = [
+            'pending' => EventRegister::whereIn('event_id', $eventIds)->where('payment_status', 'pending')->count(),
+            'paid' => EventRegister::whereIn('event_id', $eventIds)->where('payment_status', 'paid')->count(),
+            'total' => EventRegister::whereIn('event_id', $eventIds)->count(),
+        ];
+
+        return view('event_manager.manage-events', compact('events', 'pendingPayments', 'paymentStats'));
+    }
+
     /**
      * Show all events created by the event manager
      */
     public function myEvents()
     {
-        $events = Event::with(['category', 'performers', 'vendors', 'registrations'])
-            ->where('user_id', Auth::id())
-            ->orderBy('event_date', 'desc')
-            ->get();
-
-        return view('event_manager.my-events', compact('events'));
+        return redirect()->route('event-manager.manage');
     }
 
     /**
@@ -128,5 +154,50 @@ class EventManagerController extends Controller
         }
 
         return redirect()->route('event-manager.my-events')->with('success', 'Event updated successfully!');
+    }
+
+    /**
+     * Show all payment requests for event manager's events
+     */
+    public function payments(): RedirectResponse
+    {
+        return redirect()->route('event-manager.manage', ['#payment-requests']);
+    }
+
+    /**
+     * Approve payment for event manager's event
+     */
+    public function approvePayment($id): RedirectResponse
+    {
+        $payment = EventRegister::with('event')->findOrFail($id);
+
+        // Verify that this payment belongs to an event owned by this event manager
+        if ($payment->event->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        $payment->update([
+            'payment_status' => 'paid',
+        ]);
+
+        return redirect()->route('event-manager.manage', ['#payment-requests'])->with('success', 'Payment approved successfully!');
+    }
+
+    /**
+     * Reject payment for event manager's event
+     */
+    public function rejectPayment($id): RedirectResponse
+    {
+        $payment = EventRegister::with('event')->findOrFail($id);
+
+        // Verify that this payment belongs to an event owned by this event manager
+        if ($payment->event->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        // Delete the registration
+        $payment->delete();
+
+        return redirect()->route('event-manager.manage', ['#payment-requests'])->with('success', 'Payment rejected and registration removed.');
     }
 }

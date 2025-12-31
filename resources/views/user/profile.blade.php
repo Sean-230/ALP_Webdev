@@ -162,13 +162,22 @@
                                     <span class="badge bg-success px-3 py-2">
                                         <i class="bi bi-briefcase-fill me-1"></i>Event Manager
                                     </span>
+                                @elseif (Auth::user()->role === 'vendorManager')
+                                    <span class="badge bg-primary px-3 py-2">
+                                        <i class="bi bi-shop me-1"></i>Vendor Manager
+                                    </span>
                                 @else
                                     <span class="badge bg-light text-dark px-3 py-2">
                                         <i class="bi bi-person-fill me-1"></i>User
                                     </span>
                                     @if (isset($pendingApplication))
                                         <span class="badge bg-info text-dark px-3 py-2 ms-2">
-                                            <i class="bi bi-clock-history me-1"></i>Applied for Event Manager
+                                            <i class="bi bi-clock-history me-1"></i>Applied for 
+                                            @if($pendingApplication->role_type === 'eventManager')
+                                                Event Manager
+                                            @else
+                                                Vendor Manager
+                                            @endif
                                         </span>
                                     @endif
                                 @endif
