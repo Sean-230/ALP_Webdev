@@ -3,13 +3,7 @@
 @section('title', 'Admin Dashboard - Festivo')
 
 @push('styles')
-    <style>
-        .admin-dashboard {
-            padding: 120px 0 60px;
-            background-color: #f8f9fa;
-            min-height: 100vh;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin-dashboard.css') }}">
 @endpush
 
 @section('content')
@@ -79,22 +73,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <a href="{{ route('admin.payments') }}" class="text-decoration-none">
-                    <div class="card text-white bg-warning mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-credit-card"></i> Pending Payments</h5>
-                            <h2>{{ $stats['pending_payments'] }}</h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
         </div>
 
         <!-- Pending Manager Applications -->
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0"><i class="bi bi-person-plus-fill"></i> Pending Event Manager Applications</h4>
+                <h4 class="mb-0"><i class="bi bi-person-plus-fill"></i> Pending Manager Applications</h4>
             </div>
             <div class="card-body">
                 @if($pendingApplications->count() > 0)
@@ -184,7 +168,6 @@
                                 <th>Event Name</th>
                                 <th>Category</th>
                                 <th>Date</th>
-                                <th>Location</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -193,8 +176,7 @@
                             <tr>
                                 <td>{{ $event->name }}</td>
                                 <td>{{ $event->category->name ?? 'N/A' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}</td>
-                                <td>{{ $event->location }}</td>
+                                <td>{{ \Carbon\Carbon::parse($event->event_date)->format('M d, Y') }}</td>
                                 <td>
                                     <form action="{{ route('admin.events.approve', $event->id) }}" method="POST" class="d-inline">
                                         @csrf

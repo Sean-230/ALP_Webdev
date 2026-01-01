@@ -14,9 +14,9 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Event::with('category')
-            ->withCount('eventRegisters')
-            ->whereIn('status', ['upcoming', 'ongoing']);
+        $query = Event::with(['category', 'eventRegisters'])
+            ->whereIn('status', ['upcoming', 'ongoing'])
+            ->where('approval_status', 'approved');
 
         // Filter by category if provided
         if ($request->has('category') && $request->category != '') {
@@ -60,9 +60,10 @@ class EventController extends Controller
 
         $event = Event::findOrFail($eventId);
         
-        // Check if user is already registered for this event
+        // Check if user is already registered for this event (pending or paid only)
         $existingRegistration = EventRegister::where('user_id', Auth::id())
             ->where('event_id', $eventId)
+            ->whereIn('payment_status', ['pending', 'paid'])
             ->first();
         
         if ($existingRegistration) {
@@ -72,8 +73,10 @@ class EventController extends Controller
             return redirect()->back()->with('error', 'You are already registered for this event.');
         }
         
-        // Check if event has available slots
-        $registeredCount = EventRegister::where('event_id', $eventId)->sum('ticket_qty');
+        // Check if event has available slots (only count pending and paid tickets)
+        $registeredCount = EventRegister::where('event_id', $eventId)
+            ->whereIn('payment_status', ['pending', 'paid'])
+            ->sum('ticket_qty');
         $maxAttends = $event->max_attends ?? $event->capacity ?? 0;
         $requestedQty = $request->ticket_qty;
         
@@ -99,8 +102,10 @@ class EventController extends Controller
     public function bookings()
     {
         $bookings = EventRegister::with(['event', 'user'])
-            ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
+            ->where('event_registers.user_id', Auth::id())
+            ->join('events', 'event_registers.event_id', '=', 'events.id')
+            ->orderBy('events.event_date', 'asc')
+            ->select('event_registers.*')
             ->get();
         
         return view('user.bookings.index', compact('bookings'));

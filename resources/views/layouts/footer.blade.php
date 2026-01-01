@@ -62,18 +62,18 @@
                         </a>
                     </li>
                     <li class="mb-3">
-                        <a href="{{ route('vendors') }}" class="footer-link">
-                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Vendors
+                        <a href="/explore" class="footer-link">
+                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Explore
                         </a>
                     </li>
                     <li class="mb-3">
-                        <a href="{{ route('events') }}" class="footer-link">
+                        <a href="/events" class="footer-link">
                             <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Events
                         </a>
                     </li>
                     <li class="mb-3">
-                        <a href="{{ route('contact') }}" class="footer-link">
-                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>Contact
+                        <a href="/faq" class="footer-link">
+                            <i class="bi bi-chevron-right me-2" style="font-size: 0.8rem;"></i>FAQ
                         </a>
                     </li>
                 </ul>
@@ -84,7 +84,8 @@
                     <div class="d-flex align-items-start mb-2">
                         <i class="bi bi-telephone-fill me-2 mt-1" style="color: #F4B342; font-size: 0.9rem;"></i>
                         <div>
-                            <a href="https://api.whatsapp.com/send/?phone=%2B6281330330450&text&type=phone_number&app_absent=0" class="footer-contact-link d-block mb-1">
+                            <a href="https://api.whatsapp.com/send/?phone=%2B6281330330450&text&type=phone_number&app_absent=0"
+                                class="footer-contact-link d-block mb-1">
                                 +62 813-3033-0450
                             </a>
                         </div>

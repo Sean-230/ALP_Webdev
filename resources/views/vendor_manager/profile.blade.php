@@ -3,7 +3,7 @@
 @section('title', 'Vendor Profile - Festivo')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/create-event.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/event-manager-create-event.css') }}">
 @endpush
 
 @section('content')

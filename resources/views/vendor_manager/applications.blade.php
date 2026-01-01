@@ -3,15 +3,7 @@
 @section('title', 'My Applications - Festivo')
 
 @push('styles')
-    <style>
-        .application-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/vendor-manager-applications.css') }}">
 @endpush
 
 @section('content')

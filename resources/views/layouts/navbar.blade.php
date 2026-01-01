@@ -29,10 +29,6 @@
                                 href="{{ route('admin.dashboard') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Request::is('admin/payments') ? 'active' : '' }}"
-                                href="{{ route('admin.payments') }}">Payments</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link {{ Request::is('admin/users') ? 'active' : '' }}"
                                 href="{{ route('admin.users') }}">Users</a>
                         </li>
@@ -85,9 +81,9 @@
                     @if (Auth::user()->role === 'vendorManager')
                         <a href="{{ route('vendor.profile') }}"
                             class="btn btn-sm px-3 py-2 fw-semibold {{ Request::is('vendor/*') ? 'active' : '' }}"
-                            style="background-color: #8F0177; color: white; border-radius: 8px; transition: all 0.3s ease; font-size: 0.9rem;"
-                            onmouseover="this.style.backgroundColor='#DE1A58';"
-                            onmouseout="this.style.backgroundColor='#8F0177';">
+                            style="background-color: #8F0177; color: white; border: 2px solid #8F0177; border-radius: 8px; transition: all 0.3s ease; font-size: 0.9rem;"
+                            onmouseover="this.style.backgroundColor='#DE1A58'; this.style.borderColor='#DE1A58';"
+                            onmouseout="this.style.backgroundColor='#8F0177'; this.style.borderColor='#8F0177';">
                             <i class="bi bi-shop me-1"></i>Vendor Profile
                         </a>
                     @endif
@@ -121,23 +117,9 @@
                                     <i class="bi bi-person me-2"></i>My Profile</a>
                             </li>
 
-                            {{-- Manage Events Link (Only for Event Managers) --}}
-                            @if (Auth::user()->role === 'eventManager')
-                                <li><a class="dropdown-item" href="{{ route('event-manager.manage') }}">
-                                        <i class="bi bi-gear me-2"></i>Manage Events</a>
-                                </li>
-                            @endif
-
                             @if (!Auth::user()->is_admin)
                                 <li><a class="dropdown-item" href="{{ route('bookings.index') }}">
                                         <i class="bi bi-calendar-check me-2"></i>My Bookings</a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                            @else
-                                <li>
-                                    <hr class="dropdown-divider">
                                 </li>
                             @endif
 

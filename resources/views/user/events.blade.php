@@ -3,7 +3,7 @@
 @section('title', 'Browse Events - Festivo')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/events.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user-events.css') }}">
 @endpush
 
 @section('content')
@@ -111,8 +111,13 @@
                             <div class="card event-card"
                                 onclick="window.location='{{ route('events.show', $event->id) }}'">
                                 <div class="position-relative">
-                                    <img src="{{ asset('images/Coming_Soon1.jpg') }}" alt="{{ $event->name }}"
-                                        class="card-img-top">
+                                    @if($event->event_picture)
+                                        <img src="{{ asset($event->event_picture) }}" alt="{{ $event->name }}"
+                                            class="card-img-top">
+                                    @else
+                                        <img src="{{ asset('images/Coming_Soon1.jpg') }}" alt="{{ $event->name }}"
+                                            class="card-img-top">
+                                    @endif
                                     <div class="event-date-badge">
                                         <div style="font-size: 1.5rem; line-height: 1;">
                                             {{ $event->event_date->format('d') }}
@@ -137,9 +142,9 @@
                                     </p>
                                     <div class="mt-auto text-muted small">
                                         @php
-                                            $capacity = $event->capacity ?? 0;
-                                            $registered = $event->event_registers_count ?? 0;
-                                            $remaining = $capacity - $registered;
+                                            $maxAttends = $event->max_attends ?? ($event->capacity ?? 0);
+                                            $registeredCount = $event->eventRegisters->whereIn('payment_status', ['pending', 'paid'])->sum('ticket_qty');
+                                            $remaining = $maxAttends - $registeredCount;
                                         @endphp
                                         <i class="bi bi-people-fill me-1"></i>
                                         {{ number_format($remaining) }} {{ $remaining === 1 ? 'slot' : 'slots' }}

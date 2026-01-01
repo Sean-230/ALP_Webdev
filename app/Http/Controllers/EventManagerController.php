@@ -195,9 +195,10 @@ class EventManagerController extends Controller
             return redirect()->back()->with('error', 'Unauthorized action.');
         }
 
-        // Delete the registration
-        $payment->delete();
+        // Update the payment status to rejected instead of deleting
+        $payment->payment_status = 'rejected';
+        $payment->save();
 
-        return redirect()->route('event-manager.manage', ['#payment-requests'])->with('success', 'Payment rejected and registration removed.');
+        return redirect()->route('event-manager.manage', ['#payment-requests'])->with('success', 'Payment rejected.');
     }
 }

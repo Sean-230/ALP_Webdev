@@ -10,6 +10,7 @@ Route::get('/', function () {
     $upcomingEvent = \App\Models\Event::with(['category', 'eventRegisters'])
         ->where('event_date', '>=', now())
         ->where('status', 'upcoming')
+        ->where('approval_status', 'approved')
         ->orderBy('event_date', 'asc')
         ->first();
     return view('user.home', compact('upcomingEvent'));

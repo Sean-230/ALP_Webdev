@@ -3,7 +3,7 @@
 @section('title', 'Explore - Festivo')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/explore.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user-explore.css') }}">
 @endpush
 
 @section('content')
@@ -105,8 +105,13 @@
                     <div class="col-md-4">
                         <div class="card vendor-card border-0 shadow-sm" style="cursor: pointer; transition: all 0.3s ease;"
                             onclick="window.location='{{ route('events.show', $event->id) }}'">
-                            <img src="{{ asset('images/Coming_Soon1.jpg') }}" alt="{{ $event->name }}"
-                                style="height: 250px; width: 100%; object-fit: cover;">
+                            @if($event->event_picture)
+                                <img src="{{ asset($event->event_picture) }}" alt="{{ $event->name }}"
+                                    style="height: 250px; width: 100%; object-fit: cover;">
+                            @else
+                                <img src="{{ asset('images/Coming_Soon1.jpg') }}" alt="{{ $event->name }}"
+                                    style="height: 250px; width: 100%; object-fit: cover;">
+                            @endif
                             <div class="card-body p-4">
                                 <div class="d-flex align-items-center mb-3">
                                     <span class="badge"
@@ -127,9 +132,9 @@
                                 </p>
                                 <div class="mt-auto pt-2">
                                     @php
-                                        $capacity = $event->capacity ?? 0;
-                                        $registered = $event->event_registers_count ?? 0;
-                                        $remaining = $capacity - $registered;
+                                        $maxAttends = $event->max_attends ?? ($event->capacity ?? 0);
+                                        $registeredCount = $event->eventRegisters->whereIn('payment_status', ['pending', 'paid'])->sum('ticket_qty');
+                                        $remaining = $maxAttends - $registeredCount;
                                     @endphp
                                     <small class="text-muted">
                                         <i class="bi bi-people me-1"></i>{{ number_format($remaining) }}

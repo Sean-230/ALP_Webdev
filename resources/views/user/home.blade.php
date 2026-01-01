@@ -3,7 +3,7 @@
 @section('title', 'Festivo - Platform Manajemen Event & Vendor')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user-home.css') }}">
 @endpush
 
 @section('content')
@@ -62,8 +62,13 @@
                                 <!-- Event Image -->
                                 <div class="col-md-6">
                                     <div class="position-relative h-100" style="min-height: 400px;">
-                                        <img src="{{ asset('images/Exclamation.jpg') }}" alt="{{ $upcomingEvent->name }}"
-                                            style="width: 100%; height: 100%; object-fit: cover;">
+                                        @if($upcomingEvent->event_picture)
+                                            <img src="{{ asset($upcomingEvent->event_picture) }}" alt="{{ $upcomingEvent->name }}"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        @else
+                                            <img src="{{ asset('images/Exclamation.jpg') }}" alt="{{ $upcomingEvent->name }}"
+                                                style="width: 100%; height: 100%; object-fit: cover;">
+                                        @endif
                                         <div class="position-absolute top-0 start-0 p-4">
                                             <span class="badge px-3 py-2"
                                                 style="background-color: #F4B342; color: #360185; font-weight: 600; font-size: 0.9rem;">
@@ -112,7 +117,7 @@
                                                         $maxAttends =
                                                             $upcomingEvent->max_attends ??
                                                             ($upcomingEvent->capacity ?? 0);
-                                                        $registeredCount = $upcomingEvent->eventRegisters->sum(
+                                                        $registeredCount = $upcomingEvent->eventRegisters->whereIn('payment_status', ['pending', 'paid'])->sum(
                                                             'ticket_qty',
                                                         );
                                                         $remaining = $maxAttends - $registeredCount;

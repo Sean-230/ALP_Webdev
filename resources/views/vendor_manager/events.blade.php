@@ -3,39 +3,7 @@
 @section('title', 'Apply to Events - Festivo')
 
 @push('styles')
-    <style>
-        .event-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-        }
-        .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(54, 1, 133, 0.15);
-        }
-        .event-status {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .status-upcoming {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        .status-ongoing {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        .status-applied {
-            background-color: #cce5ff;
-            color: #004085;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/vendor-manager-events.css') }}">
 @endpush
 
 @section('content')
@@ -120,9 +88,10 @@
                                                 <i class="bi bi-check-circle me-2"></i>Already Applied
                                             </button>
                                         @else
-                                            <form action="{{ route('vendor.apply', $event->id) }}" method="POST" class="w-100">
+                                            <form action="{{ route('vendor.apply', $event->id) }}" method="POST"
+                                                class="w-100">
                                                 @csrf
-                                                <button type="submit" class="btn w-100" 
+                                                <button type="submit" class="btn w-100"
                                                     style="background-color: #360185; color: white; border-radius: 10px;"
                                                     onmouseover="this.style.backgroundColor='#8F0177'"
                                                     onmouseout="this.style.backgroundColor='#360185'">

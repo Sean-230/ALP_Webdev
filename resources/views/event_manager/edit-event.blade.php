@@ -3,7 +3,7 @@
 @section('title', 'Edit Event - Festivo')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/create-event.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/event-manager-create-event.css') }}">
 @endpush
 
 @section('content')
@@ -176,7 +176,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Current Image</label>
                                         <div class="position-relative" style="max-width: 300px;">
-                                            <img src="{{ asset('images/events/' . $event->event_picture) }}"
+                                            <img src="{{ asset($event->event_picture) }}"
                                                 alt="Current event image" class="img-fluid rounded" id="currentImage">
                                         </div>
                                     </div>

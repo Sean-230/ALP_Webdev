@@ -3,7 +3,7 @@
 @section('title', 'FAQ - Festivo')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/faq.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user-faq.css') }}">
 @endpush
 
 @section('content')

@@ -1,0 +1,36 @@
+.event-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(54, 1, 133, 0.15);
+}
+
+.event-status {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-upcoming {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-ongoing {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-applied {
+    background-color: #cce5ff;
+    color: #004085;
+}

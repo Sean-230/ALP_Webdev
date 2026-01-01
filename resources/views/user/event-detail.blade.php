@@ -3,13 +3,13 @@
 @section('title', $event->name . ' - Festivo')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/event-detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user-event-detail.css') }}">
 @endpush
 
 @section('content')
     @php
         // Calculate availability variables at the top
-        $registeredCount = $event->registrations->sum('ticket_qty');
+        $registeredCount = $event->registrations->whereIn('payment_status', ['pending', 'paid'])->sum('ticket_qty');
         $maxAttends = $event->max_attends ?? ($event->capacity ?? 0);
         $availableSlots = $maxAttends - $registeredCount;
         $capacityPercentage = $maxAttends > 0 ? ($registeredCount / $maxAttends) * 100 : 0;
@@ -65,8 +65,13 @@
                     <!-- Event Image -->
                     <div class="event-detail-card mb-4">
                         <div class="event-image-placeholder">
-                            <img src="{{ asset('images/Coming_Soon1.jpg') }}" alt="{{ $event->name }}" class="w-100 h-100"
-                                style="object-fit: cover;">
+                            @if($event->event_picture)
+                                <img src="{{ asset($event->event_picture) }}" alt="{{ $event->name }}" class="w-100 h-100"
+                                    style="object-fit: cover;">
+                            @else
+                                <img src="{{ asset('images/Coming_Soon1.jpg') }}" alt="{{ $event->name }}" class="w-100 h-100"
+                                    style="object-fit: cover;">
+                            @endif
                         </div>
                     </div>
 
@@ -310,20 +315,9 @@
                         <!-- Share Event -->
                         <div class="bg-white p-4 rounded-3 shadow-sm mt-4">
                             <h5 class="fw-bold mb-3" style="color: #360185;">Share This Event</h5>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-outline-primary flex-fill" style="border-radius: 10px;">
-                                    <i class="bi bi-facebook"></i>
-                                </button>
-                                <button class="btn btn-outline-info flex-fill" style="border-radius: 10px;">
-                                    <i class="bi bi-twitter"></i>
-                                </button>
-                                <button class="btn btn-outline-success flex-fill" style="border-radius: 10px;">
-                                    <i class="bi bi-whatsapp"></i>
-                                </button>
-                                <button class="btn btn-outline-secondary flex-fill" style="border-radius: 10px;">
-                                    <i class="bi bi-link-45deg"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-outline-secondary w-100" style="border-radius: 10px;">
+                                <i class="bi bi-link-45deg me-2"></i>Copy Link
+                            </button>
                         </div>
                     </div>
                 </div>
