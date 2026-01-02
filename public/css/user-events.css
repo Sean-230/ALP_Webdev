@@ -3,7 +3,7 @@
     background-color: #360185;
     padding: 80px 0 60px;
     margin-top: -70px;
-    padding-top: 140px;
+    padding-top: 70px;
     position: relative;
     overflow: hidden;
 }
@@ -29,6 +29,18 @@
     height: 400px;
     background: radial-gradient(circle, rgba(143, 1, 119, 0.2) 0%, transparent 70%);
     border-radius: 50%;
+}
+
+/* Decorative patterns */
+.pattern-dots {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.1;
+    background-image: radial-gradient(circle, white 2px, transparent 2px);
+    background-size: 30px 30px;
 }
 
 .events-hero .container {

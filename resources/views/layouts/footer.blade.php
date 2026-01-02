@@ -1,6 +1,7 @@
 <!-- filepath: resources/views/layouts/footer.blade.php -->
-<footer class="py-5 text-white" style="background-color: #360185;">
-    <div class="container">
+<footer class="py-5 text-white" style="background-color: #360185; position: relative; overflow: hidden;">
+    <div class="pattern-dots"></div>
+    <div class="container" style="position: relative; z-index: 2;">
         <div class="row g-4 justify-content-between">
             <!-- Company Info -->
             <div class="col-lg-4 col-md-6 mb-4">

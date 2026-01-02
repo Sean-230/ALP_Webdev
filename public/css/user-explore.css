@@ -47,10 +47,12 @@
 /* Decorative patterns */
 .pattern-dots {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     opacity: 0.1;
-    background-image: radial-gradient(circle, white 1px, transparent 1px);
+    background-image: radial-gradient(circle, white 2px, transparent 2px);
     background-size: 30px 30px;
 }
 

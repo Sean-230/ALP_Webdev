@@ -9,6 +9,7 @@
 @section('content')
     <!-- Hero Section -->
     <section class="events-hero text-white">
+        <div class="pattern-dots"></div>
         <div class="container">
             <div class="text-center">
                 <h1 class="display-3 fw-bold mb-3">Browse All Events</h1>

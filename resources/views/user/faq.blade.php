@@ -9,6 +9,7 @@
 @section('content')
     <!-- Hero Section -->
     <section class="faq-hero">
+        <div class="pattern-dots"></div>
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
