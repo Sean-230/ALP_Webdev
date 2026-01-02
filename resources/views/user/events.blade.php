@@ -87,11 +87,11 @@
             </div>
 
             <!-- Results Count -->
-            <div class="d-flex justify-content-between align-items-center mb-4 p-2 rounded-3"
+            <div id="events-results" class="d-flex justify-content-between align-items-center mb-4 p-2 rounded-3"
                 style="background: linear-gradient(135deg, rgba(54, 1, 133, 0.05), rgba(244, 179, 66, 0.05)); border-left: 4px solid #360185;">
                 <h6 class="mb-0" style="color: #360185; font-size: 0.95rem;">
                     <i class="bi bi-calendar-check me-2"></i>
-                    <strong>{{ $events->count() }}</strong> Events Found
+                    <strong>{{ $events->total() }}</strong> Events Found
                     @if (request('category'))
                         in <strong>{{ $categories->find(request('category'))->name }}</strong>
                     @endif
@@ -167,22 +167,38 @@
                 </div>
 
                 <!-- Pagination -->
-                @if ($events->count() > 9)
+                @if($events->hasPages())
                     <div class="d-flex justify-content-center align-items-center mt-5 gap-3">
-                        <button id="prev-btn" class="btn"
-                            style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1;">
-                            <i class="bi bi-chevron-left"></i>
-                        </button>
-                        <div id="pagination-dots" class="d-flex gap-2">
-                            @for ($i = 0; $i < ceil($events->count() / 9); $i++)
-                                <span class="pagination-dot" data-page="{{ $i + 1 }}"
-                                    style="width: 10px; height: 10px; border-radius: 50%; background-color: {{ $i === 0 ? '#360185' : '#d0d0d0' }}; cursor: pointer; transition: all 0.3s ease;"></span>
+                        @if ($events->onFirstPage())
+                            <button class="btn" disabled
+                                style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; opacity: 0.3; cursor: not-allowed;">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                        @else
+                            <a href="{{ $events->previousPageUrl() }}" class="btn pagination-scroll-link"
+                                style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1;">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        @endif
+
+                        <div class="d-flex gap-2">
+                            @for ($i = 1; $i <= $events->lastPage(); $i++)
+                                <a href="{{ $events->url($i) }}" class="pagination-scroll-link"
+                                    style="width: 10px; height: 10px; border-radius: 50%; background-color: {{ $i === $events->currentPage() ? '#360185' : '#d0d0d0' }}; cursor: pointer; transition: all 0.3s ease; display: block; {{ $i === $events->currentPage() ? 'transform: scale(1.2);' : '' }}"></a>
                             @endfor
                         </div>
-                        <button id="next-btn" class="btn"
-                            style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1;">
-                            <i class="bi bi-chevron-right"></i>
-                        </button>
+
+                        @if ($events->hasMorePages())
+                            <a href="{{ $events->nextPageUrl() }}" class="btn pagination-scroll-link"
+                                style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1;">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        @else
+                            <button class="btn" disabled
+                                style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; opacity: 0.3; cursor: not-allowed;">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        @endif
                     </div>
                 @endif
             @else
@@ -201,105 +217,28 @@
             @endif
         </div>
     </section>
-@endsection
 
-@push('scripts')
     <script>
-        // Events Pagination
-        let currentPage = 1;
-        const itemsPerPage = 9;
-        const totalEvents = {{ $events->count() }};
-        const totalPages = Math.ceil(totalEvents / itemsPerPage);
-
-        function changePage(direction) {
-            const newPage = currentPage + direction;
-
-            // Check boundaries
-            if (newPage < 1 || newPage > totalPages) {
-                return;
-            }
-
-            currentPage = newPage;
-            updateDisplay();
-        }
-
-        function goToPage(page) {
-            currentPage = page;
-            updateDisplay();
-        }
-
-        function updateDisplay() {
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-
-            // Hide all items
-            const items = document.querySelectorAll('.event-item');
-            items.forEach((item, index) => {
-                if (index >= startIndex && index < endIndex) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-
-            // Update dots
-            const dots = document.querySelectorAll('.pagination-dot');
-            dots.forEach((dot, index) => {
-                if (index + 1 === currentPage) {
-                    dot.style.backgroundColor = '#360185';
-                    dot.style.transform = 'scale(1.2)';
-                } else {
-                    dot.style.backgroundColor = '#d0d0d0';
-                    dot.style.transform = 'scale(1)';
-                }
-            });
-
-            // Update button states
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-
-            if (prevBtn && nextBtn) {
-                prevBtn.disabled = currentPage === 1;
-                nextBtn.disabled = currentPage === totalPages;
-
-                // Add opacity for disabled state
-                prevBtn.style.opacity = currentPage === 1 ? '0.3' : '1';
-                nextBtn.style.opacity = currentPage === totalPages ? '0.3' : '1';
-                prevBtn.style.cursor = currentPage === 1 ? 'not-allowed' : 'pointer';
-                nextBtn.style.cursor = currentPage === totalPages ? 'not-allowed' : 'pointer';
-            }
-        }
-
-        // Initialize on page load
+        // Scroll to results section when pagination is clicked
         document.addEventListener('DOMContentLoaded', function() {
-            if (totalPages > 0) {
-                updateDisplay();
-            }
-
-            // Add event listeners for pagination buttons
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-
-            if (prevBtn) {
-                prevBtn.addEventListener('click', function() {
-                    changePage(-1);
-                });
-            }
-
-            if (nextBtn) {
-                nextBtn.addEventListener('click', function() {
-                    changePage(1);
-                });
-            }
-
-            // Add event listeners for dots
-            const dots = document.querySelectorAll('.pagination-dot');
-            dots.forEach(dot => {
-                dot.addEventListener('click', function() {
-                    const page = parseInt(this.getAttribute('data-page'));
-                    goToPage(page);
+            const paginationLinks = document.querySelectorAll('.pagination-scroll-link');
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Allow the link to navigate, but add scroll behavior on page load
+                    sessionStorage.setItem('scrollToResults', 'true');
                 });
             });
+
+            // Check if we should scroll after page load (from pagination click)
+            if (sessionStorage.getItem('scrollToResults') === 'true') {
+                sessionStorage.removeItem('scrollToResults');
+                const resultsSection = document.getElementById('events-results');
+                if (resultsSection) {
+                    setTimeout(() => {
+                        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            }
         });
     </script>
-@endpush
+@endsection

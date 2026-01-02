@@ -38,7 +38,7 @@ class EventController extends Controller
             $query->orderBy('name', 'asc');
         }
 
-        $events = $query->get();
+        $events = $query->paginate(9)->withQueryString();
         $categories = Category::all();
 
         return view('user.events', compact('events', 'categories'));

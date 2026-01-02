@@ -109,9 +109,56 @@
                     </table>
                 </div>
                 
-                <div class="d-flex justify-content-center mt-4">
-                    {{ $users->links() }}
-                </div>
+                @if($users->hasPages())
+                    <div class="d-flex justify-content-center align-items-center mt-4">
+                        <nav aria-label="Users pagination">
+                            <ul class="pagination mb-0" style="gap: 8px;">
+                                {{-- Previous Page Link --}}
+                                @if ($users->onFirstPage())
+                                    <li class="page-item disabled">
+                                        <span class="page-link" style="border-radius: 8px; border: 1px solid #dee2e6; background: #f8f9fa;">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $users->previousPageUrl() }}" style="border-radius: 8px; border: 1px solid #360185; color: #360185;">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                {{-- Page Numbers --}}
+                                @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
+                                    @if ($page == $users->currentPage())
+                                        <li class="page-item active">
+                                            <span class="page-link" style="border-radius: 8px; background: #360185; border: 1px solid #360185; min-width: 38px; text-align: center;">{{ $page }}</span>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $users->url($page) }}" style="border-radius: 8px; border: 1px solid #dee2e6; color: #360185; min-width: 38px; text-align: center;">{{ $page }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+
+                                {{-- Next Page Link --}}
+                                @if ($users->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $users->nextPageUrl() }}" style="border-radius: 8px; border: 1px solid #360185; color: #360185;">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled">
+                                        <span class="page-link" style="border-radius: 8px; border: 1px solid #dee2e6; background: #f8f9fa;">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </nav>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

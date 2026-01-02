@@ -195,6 +195,21 @@ footer {
     background-size: 30px 30px;
 }
 
+/* Starry pattern for footer */
+.pattern-stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    background-image: 
+        radial-gradient(circle, white 2px, transparent 2px),
+        radial-gradient(circle, rgba(244, 179, 66, 0.8) 3px, transparent 2px);
+    background-size: 50px 50px, 50px 50px;
+    background-position: 0 0, 25px 25px;
+}
+
 footer a {
     color: #DE1A58;
     text-decoration: none;

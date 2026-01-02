@@ -1,0 +1,180 @@
+/* Footer Styles */
+footer {
+    background-color: #360185;
+    position: relative;
+    overflow: hidden;
+}
+
+footer .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Logo Container */
+footer .rounded-circle {
+    width: 90px;
+    height: 90px;
+    background-color: transparent;
+    padding: 8px;
+    flex-shrink: 0;
+}
+
+footer .rounded-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+footer h4 {
+    font-size: 1.5rem;
+}
+
+footer p.opacity-75 {
+    font-size: 0.95rem;
+}
+
+/* Section Headings */
+footer h5,
+footer h6 {
+    color: #F4B342;
+}
+
+/* Social Media Buttons */
+footer .btn-sm.rounded-circle {
+    width: 40px;
+    height: 40px;
+    color: white;
+    border-color: #8F0177 !important;
+    transition: all 0.3s ease;
+}
+
+footer .btn-sm.rounded-circle:hover {
+    background-color: #8F0177 !important;
+    border-color: #8F0177 !important;
+    transform: translateY(-3px);
+}
+
+/* Quick Links Icons */
+footer .bi-chevron-right {
+    font-size: 0.8rem;
+}
+
+/* Contact Information Icons */
+footer .bi-telephone-fill,
+footer .bi-envelope-fill {
+    color: #F4B342;
+    font-size: 0.9rem;
+}
+
+/* Footer Links */
+.footer-link {
+    color: white;
+    opacity: 0.75;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-size: 0.95rem;
+}
+
+.footer-link:hover {
+    opacity: 1;
+    color: #F4B342;
+    transform: translateX(5px);
+}
+
+.footer-contact-link {
+    color: white;
+    opacity: 0.75;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.footer-contact-link:hover {
+    opacity: 1;
+    color: #F4B342;
+}
+
+/* Operating Hours Card */
+footer .operating-hours-card {
+    background: linear-gradient(135deg, rgba(247, 82, 112, 0.15) 0%, rgba(247, 202, 201, 0.15) 100%);
+    border-left: 4px solid #DE1A58;
+}
+
+footer .operating-hours-card .bi-calendar-check {
+    color: #F4B342;
+}
+
+/* Emergency Service Card */
+footer .emergency-service-card {
+    background: linear-gradient(135deg, rgba(247, 202, 201, 0.2) 0%, rgba(253, 235, 208, 0.2) 100%);
+    border: 2px solid rgba(247, 202, 201, 0.3);
+}
+
+footer .emergency-service-card .bi-headset {
+    color: #F4B342;
+}
+
+footer .emergency-service-card .btn-call {
+    background-color: #8F0177;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+footer .emergency-service-card .btn-call:hover {
+    background-color: #DE1A58;
+}
+
+footer .emergency-service-card .btn-chat {
+    background-color: transparent;
+    color: white;
+    border: 2px solid #DE1A58;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+footer .emergency-service-card .btn-chat:hover {
+    background-color: #DE1A58;
+    border-color: #DE1A58;
+}
+
+/* Divider */
+footer hr {
+    border-color: rgba(255, 255, 255, 0.2);
+    opacity: 0.5;
+}
+
+/* Copyright */
+footer .text-center p {
+    font-size: 0.95rem;
+}
+
+/* Border Top */
+footer .border-top-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    footer h5,
+    footer h6 {
+        font-size: 1.1rem;
+    }
+
+    footer .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    footer .rounded-circle {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    footer h4 {
+        font-size: 1.25rem !important;
+    }
+}

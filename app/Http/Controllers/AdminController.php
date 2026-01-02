@@ -21,20 +21,20 @@ class AdminController extends Controller
         $pendingApplications = ManagerApplication::with('user')
             ->where('status', 'pending')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10, ['*'], 'applications');
 
         $pendingEvents = Event::with(['category'])
             ->where('approval_status', 'pending')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(15, ['*'], 'events');
 
         $stats = [
             'total_users' => User::where('role', 'user')->count(),
             'event_managers' => User::where('role', 'eventManager')->count(),
             'vendor_managers' => User::where('role', 'vendorManager')->count(),
             'admins' => User::where('role', 'admin')->count(),
-            'pending_applications' => $pendingApplications->count(),
-            'pending_events' => $pendingEvents->count(),
+            'pending_applications' => ManagerApplication::where('status', 'pending')->count(),
+            'pending_events' => Event::where('approval_status', 'pending')->count(),
             'pending_payments' => EventRegister::where('payment_status', 'pending')->count(),
             'total_events' => Event::count(),
         ];
