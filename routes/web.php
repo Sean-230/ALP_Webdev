@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 // TEMPORARY: Endpoint to run migrations - DELETE after use
 Route::get('/run-migrations-now', function () {
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
     \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true, '--seed' => true]);
     return '<h1>Migrations Complete!</h1><pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre><p>Now delete this route from web.php and push again.</p>';
 });
