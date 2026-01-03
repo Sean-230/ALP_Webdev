@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     nginx \
     nodejs \
-    npm
+    npm \
+    gettext-base
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
@@ -59,8 +60,15 @@ RUN echo 'server {\n\
 # Create startup script that substitutes PORT variable
 RUN echo '#!/bin/bash\n\
 set -e\n\
+echo "Starting application..."\n\
+echo "PORT is: ${PORT}"\n\
 envsubst \"\\$PORT\" < /etc/nginx/sites-available/default.template > /etc/nginx/sites-available/default\n\
+echo "Nginx config generated"\n\
+cat /etc/nginx/sites-available/default\n\
 php-fpm -D\n\
+echo "PHP-FPM started"\n\
+nginx -t\n\
+echo "Starting Nginx..."\n\
 nginx -g "daemon off;"' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
 EXPOSE ${PORT:-8080}
