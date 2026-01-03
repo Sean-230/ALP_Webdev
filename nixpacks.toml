@@ -18,4 +18,4 @@ cmds = [
 ]
 
 [start]
-cmd = 'chmod +x start.sh && ./start.sh'
+cmd = 'bash /app/start.sh'
