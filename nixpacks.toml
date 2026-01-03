@@ -17,5 +17,10 @@ cmds = [
     'php artisan view:cache'
 ]
 
+[phases.deploy]
+cmds = [
+    'php artisan migrate --force'
+]
+
 [start]
 cmd = 'php artisan serve --host=0.0.0.0 --port=${PORT:-8000}'
