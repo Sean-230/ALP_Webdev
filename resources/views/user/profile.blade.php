@@ -144,7 +144,7 @@
                                 <i class="bi bi-shield-lock me-2"></i>Update Password
                             </h5>
 
-                            <form method="POST" action="{{ route('password.update') }}">
+                            <form method="POST" action="{{ route('profile.password.update') }}">
                                 @csrf
                                 @method('PUT')
 

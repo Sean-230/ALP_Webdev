@@ -61,7 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/verify-email', [ProfileController::class, 'verifyEmail'])->name('profile.verifyEmail');
-    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
+    // Password update route - using custom implementation
+    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
     Route::post('/profile/apply-manager', [ProfileController::class, 'applyForManager'])->name('profile.applyManager');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -108,4 +109,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/users/{id}/revoke-manager', [\App\Http\Controllers\AdminController::class, 'revokeEventManager'])->name('admin.users.revoke-manager');
 });
 
-require __DIR__ . '/auth.php';
+// Auth routes are handled by Laravel Fortify - see config/fortify.php
+// require __DIR__ . '/auth.php';
