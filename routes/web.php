@@ -5,6 +5,15 @@ use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+// TEMPORARY: Run migrations once then delete this route
+Route::get('/setup-database-now', function () {
+    if (app()->environment('production')) {
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true, '--seed' => true]);
+        return '<pre>' . \Illuminate\Support\Facades\Artisan::output() . '</pre><br>Done! Now delete this route from web.php';
+    }
+    return 'Only works in production';
+});
+
 // Public Routes
 Route::get('/', function () {
     $upcomingEvent = \App\Models\Event::with(['category', 'eventRegisters'])
