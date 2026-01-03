@@ -2,7 +2,7 @@
 
 .hero-section {
     position: relative;
-    background-image: url('../images/Festivo_Home_Background1.jpg');
+    background-image: url('/images/Festivo_Home_Background1.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
