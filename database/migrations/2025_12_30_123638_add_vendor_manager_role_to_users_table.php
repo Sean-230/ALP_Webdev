@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Modify the role enum to include vendorManager
-        DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('user', 'eventManager', 'vendorManager', 'admin') DEFAULT 'user'");
+        // Check if using MySQL, otherwise skip (SQLite doesn't support MODIFY)
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('user', 'eventManager', 'vendorManager', 'admin') DEFAULT 'user'");
+        }
     }
 
     /**
@@ -21,6 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         // Revert back to the original enum values
-        DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('user', 'eventManager', 'admin') DEFAULT 'user'");
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('user', 'eventManager', 'admin') DEFAULT 'user'");
+        }
     }
 };

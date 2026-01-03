@@ -1,0 +1,11 @@
+nixpkgs.php83
+nixpkgs.php83Extensions.mbstring
+nixpkgs.php83Extensions.pdo
+nixpkgs.php83Extensions.pdo_mysql
+nixpkgs.php83Extensions.openssl
+nixpkgs.php83Extensions.tokenizer
+nixpkgs.php83Extensions.xml
+nixpkgs.php83Extensions.ctype
+nixpkgs.php83Extensions.fileinfo
+nixpkgs.composer
+nixpkgs.nodejs_20
