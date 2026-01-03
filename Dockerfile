@@ -36,9 +36,9 @@ RUN npm ci && npm run build
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Configure Nginx
+# Configure Nginx - use PORT env variable
 RUN echo 'server {\n\
-    listen 80;\n\
+    listen ${PORT:-8080};\n\
     server_name _;\n\
     root /var/www/html/public;\n\
     index index.php;\n\
@@ -54,13 +54,15 @@ RUN echo 'server {\n\
     location ~ /\.(?!well-known).* {\n\
         deny all;\n\
     }\n\
-}' > /etc/nginx/sites-available/default
+}' > /etc/nginx/sites-available/default.template
 
-# Create startup script (don't run migrate on every restart to avoid crashes)
+# Create startup script that substitutes PORT variable
 RUN echo '#!/bin/bash\n\
+set -e\n\
+envsubst \"\\$PORT\" < /etc/nginx/sites-available/default.template > /etc/nginx/sites-available/default\n\
 php-fpm -D\n\
 nginx -g "daemon off;"' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
-EXPOSE 80
+EXPOSE ${PORT:-8080}
 
 CMD ["/usr/local/bin/start.sh"]
