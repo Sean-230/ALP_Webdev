@@ -39,7 +39,7 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Configure Nginx - use PORT env variable
 RUN echo 'server {\n\
-    listen ${PORT:-8080};\n\
+    listen $PORT;\n\
     server_name _;\n\
     root /var/www/html/public;\n\
     index index.php;\n\
@@ -60,17 +60,17 @@ RUN echo 'server {\n\
 # Create startup script that substitutes PORT variable
 RUN echo '#!/bin/bash\n\
 set -e\n\
-echo "Starting application..."\n\
-echo "PORT is: ${PORT}"\n\
+export PORT=${PORT:-8080}\n\
+echo "Starting application on port $PORT..."\n\
 envsubst \"\\$PORT\" < /etc/nginx/sites-available/default.template > /etc/nginx/sites-available/default\n\
-echo "Nginx config generated"\n\
+echo "Nginx config:"\n\
 cat /etc/nginx/sites-available/default\n\
 php-fpm -D\n\
-echo "PHP-FPM started"\n\
+echo "PHP-FPM started on 127.0.0.1:9000"\n\
 nginx -t\n\
-echo "Starting Nginx..."\n\
+echo "Starting Nginx on port $PORT..."\n\
 nginx -g "daemon off;"' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
-EXPOSE ${PORT:-8080}
+EXPOSE 8080
 
 CMD ["/usr/local/bin/start.sh"]
