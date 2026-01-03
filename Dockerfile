@@ -1,119 +1,103 @@
-# Use PHP 8.4 FPM
-FROM php:8.4-fpm
+FROM php:8.2-fpm
 
-# Install system dependencies and Nginx
+# Install dependencies
 RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    unzip \
     git \
     curl \
-    libpng-dev \
     libonig-dev \
     libxml2-dev \
-    zip \
-    unzip \
+    libzip-dev \
     nginx \
-    nodejs \
-    npm \
-    gettext-base
+    supervisor
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy composer
+# Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy application files
-COPY . /var/www/html
+# Set working directory
+WORKDIR /var/www
 
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Remove default nginx config
+RUN rm /etc/nginx/sites-enabled/default
 
-# Install Node dependencies and build assets
-RUN npm ci && npm run build
+# Copy application
+COPY . /var/www
+RUN chown -R www-data:www-data /var/www
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Install composer dependencies
+RUN composer install --optimize-autoloader --no-dev
 
-# Configure PHP-FPM to listen on TCP socket instead of Unix socket
+# Create nginx config
+COPY <<EOF /etc/nginx/sites-available/laravel
+server {
+    listen 8080;
+    index index.php index.html;
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+    root /var/www/public;
+    
+    location ~ \.php$ {
+        try_files \$uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        fastcgi_param PATH_INFO \$fastcgi_path_info;
+    }
+    
+    location / {
+        try_files \$uri \$uri/ /index.php?\$query_string;
+        gzip_static on;
+    }
+}
+EOF
+
+RUN ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/
+
+# Configure PHP-FPM
 RUN sed -i 's/listen = .*/listen = 127.0.0.1:9000/' /usr/local/etc/php-fpm.d/www.conf
 
-# Configure Nginx
-RUN echo 'server {\n\
-    listen $PORT;\n\
-    server_name _;\n\
-    root /var/www/html/public;\n\
-    index index.php;\n\
-    \n\
-    add_header X-Frame-Options "SAMEORIGIN";\n\
-    add_header X-Content-Type-Options "nosniff";\n\
-    \n\
-    charset utf-8;\n\
-    \n\
-    location / {\n\
-        try_files $uri $uri/ /index.php?$query_string;\n\
-    }\n\
-    \n\
-    location = /favicon.ico { access_log off; log_not_found off; }\n\
-    location = /robots.txt  { access_log off; log_not_found off; }\n\
-    \n\
-    error_page 404 /index.php;\n\
-    \n\
-    location ~ \.php$ {\n\
-        fastcgi_pass 127.0.0.1:9000;\n\
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;\n\
-        include fastcgi_params;\n\
-        fastcgi_read_timeout 300;\n\
-    }\n\
-    \n\
-    location ~ /\.(?!well-known).* {\n\
-        deny all;\n\
-    }\n\
-}' > /etc/nginx/sites-available/default.template
+# Create supervisor config
+COPY <<EOF /etc/supervisor/conf.d/supervisord.conf
+[supervisord]
+nodaemon=true
+user=root
+logfile=/var/log/supervisor/supervisord.log
+pidfile=/var/run/supervisord.pid
 
-# Create startup script
-RUN echo '#!/bin/bash\n\
-set -e\n\
-export PORT=${PORT:-8080}\n\
-echo "========================================"\n\
-echo "Starting Laravel Application"\n\
-echo "Port: $PORT"\n\
-echo "========================================"\n\
-\n\
-# Substitute PORT in nginx config\n\
-envsubst \"\\$PORT\" < /etc/nginx/sites-available/default.template > /etc/nginx/sites-available/default\n\
-\n\
-echo "Nginx Configuration:"\n\
-cat /etc/nginx/sites-available/default\n\
-echo "========================================"\n\
-\n\
-# Start PHP-FPM\n\
-echo "Starting PHP-FPM..."\n\
-php-fpm -D\n\
-sleep 2\n\
-\n\
-# Verify PHP-FPM is listening\n\
-if netstat -tuln | grep 9000; then\n\
-    echo "PHP-FPM is listening on port 9000"\n\
-else\n\
-    echo "ERROR: PHP-FPM is not listening on port 9000"\n\
-    exit 1\n\
-fi\n\
-\n\
-# Test nginx config\n\
-echo "Testing Nginx configuration..."\n\
-nginx -t\n\
-\n\
-# Start Nginx\n\
-echo "Starting Nginx on port $PORT..."\n\
-echo "========================================"\n\
-nginx -g "daemon off;"' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
+[program:php-fpm]
+command=/usr/local/sbin/php-fpm -F
+autostart=true
+autorestart=true
+priority=5
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
 
-# Install netstat for debugging
-RUN apt-get install -y net-tools
+[program:nginx]
+command=/usr/sbin/nginx -g 'daemon off;'
+autostart=true
+autorestart=true
+priority=10
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+EOF
 
 EXPOSE 8080
 
-CMD ["/usr/local/bin/start.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
