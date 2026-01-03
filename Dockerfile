@@ -1,7 +1,7 @@
-# Use PHP 8.4 with Apache
-FROM php:8.4-apache
+# Use PHP 8.4 FPM
+FROM php:8.4-fpm
 
-# Install system dependencies
+# Install system dependencies and Nginx
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -10,15 +10,12 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
+    nginx \
     nodejs \
     npm
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
-
-# Enable Apache mod_rewrite and disable conflicting MPMs
-RUN a2enmod rewrite
-RUN a2dismod mpm_event && a2enmod mpm_prefork
 
 # Set working directory
 WORKDIR /var/www/html
@@ -39,10 +36,25 @@ RUN npm ci && npm run build
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Configure Apache DocumentRoot to point to public directory
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Configure Nginx
+RUN echo 'server {\n\
+    listen 80;\n\
+    server_name _;\n\
+    root /var/www/html/public;\n\
+    index index.php;\n\
+    location / {\n\
+        try_files $uri $uri/ /index.php?$query_string;\n\
+    }\n\
+    location ~ \.php$ {\n\
+        fastcgi_pass 127.0.0.1:9000;\n\
+        fastcgi_index index.php;\n\
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;\n\
+        include fastcgi_params;\n\
+    }\n\
+    location ~ /\.(?!well-known).* {\n\
+        deny all;\n\
+    }\n\
+}' > /etc/nginx/sites-available/default
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
@@ -50,7 +62,8 @@ php artisan config:cache\n\
 php artisan route:cache\n\
 php artisan view:cache\n\
 php artisan migrate --force\n\
-apache2-foreground' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
+php-fpm -D\n\
+nginx -g "daemon off;"' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
 EXPOSE 80
 
