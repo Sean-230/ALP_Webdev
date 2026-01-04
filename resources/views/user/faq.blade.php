@@ -15,12 +15,8 @@
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <h1 class="display-3 fw-bold mb-4">Frequently Asked Questions</h1>
                     <p class="fs-5 mb-4 opacity-90">
-                        Find answers to common questions about Festivo. Can't find what you're looking for?
-                        Contact our support team.
+                        Find answers to common questions about Festivo.
                     </p>
-                    <a href="/contact" class="btn btn-light btn-lg px-4 py-3">
-                        <i class="bi bi-headset me-2"></i>Contact Support
-                    </a>
                 </div>
                 <div class="col-lg-6">
                     <div class="faq-hero-illustration">
