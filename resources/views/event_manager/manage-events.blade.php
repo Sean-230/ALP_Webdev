@@ -343,109 +343,46 @@
 
                 <!-- Q&A Tab -->
                 <div class="tab-pane fade" id="qna" role="tabpanel" aria-labelledby="qna-tab">
-                    <div class="container-fluid p-4">
-                        <div class="row g-4">
-                            <!-- Debug Info (Remove after testing) -->
-                            <div class="col-12">
-                                <div class="alert alert-warning" style="font-size: 1.2rem; font-weight: bold;">
-                                    <strong>🔍 Debug:</strong>
-                                    @if(isset($allQnas))
-                                        Total Q&A found: {{ $allQnas->count() }}
-                                        @if($allQnas->count() === 0 && $events->count() > 0)
-                                            <br>You have {{ $events->count() }} event(s) but no questions yet.
-                                        @elseif($events->count() === 0)
-                                            <br>You haven't created any events yet.
-                                        @endif
-                                    @else
-                                        <span class="text-danger">ERROR: $allQnas variable is not set!</span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            @if(isset($allQnas))
-                                @forelse($allQnas as $qna)
-                            <div class="col-12">
-                                <div class="card shadow-sm">
+                    <h1 style="color: red; padding: 30px; font-size: 2rem;">TEST - Q&A TAB IS LOADING</h1>
+                    
+                    <div class="p-4">
+                        <h2>Debug: {{ isset($allQnas) ? $allQnas->count() : 'NOT SET' }} questions found</h2>
+                        
+                        @if(isset($allQnas) && $allQnas->count() > 0)
+                            @foreach($allQnas as $qna)
+                                <div class="card mb-3 shadow-sm">
                                     <div class="card-body">
-                                        <!-- Event Info -->
                                         <div class="mb-3 pb-3 border-bottom">
-                                            <span class="badge" style="background-color: #360185;">
+                                            <span class="badge bg-primary">
                                                 <i class="bi bi-calendar-event me-1"></i>{{ $qna->event->name }}
                                             </span>
-                                            <small class="text-muted ms-2">
-                                                <i class="bi bi-calendar3"></i>
-                                                {{ \Carbon\Carbon::parse($qna->event->event_date)->format('M d, Y') }}
-                                            </small>
                                         </div>
-
-                                        <!-- Question -->
+                                        
                                         <div class="mb-3">
-                                            <div class="d-flex align-items-start mb-2">
-                                                <div class="rounded-circle d-flex align-items-center justify-content-center me-2"
-                                                    style="width: 40px; height: 40px; background: linear-gradient(135deg, #360185 0%, #8F0177 100%); color: white; font-weight: 600; flex-shrink: 0;">
-                                                    {{ substr($qna->user->name, 0, 2) }}
-                                                </div>
-                                                <div class="flex-grow-1">
-                                                    <strong style="color: #360185;">{{ $qna->user->name }}</strong>
-                                                    <small class="text-muted d-block">{{ $qna->created_at->diffForHumans() }}</small>
-                                                </div>
-                                                @if(!$qna->answer)
-                                                    <span class="badge bg-warning">Unanswered</span>
-                                                @else
-                                                    <span class="badge bg-success">Answered</span>
-                                                @endif
-                                            </div>
-                                            <p class="mb-0 ms-5" style="font-size: 1.05rem;">{{ $qna->question }}</p>
+                                            <strong style="color: #360185;">{{ $qna->user->name }}</strong>
+                                            <p class="mt-2">{{ $qna->question }}</p>
                                         </div>
-
-                                        <!-- Answer Section -->
+                                        
                                         @if($qna->answer)
-                                            <div class="ms-5 p-3" style="background-color: #f8f9fa; border-radius: 8px; border-left: 3px solid #F4B342;">
-                                                <div class="mb-2">
-                                                    <i class="bi bi-reply-fill me-2" style="color: #F4B342;"></i>
-                                                    <strong style="color: #8F0177;">Your Answer</strong>
-                                                    <small class="text-muted d-block ms-4">{{ $qna->answered_at->diffForHumans() }}</small>
-                                                </div>
-                                                <p class="mb-0 ms-4">{{ $qna->answer }}</p>
+                                            <div class="p-3 bg-light rounded">
+                                                <strong>Your Answer:</strong>
+                                                <p class="mb-0">{{ $qna->answer }}</p>
                                             </div>
                                         @else
-                                            <!-- Answer Form -->
-                                            <form action="{{ route('events.qna.answer', $qna->id) }}" method="POST" class="ms-5">
+                                            <form action="{{ route('events.qna.answer', $qna->id) }}" method="POST">
                                                 @csrf
-                                                <div class="mb-3">
-                                                    <label for="answer-{{ $qna->id }}" class="form-label fw-semibold" style="color: #360185;">
-                                                        <i class="bi bi-reply me-1"></i>Your Answer
-                                                    </label>
-                                                    <textarea name="answer" id="answer-{{ $qna->id }}" class="form-control" rows="3" 
-                                                        placeholder="Type your answer here..." required
-                                                        style="border: 2px solid #360185; border-radius: 10px;"></textarea>
-                                                </div>
-                                                <button type="submit" class="btn" 
-                                                    style="background-color: #360185; color: white; font-weight: 600; border-radius: 10px;">
-                                                    <i class="bi bi-send me-2"></i>Submit Answer
-                                                </button>
+                                                <textarea name="answer" class="form-control mb-2" rows="3" required></textarea>
+                                                <button type="submit" class="btn btn-primary">Submit Answer</button>
                                             </form>
                                         @endif
                                     </div>
                                 </div>
-                            </div>
-                        @empty
-                            <div class="col-12">
-                                <div class="text-center py-5">
-                                    <i class="bi bi-chat-dots" style="font-size: 4rem; color: #dee2e6;"></i>
-                                    <h4 class="mt-3" style="color: #360185;">No Questions Yet</h4>
-                                    <p class="text-muted">Questions from attendees will appear here.</p>
-                                </div>
-                            </div>
-                        @endforelse
+                            @endforeach
                         @else
-                            <div class="col-12">
-                                <div class="alert alert-danger">
-                                    <strong>Error:</strong> Unable to load Q&A data. Please refresh the page.
-                                </div>
+                            <div class="alert alert-info">
+                                No Q&A found. Total: {{ isset($allQnas) ? $allQnas->count() : '0' }}
                             </div>
                         @endif
-                        </div>
                     </div>
                 </div>
             </div>
