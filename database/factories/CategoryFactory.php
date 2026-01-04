@@ -29,7 +29,7 @@ class CategoryFactory extends Factory
             'Trade Show' => 'images/Trade_Show.jpg'
         ];
 
-        $categoryName = fake()->unique()->randomElement(array_keys($categories));
+        $categoryName = $this->faker->unique()->randomElement(array_keys($categories));
 
         return [
             'name' => $categoryName,

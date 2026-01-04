@@ -16,8 +16,9 @@ RUN apt-get update && apt-get install -y \
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable Apache mod_rewrite and disable conflicting MPMs
+RUN a2dismod mpm_event mpm_worker || true
+RUN a2enmod mpm_prefork rewrite
 
 # Set working directory
 WORKDIR /var/www/html
@@ -60,8 +61,6 @@ php artisan cache:clear\n\
 php artisan view:clear\n\
 echo "Running migrations..."\n\
 php artisan migrate --force\n\
-echo "Seeding database..."\n\
-php artisan db:seed --force || echo "Seeding failed or already seeded"\n\
 echo "Starting Apache..."\n\
 apache2-foreground' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
