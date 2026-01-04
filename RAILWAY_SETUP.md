@@ -2,30 +2,25 @@
 
 ## Required Environment Variables
 
-Set these in your Railway project settings:
+Set these in your Railway project settings (Laravel service → Variables):
 
 ### Application
 ```
 APP_ENV=production
 APP_DEBUG=false
 APP_KEY=base64:p7U2CQzD7doCPmlMFmQq61N4j0w6+lx39DSkmtohUms=
-APP_URL=https://your-app.railway.app
+APP_URL=https://festivo.up.railway.app
+ASSET_URL=https://festivo.up.railway.app
 ```
 
 ### Database (MySQL)
-If using Railway MySQL:
-```
-DATABASE_URL=${{MySQL.DATABASE_URL}}
-```
-
-Or configure individually:
 ```
 DB_CONNECTION=mysql
-DB_HOST=${{MySQL.MYSQL_HOST}}
-DB_PORT=${{MySQL.MYSQL_PORT}}
-DB_DATABASE=${{MySQL.MYSQL_DATABASE}}
-DB_USERNAME=${{MySQL.MYSQL_USER}}
-DB_PASSWORD=${{MySQL.MYSQL_PASSWORD}}
+DB_HOST=${{MySQL.MYSQLHOST}}
+DB_PORT=${{MySQL.MYSQLPORT}}
+DB_DATABASE=${{MySQL.MYSQLDATABASE}}
+DB_USERNAME=${{MySQL.MYSQLUSER}}
+DB_PASSWORD=${{MySQL.MYSQLPASSWORD}}
 ```
 
 ### Session & Cache
@@ -33,30 +28,37 @@ DB_PASSWORD=${{MySQL.MYSQL_PASSWORD}}
 SESSION_DRIVER=database
 CACHE_STORE=database
 QUEUE_CONNECTION=database
+LOG_LEVEL=error
 ```
 
-## Steps to Deploy
+## Critical: ASSET_URL Variable
 
-1. **Add MySQL Service** in Railway (if not added)
-   - Click "New" → "Database" → "Add MySQL"
+The `ASSET_URL` variable is **REQUIRED** for Vite assets to load correctly in production. 
+Without it, CSS and JS files won't load properly.
 
-2. **Set Environment Variables**
-   - Go to your Laravel service → "Variables"
-   - Add all variables listed above
-   - Railway will automatically provide MySQL variables
+Set it to your Railway app URL: `https://festivo.up.railway.app` (or your actual domain)
 
-3. **Deploy**
-   - Push your code to the connected branch
-   - Railway will automatically build and deploy
-   - Database migrations will run automatically on startup
+## Verification Steps
 
-4. **Verify Deployment**
-   - Check Deploy Logs for any errors
-   - Access your app URL
-   - If 502 error persists, check the logs for specific errors
+After deployment, check Deploy Logs for these confirmations:
 
-## Common Issues
+1. ✅ Vite Build Complete - should show `public/build/` directory
+2. ✅ CSS files present - should show `public/css/` files  
+3. ✅ Images present - should show `public/images/` files
+4. ✅ manifest.json shown - Vite manifest with asset mappings
 
-- **502 Bad Gateway**: Check if DATABASE_URL is set and MySQL is running
-- **Missing CSS/JS**: Assets are built during Docker build (already configured)
-- **Database errors**: Ensure MySQL service is running and connected
+## Troubleshooting
+
+### CSS Not Loading
+- Verify `ASSET_URL` is set in Railway variables
+- Check Deploy Logs show "=== Checking Build Assets ===" section
+- Ensure `public/build/manifest.json` is present in logs
+
+### Images Not Loading  
+- Check if images exist in `public/images/` in Deploy Logs
+- Verify paths in blade templates use `asset('images/...')`
+
+### Database Connection Issues
+- Ensure MySQL service is running
+- Verify all DB_* variables reference MySQL service correctly
+- Check migrations completed in Deploy Logs

@@ -62,11 +62,20 @@ EXPOSE 8000
 CMD echo "=== RAILWAY STARTUP ===" && \
     echo "PORT: ${PORT:-8000}" && \
     echo "APP_ENV: ${APP_ENV:-production}" && \
+    echo "=== Clearing Caches ===" && \
     php artisan config:clear && \
     php artisan route:clear && \
     php artisan view:clear && \
+    php artisan cache:clear && \
     echo "=== Checking Build Assets ===" && \
     ls -la public/build/ && \
+    ls -la public/css/ && \
+    ls -la public/images/ && \
+    cat public/build/manifest.json && \
+    echo "=== Caching for Production ===" && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache && \
     echo "=== Starting migrations in background ===" && \
     (php artisan migrate --force 2>&1 || echo "Migration skipped") & \
     echo "=== Starting Laravel Server ===" && \
