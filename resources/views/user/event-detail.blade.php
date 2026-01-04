@@ -204,7 +204,7 @@
 
                         <!-- Q&A List -->
                         <div class="qna-list">
-                            @forelse($event->qnas()->with('user')->latest('created_at')->get() as $qna)
+                            @forelse($event->qnas->sortByDesc('created_at') as $qna)
                                 <div class="qna-item mb-4 p-3" style="background-color: #f8f9fa; border-radius: 10px; border-left: 4px solid #360185;">
                                     <!-- Question -->
                                     <div class="mb-3">

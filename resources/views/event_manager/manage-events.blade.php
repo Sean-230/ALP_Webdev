@@ -55,13 +55,8 @@
                 <button class="nav-link" id="qna-tab" data-bs-toggle="tab" data-bs-target="#qna"
                     type="button" role="tab" aria-controls="qna" aria-selected="false">
                     <i class="bi bi-chat-left-text tab-icon"></i>Q&A
-                    @php
-                        $unansweredQna = \App\Models\Qna::whereHas('event', function($q) {
-                            $q->where('user_id', Auth::id());
-                        })->whereNull('answer')->count();
-                    @endphp
-                    @if ($unansweredQna > 0)
-                        <span class="badge bg-warning ms-2">{{ $unansweredQna }}</span>
+                    @if ($unansweredQnaCount > 0)
+                        <span class="badge bg-warning ms-2">{{ $unansweredQnaCount }}</span>
                     @endif
                 </button>
             </li>

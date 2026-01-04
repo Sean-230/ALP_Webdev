@@ -47,7 +47,7 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $event = Event::with(['category', 'performers', 'vendors', 'registrations'])
+        $event = Event::with(['category', 'performers', 'vendors', 'registrations', 'qnas.user'])
             ->findOrFail($id);
         
         return view('user.event-detail', compact('event'));

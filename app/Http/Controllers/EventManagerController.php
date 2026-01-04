@@ -9,6 +9,7 @@ use App\Models\Vendor;
 use App\Models\EventPerformer;
 use App\Models\EventVendor;
 use App\Models\EventRegister;
+use App\Models\Qna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -42,7 +43,12 @@ class EventManagerController extends Controller
             'total' => EventRegister::whereIn('event_id', $eventIds)->count(),
         ];
 
-        return view('event_manager.manage-events', compact('events', 'pendingPayments', 'paymentStats'));
+        // Get unanswered Q&A count for this event manager's events
+        $unansweredQnaCount = Qna::whereIn('event_id', $eventIds)
+            ->whereNull('answer')
+            ->count();
+
+        return view('event_manager.manage-events', compact('events', 'pendingPayments', 'paymentStats', 'unansweredQnaCount'));
     }
 
     /**
