@@ -292,7 +292,7 @@
                                     style="background-color: #F4B342; color: #360185; font-weight: 600; border: none; border-radius: 10px; transition: all 0.3s ease;"
                                     onmouseover="this.style.backgroundColor='#360185'; this.style.color='white';"
                                     onmouseout="this.style.backgroundColor='#F4B342'; this.style.color='#360185';">
-                                    <i class="bi bi-box-arrow-in-right me-2"></i>Login to Register
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Login to Purchase Tickets
                                 </a>
                             @endauth
 

@@ -112,7 +112,12 @@ class EventController extends Controller
             
             $whatsappUrl = "https://wa.me/{$phoneNumber}?text=" . urlencode($message);
             
-            return redirect($whatsappUrl);
+            // Return a view that opens WhatsApp in a new tab and redirects back
+            return view('user.whatsapp-redirect', [
+                'whatsappUrl' => $whatsappUrl,
+                'event' => $event,
+                'message' => 'Registration successful! Opening WhatsApp to contact the event manager...'
+            ]);
         }
         
         return redirect()->back()->with('success', 'Registration submitted! Please contact the event manager for payment confirmation.');
