@@ -45,9 +45,9 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
-php artisan config:cache\n\
-php artisan route:cache\n\
-php artisan view:cache\n\
+php artisan config:clear\n\
+php artisan cache:clear\n\
+php artisan view:clear\n\
 php artisan migrate --force\n\
 apache2-foreground' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
