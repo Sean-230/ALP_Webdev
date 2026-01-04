@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
         // Force HTTPS in production
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
+            
+            // Fix session cookie domain for Railway
+            config(['session.domain' => parse_url(config('app.url'), PHP_URL_HOST)]);
         }
 
         // Share data with all views
