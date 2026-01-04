@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Share data with all views
         view()->composer('*', function ($view) {
-            if (auth()->check()) {
-                $pendingApplication = \App\Models\ManagerApplication::where('user_id', auth()->id())
+            if (Auth::check()) {
+                $pendingApplication = \App\Models\ManagerApplication::where('user_id', Auth::id())
                     ->where('status', 'pending')
                     ->first();
                 $view->with('userPendingApplication', $pendingApplication);
