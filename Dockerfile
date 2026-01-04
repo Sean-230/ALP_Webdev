@@ -62,8 +62,8 @@ RUN npm run build && \
 # Ensure build directory has correct permissions
 RUN chmod -R 755 public/build
 
-# Set permissions
-RUN chmod -R 755 /app/storage /app/bootstrap/cache
+# Set storage permissions (777 for Railway to ensure sessions work)
+RUN chmod -R 777 /app/storage /app/bootstrap/cache
 
 # Expose port
 EXPOSE 8000
