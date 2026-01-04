@@ -15,7 +15,7 @@
                 <div class="col-lg-8 mx-auto text-center">
                     <p class="text-muted mb-3 text-uppercase"
                         style="letter-spacing: 2px; font-weight: 500; font-size: 0.9rem;">
-                        Host events — without losing your mind.
+                        Host events — without losing your mind omg.
                     </p>
                     <h1 class="display-3 fw-bold mb-4 lh-sm" style="color: #360185; font-size: 3.5rem;">
                         Plan and launch your event with confidence.
