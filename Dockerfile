@@ -54,24 +54,48 @@ RUN chown -R www-data:www-data /var/www \
 COPY <<EOF /etc/nginx/sites-available/laravel
 server {
     listen \${PORT};
+    server_name _;
+    root /var/www/public;
     index index.php index.html;
+    
     error_log  /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
-    root /var/www/public;
     
+    # Serve static files directly
+    location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot|map)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+        try_files \$uri =404;
+    }
+    
+    # Serve build assets (Vite)
+    location /build/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+        try_files \$uri =404;
+    }
+    
+    # PHP files
     location ~ \.php$ {
         try_files \$uri =404;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass 127.0.0.1:9000;
         fastcgi_index index.php;
-        include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
         fastcgi_param PATH_INFO \$fastcgi_path_info;
+        include fastcgi_params;
     }
     
+    # All other requests
     location / {
         try_files \$uri \$uri/ /index.php?\$query_string;
-        gzip_static on;
+    }
+    
+    # Deny access to hidden files
+    location ~ /\. {
+        deny all;
     }
 }
 EOF
@@ -83,11 +107,29 @@ set -e
 
 cd /var/www
 
+echo "=== RAILWAY STARTUP ==="
+echo "PORT: ${PORT:-8080}"
+echo "APP_ENV: ${APP_ENV:-production}"
+
 # Set default PORT if not provided
 export PORT=${PORT:-8080}
 
 # Replace PORT placeholder in nginx config
 envsubst '$PORT' < /etc/nginx/sites-available/laravel > /etc/nginx/sites-enabled/laravel
+
+# Verify built assets exist
+echo "=== Checking Vite Build Files ==="
+if [ -d "public/build" ]; then
+    ls -la public/build/
+    if [ -f "public/build/manifest.json" ]; then
+        echo "manifest.json found:"
+        cat public/build/manifest.json
+    else
+        echo "WARNING: manifest.json not found!"
+    fi
+else
+    echo "WARNING: public/build directory not found!"
+fi
 
 # Clear any old cached config from build
 php artisan config:clear
@@ -100,9 +142,11 @@ php artisan view:cache
 
 # Run Laravel migrations (if DB connection is available)
 if [ ! -z "$DB_HOST" ] || [ ! -z "$DATABASE_URL" ]; then
+    echo "=== Running Migrations ==="
     php artisan migrate --force || echo "Migration failed or no database connection"
 fi
 
+echo "=== Starting Services ==="
 # Start supervisor
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 EOF
