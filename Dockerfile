@@ -49,6 +49,7 @@ php artisan config:clear\n\
 php artisan cache:clear\n\
 php artisan view:clear\n\
 php artisan migrate --force\n\
+php artisan db:seed --force\n\
 apache2-foreground' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
 EXPOSE 80
