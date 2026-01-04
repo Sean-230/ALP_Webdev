@@ -62,6 +62,11 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
+        // Check if email is verified
+        if (!$user->hasVerifiedEmail()) {
+            return Redirect::route('profile.edit')->with('error', 'You must verify your email before applying for manager role.');
+        }
+
         // Check if already a manager or admin
         if (in_array($user->role, ['eventManager', 'vendorManager', 'admin'])) {
             return Redirect::route('profile.edit')->with('error', 'You already have manager or admin privileges.');
