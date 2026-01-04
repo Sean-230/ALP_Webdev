@@ -96,6 +96,25 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="phone_number" class="form-label small fw-semibold">
+                                        <i class="bi bi-telephone me-1"></i>Phone Number
+                                    </label>
+                                    <input type="tel"
+                                        class="form-control form-control-sm @error('phone_number') is-invalid @enderror"
+                                        id="phone_number" name="phone_number" 
+                                        value="{{ old('phone_number', Auth::user()->phone_number) }}"
+                                        placeholder="+1234567890" 
+                                        pattern="[+]?[0-9]{10,15}"
+                                        title="Enter a valid phone number (10-15 digits, optional + prefix)">
+                                    @error('phone_number')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-text small">
+                                        <i class="bi bi-info-circle me-1"></i>Required for account verification
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="email" class="form-label small fw-semibold">
                                         <i class="bi bi-envelope me-1"></i>Email Address
                                     </label>

@@ -39,7 +39,16 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $validated = $request->validated();
+        
+        // Validate phone_number if provided
+        if (isset($validated['phone_number'])) {
+            $request->validate([
+                'phone_number' => ['nullable', 'regex:/^[+]?[0-9]{10,15}$/']
+            ]);
+        }
+        
+        $request->user()->fill($validated);
 
         // Only reset email verification if email is actually changed
         if ($request->user()->isDirty('email')) {
@@ -120,6 +129,11 @@ class ProfileController extends Controller
         
         if ($user->hasVerifiedEmail()) {
             return Redirect::route('profile.edit')->with('error', 'Your email is already verified.');
+        }
+        
+        // Check if phone number is provided
+        if (empty($user->phone_number)) {
+            return Redirect::route('profile.edit')->with('error', 'Please add a valid phone number before verifying your account.');
         }
         
         // Mark email as verified without sending actual email
