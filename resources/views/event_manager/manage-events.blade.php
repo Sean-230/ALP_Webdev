@@ -343,47 +343,25 @@
 
                 <!-- Q&A Tab -->
                 <div class="tab-pane fade" id="qna" role="tabpanel" aria-labelledby="qna-tab">
-                    <h1 style="color: red; padding: 30px; font-size: 2rem;">TEST - Q&A TAB IS LOADING</h1>
+                    HELLO THIS IS THE QNA TAB!!!
+                    <br><br>
+                    Testing: {{ $allQnas->count() ?? 'ERROR' }}
+                    <br><br>
                     
-                    <div class="p-4">
-                        <h2>Debug: {{ isset($allQnas) ? $allQnas->count() : 'NOT SET' }} questions found</h2>
-                        
-                        @if(isset($allQnas) && $allQnas->count() > 0)
-                            @foreach($allQnas as $qna)
-                                <div class="card mb-3 shadow-sm">
-                                    <div class="card-body">
-                                        <div class="mb-3 pb-3 border-bottom">
-                                            <span class="badge bg-primary">
-                                                <i class="bi bi-calendar-event me-1"></i>{{ $qna->event->name }}
-                                            </span>
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <strong style="color: #360185;">{{ $qna->user->name }}</strong>
-                                            <p class="mt-2">{{ $qna->question }}</p>
-                                        </div>
-                                        
-                                        @if($qna->answer)
-                                            <div class="p-3 bg-light rounded">
-                                                <strong>Your Answer:</strong>
-                                                <p class="mb-0">{{ $qna->answer }}</p>
-                                            </div>
-                                        @else
-                                            <form action="{{ route('events.qna.answer', $qna->id) }}" method="POST">
-                                                @csrf
-                                                <textarea name="answer" class="form-control mb-2" rows="3" required></textarea>
-                                                <button type="submit" class="btn btn-primary">Submit Answer</button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="alert alert-info">
-                                No Q&A found. Total: {{ isset($allQnas) ? $allQnas->count() : '0' }}
-                            </div>
-                        @endif
-                    </div>
+                    @foreach($allQnas as $index => $qna)
+                        <div style="border: 2px solid red; padding: 20px; margin: 10px; background: yellow;">
+                            <h3>Question #{{ $index + 1 }}</h3>
+                            <p><strong>From:</strong> {{ $qna->user->name }}</p>
+                            <p><strong>Event:</strong> {{ $qna->event->name }}</p>
+                            <p><strong>Question:</strong> {{ $qna->question }}</p>
+                            <hr>
+                            @if($qna->answer)
+                                <p><strong>Answer:</strong> {{ $qna->answer }}</p>
+                            @else
+                                <p style="color: red;">NOT ANSWERED YET</p>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
