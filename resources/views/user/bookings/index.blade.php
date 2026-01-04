@@ -88,14 +88,19 @@
                                                     <i class="bi bi-file-earmark-pdf me-2"></i>View Ticket
                                                 </button>
                                             @else
-                                                <button class="btn-view-ticket" disabled>
-                                                    <i class="bi bi-file-earmark-pdf me-2"></i>
-                                                    @if($booking->payment_status == 'pending')
-                                                        Awaiting Approval
-                                                    @else
-                                                        Not Available
-                                                    @endif
-                                                </button>
+                                                <div class="d-flex flex-column gap-2">
+                                                    <button class="btn-view-ticket" disabled>
+                                                        <i class="bi bi-file-earmark-pdf me-2"></i>
+                                                        @if($booking->payment_status == 'pending')
+                                                            Awaiting Approval
+                                                        @else
+                                                            Not Available
+                                                        @endif
+                                                    </button>
+                                                    <a href="{{ route('events.show', $booking->event->id) }}" class="btn-view-ticket text-center">
+                                                        <i class="bi bi-calendar-event me-2"></i>View Event
+                                                    </a>
+                                                </div>
                                             @endif
                                         </div>
                                     </div>
