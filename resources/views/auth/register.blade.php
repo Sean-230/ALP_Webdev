@@ -1,5 +1,10 @@
 <x-guest-layout>
     @section('body-class', 'register-page')
+    <div class="mb-3">
+        <a href="{{ route('home') }}" class="btn btn-link text-decoration-none p-0">
+            <i class="bi bi-arrow-left me-2"></i>Back to Home
+        </a>
+    </div>
     <div class="auth-card">
         <div class="auth-header">
             <div class="logo-circle">
