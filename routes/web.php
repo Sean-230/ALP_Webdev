@@ -39,6 +39,9 @@ Route::get('/events/create', [EventController::class, 'create'])->middleware(['a
 Route::post('/events/store', [EventController::class, 'store'])->middleware(['auth'])->name('events.store');
 Route::get('/events/{event}', [\App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 Route::post('/events/{event}/register', [\App\Http\Controllers\EventController::class, 'register'])->middleware(['auth', 'verified'])->name('events.register');
+Route::post('/events/{event}/proceed-to-payment', [\App\Http\Controllers\EventController::class, 'proceedToPayment'])->middleware(['auth', 'verified'])->name('events.proceedToPayment');
+Route::post('/events/{event}/qna', [\App\Http\Controllers\EventController::class, 'storeQuestion'])->middleware(['auth'])->name('events.qna.store');
+Route::post('/events/qna/{qna}/answer', [\App\Http\Controllers\EventController::class, 'storeAnswer'])->middleware(['auth'])->name('events.qna.answer');
 
 Route::get('/faq', function () {
     return view('user.faq');

@@ -28,9 +28,8 @@
                     </div>
 
                     <div class="mt-4">
-                        <p class="text-muted">Redirecting you back to the event page in <span id="countdown">3</span> seconds...</p>
                         <a href="{{ route('events.show', $event->id) }}" class="btn btn-outline-primary">
-                            <i class="bi bi-arrow-left me-2"></i>Return to Event Page Now
+                            <i class="bi bi-arrow-left me-2"></i>Return to Event Page
                         </a>
                     </div>
                 </div>
@@ -44,19 +43,5 @@
 <script>
     // Open WhatsApp in a new tab immediately
     window.open('{{ $whatsappUrl }}', '_blank');
-
-    // Countdown and redirect
-    let seconds = 3;
-    const countdownElement = document.getElementById('countdown');
-    
-    const interval = setInterval(() => {
-        seconds--;
-        countdownElement.textContent = seconds;
-        
-        if (seconds <= 0) {
-            clearInterval(interval);
-            window.location.href = '{{ route('events.show', $event->id) }}';
-        }
-    }, 1000);
 </script>
 @endpush

@@ -51,6 +51,20 @@
                     @endif
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="qna-tab" data-bs-toggle="tab" data-bs-target="#qna"
+                    type="button" role="tab" aria-controls="qna" aria-selected="false">
+                    <i class="bi bi-chat-left-text tab-icon"></i>Q&A
+                    @php
+                        $unansweredQna = \App\Models\Qna::whereHas('event', function($q) {
+                            $q->where('user_id', Auth::id());
+                        })->whereNull('answer')->count();
+                    @endphp
+                    @if ($unansweredQna > 0)
+                        <span class="badge bg-warning ms-2">{{ $unansweredQna }}</span>
+                    @endif
+                </button>
+            </li>
         </ul>
 
         <!-- Tab Content -->
@@ -331,6 +345,96 @@
                         @endif
                     </div>
                 </div>
+
+                <!-- Q&A Tab -->
+                <div class="tab-pane fade" id="qna" role="tabpanel" aria-labelledby="qna-tab">
+                    <div class="row g-4 mt-3">
+                        @php
+                            $allQnas = \App\Models\Qna::with(['event', 'user'])
+                                ->whereHas('event', function($q) {
+                                    $q->where('user_id', Auth::id());
+                                })
+                                ->orderBy('created_at', 'desc')
+                                ->get();
+                        @endphp
+
+                        @forelse($allQnas as $qna)
+                            <div class="col-12">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <!-- Event Info -->
+                                        <div class="mb-3 pb-3 border-bottom">
+                                            <span class="badge" style="background-color: #360185;">
+                                                <i class="bi bi-calendar-event me-1"></i>{{ $qna->event->name }}
+                                            </span>
+                                            <small class="text-muted ms-2">
+                                                <i class="bi bi-calendar3"></i>
+                                                {{ \Carbon\Carbon::parse($qna->event->event_date)->format('M d, Y') }}
+                                            </small>
+                                        </div>
+
+                                        <!-- Question -->
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-start mb-2">
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                                    style="width: 40px; height: 40px; background: linear-gradient(135deg, #360185 0%, #8F0177 100%); color: white; font-weight: 600; flex-shrink: 0;">
+                                                    {{ substr($qna->user->name, 0, 2) }}
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <strong style="color: #360185;">{{ $qna->user->name }}</strong>
+                                                    <small class="text-muted d-block">{{ $qna->created_at->diffForHumans() }}</small>
+                                                </div>
+                                                @if(!$qna->answer)
+                                                    <span class="badge bg-warning">Unanswered</span>
+                                                @else
+                                                    <span class="badge bg-success">Answered</span>
+                                                @endif
+                                            </div>
+                                            <p class="mb-0 ms-5" style="font-size: 1.05rem;">{{ $qna->question }}</p>
+                                        </div>
+
+                                        <!-- Answer Section -->
+                                        @if($qna->answer)
+                                            <div class="ms-5 p-3" style="background-color: #f8f9fa; border-radius: 8px; border-left: 3px solid #F4B342;">
+                                                <div class="mb-2">
+                                                    <i class="bi bi-reply-fill me-2" style="color: #F4B342;"></i>
+                                                    <strong style="color: #8F0177;">Your Answer</strong>
+                                                    <small class="text-muted d-block ms-4">{{ $qna->answered_at->diffForHumans() }}</small>
+                                                </div>
+                                                <p class="mb-0 ms-4">{{ $qna->answer }}</p>
+                                            </div>
+                                        @else
+                                            <!-- Answer Form -->
+                                            <form action="{{ route('events.qna.answer', $qna->id) }}" method="POST" class="ms-5">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="answer-{{ $qna->id }}" class="form-label fw-semibold" style="color: #360185;">
+                                                        <i class="bi bi-reply me-1"></i>Your Answer
+                                                    </label>
+                                                    <textarea name="answer" id="answer-{{ $qna->id }}" class="form-control" rows="3" 
+                                                        placeholder="Type your answer here..." required
+                                                        style="border: 2px solid #360185; border-radius: 10px;"></textarea>
+                                                </div>
+                                                <button type="submit" class="btn" 
+                                                    style="background-color: #360185; color: white; font-weight: 600; border-radius: 10px;">
+                                                    <i class="bi bi-send me-2"></i>Submit Answer
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-12">
+                                <div class="text-center py-5">
+                                    <i class="bi bi-chat-dots" style="font-size: 4rem; color: #dee2e6;"></i>
+                                    <h4 class="mt-3" style="color: #360185;">No Questions Yet</h4>
+                                    <p class="text-muted">Questions from attendees will appear here.</p>
+                                </div>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -344,6 +448,9 @@
             if (hash === '#payment-requests') {
                 const paymentTab = new bootstrap.Tab(document.getElementById('payment-requests-tab'));
                 paymentTab.show();
+            } else if (hash === '#qna') {
+                const qnaTab = new bootstrap.Tab(document.getElementById('qna-tab'));
+                qnaTab.show();
             }
         });
 
@@ -355,6 +462,8 @@
 
                 if (target === '#payment-requests') {
                     history.replaceState(null, null, '#payment-requests');
+                } else if (target === '#qna') {
+                    history.replaceState(null, null, '#qna');
                 } else {
                     history.replaceState(null, null, window.location.pathname + window.location.search);
                 }

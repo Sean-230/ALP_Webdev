@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\EventRegister;
 use App\Models\Performer;
 use App\Models\Vendor;
+use App\Models\Qna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -123,6 +124,86 @@ class EventController extends Controller
         return redirect()->back()->with('success', 'Registration submitted! Please contact the event manager for payment confirmation.');
     }
 
+    public function proceedToPayment($eventId)
+    {
+        $event = Event::with('user')->findOrFail($eventId);
+        
+        // Check if user has a pending registration
+        $registration = EventRegister::where('user_id', Auth::id())
+            ->where('event_id', $eventId)
+            ->where('payment_status', 'pending')
+            ->first();
+        
+        if (!$registration) {
+            return redirect()->back()->with('error', 'No pending registration found for this event.');
+        }
+        
+        // Get event manager's phone number
+        $eventManager = $event->user;
+        if ($eventManager && $eventManager->phone_number) {
+            // Clean phone number (remove spaces, dashes, parentheses)
+            $phoneNumber = preg_replace('/[^0-9+]/', '', $eventManager->phone_number);
+            
+            // Prepare WhatsApp message
+            $totalPrice = $event->price * $registration->ticket_qty;
+            $message = "Hi, I would like to complete payment for *{$event->name}*\n\n";
+            $message .= "📅 Event Date: " . $event->event_date->format('F d, Y g:i A') . "\n";
+            $message .= "🎫 Tickets: {$registration->ticket_qty}\n";
+            $message .= "💰 Total: Rp " . number_format($totalPrice, 0, ',', '.') . "\n\n";
+            $message .= "Please confirm my payment. Thank you!";
+            
+            $whatsappUrl = "https://wa.me/{$phoneNumber}?text=" . urlencode($message);
+            
+            // Return a view that opens WhatsApp in a new tab
+            return view('user.whatsapp-redirect', [
+                'whatsappUrl' => $whatsappUrl,
+                'event' => $event,
+                'message' => 'Opening WhatsApp to complete your payment...'
+            ]);
+        }
+        
+        return redirect()->back()->with('error', 'Event manager contact information not available.');
+    }
+storeQuestion(Request $request, $eventId)
+    {
+        $request->validate([
+            'question' => 'required|string|max:1000',
+        ]);
+
+        $event = Event::findOrFail($eventId);
+
+        Qna::create([
+            'event_id' => $eventId,
+            'user_id' => Auth::id(),
+            'question' => $request->question,
+            'created_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Your question has been submitted!');
+    }
+
+    public function storeAnswer(Request $request, $qnaId)
+    {
+        $request->validate([
+            'answer' => 'required|string|max:1000',
+        ]);
+
+        $qna = Qna::with('event')->findOrFail($qnaId);
+
+        // Check if the authenticated user is the event manager
+        if ($qna->event->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Unauthorized action.');
+        }
+
+        $qna->update([
+            'answer' => $request->answer,
+            'answered_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Answer posted successfully!');
+    }
+
+    public function 
     public function bookings()
     {
         $bookings = EventRegister::with(['event', 'user'])

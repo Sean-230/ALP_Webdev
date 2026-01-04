@@ -172,6 +172,81 @@
                             </div>
                         @endif
                     </div>
+
+                    <!-- Q&A Section -->
+                    <div class="bg-white p-4 rounded-3 shadow-sm mt-4">
+                        <h3 class="fw-bold mb-4" style="color: #360185;">
+                            <i class="bi bi-chat-left-text me-2"></i>Questions & Answers
+                        </h3>
+
+                        @auth
+                            <!-- Ask Question Form -->
+                            <form action="{{ route('events.qna.store', $event->id) }}" method="POST" class="mb-4">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="question" class="form-label fw-semibold" style="color: #360185;">Ask a Question</label>
+                                    <textarea name="question" id="question" class="form-control" rows="3" 
+                                        placeholder="Have a question about this event? Ask here..." required
+                                        style="border: 2px solid #360185; border-radius: 10px;"></textarea>
+                                </div>
+                                <button type="submit" class="btn" 
+                                    style="background-color: #360185; color: white; font-weight: 600; border-radius: 10px;">
+                                    <i class="bi bi-send me-2"></i>Submit Question
+                                </button>
+                            </form>
+                        @else
+                            <div class="alert alert-info" role="alert">
+                                <i class="bi bi-info-circle me-2"></i>Please <a href="{{ route('login') }}">login</a> to ask questions about this event.
+                            </div>
+                        @endauth
+
+                        <hr class="my-4">
+
+                        <!-- Q&A List -->
+                        <div class="qna-list">
+                            @forelse($event->qnas()->with('user')->latest('created_at')->get() as $qna)
+                                <div class="qna-item mb-4 p-3" style="background-color: #f8f9fa; border-radius: 10px; border-left: 4px solid #360185;">
+                                    <!-- Question -->
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-start mb-2">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center me-2"
+                                                style="width: 35px; height: 35px; background: linear-gradient(135deg, #360185 0%, #8F0177 100%); color: white; font-weight: 600; font-size: 0.8rem; flex-shrink: 0;">
+                                                {{ substr($qna->user->name, 0, 2) }}
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <strong style="color: #360185;">{{ $qna->user->name }}</strong>
+                                                <small class="text-muted d-block">{{ $qna->created_at->diffForHumans() }}</small>
+                                            </div>
+                                        </div>
+                                        <p class="mb-0 ms-5">{{ $qna->question }}</p>
+                                    </div>
+
+                                    <!-- Answer -->
+                                    @if($qna->answer)
+                                        <div class="ms-5 p-3" style="background-color: white; border-radius: 8px; border-left: 3px solid #F4B342;">
+                                            <div class="d-flex align-items-start mb-2">
+                                                <i class="bi bi-reply-fill me-2" style="color: #F4B342;"></i>
+                                                <div>
+                                                    <strong style="color: #8F0177;">Event Manager</strong>
+                                                    <small class="text-muted d-block">{{ $qna->answered_at->diffForHumans() }}</small>
+                                                </div>
+                                            </div>
+                                            <p class="mb-0 ms-4">{{ $qna->answer }}</p>
+                                        </div>
+                                    @else
+                                        <div class="ms-5">
+                                            <small class="text-muted"><i class="bi bi-clock me-1"></i>Awaiting response from event manager...</small>
+                                        </div>
+                                    @endif
+                                </div>
+                            @empty
+                                <div class="text-center py-4">
+                                    <i class="bi bi-chat-dots" style="font-size: 3rem; color: #dee2e6;"></i>
+                                    <p class="text-muted mt-2">No questions yet. Be the first to ask!</p>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Sidebar - Registration -->
@@ -208,11 +283,14 @@
                                         </a>
                                     </div>
                                 @elseif($userRegistered)
-                                    <div class="alert alert-success" role="alert">
-                                        <i class="bi bi-check-circle-fill me-2"></i>You're registered for this event!
+                                    <div class="alert {{ $userRegistered->payment_status == 'paid' ? 'alert-success' : 'alert-warning' }}" role="alert">
+                                        <i class="bi {{ $userRegistered->payment_status == 'paid' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill' }} me-2"></i>
+                                        <strong>{{ $userRegistered->payment_status == 'paid' ? "You're registered for this event!" : "Payment Pending" }}</strong>
                                         <div class="mt-2">
                                             <small class="d-block"><strong>Tickets:</strong>
                                                 {{ $userRegistered->ticket_qty }}</small>
+                                            <small class="d-block"><strong>Total Amount:</strong>
+                                                Rp {{ number_format($event->price * $userRegistered->ticket_qty, 0, ',', '.') }}</small>
                                             <small class="d-block"><strong>Status:</strong>
                                                 <span class="badge"
                                                     style="background-color: {{ $userRegistered->payment_status == 'paid' ? '#28a745' : '#ffc107' }};">
@@ -220,6 +298,17 @@
                                                 </span>
                                             </small>
                                         </div>
+                                        @if($userRegistered->payment_status == 'pending')
+                                            <form action="{{ route('events.proceedToPayment', $event->id) }}" method="POST" class="mt-3">
+                                                @csrf
+                                                <button type="submit" class="btn btn-lg w-100"
+                                                    style="background-color: #25D366; color: white; font-weight: 600; border: none; border-radius: 10px; transition: all 0.3s ease;"
+                                                    onmouseover="this.style.backgroundColor='#128C7E';"
+                                                    onmouseout="this.style.backgroundColor='#25D366';">
+                                                    <i class="bi bi-whatsapp me-2"></i>Proceed to Payment
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 @elseif($availableSlots <= 0)
                                     <button class="btn btn-lg w-100 disabled"
