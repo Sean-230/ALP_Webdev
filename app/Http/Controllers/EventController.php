@@ -164,7 +164,8 @@ class EventController extends Controller
         
         return redirect()->back()->with('error', 'Event manager contact information not available.');
     }
-storeQuestion(Request $request, $eventId)
+
+    public function storeQuestion(Request $request, $eventId)
     {
         $request->validate([
             'question' => 'required|string|max:1000',
