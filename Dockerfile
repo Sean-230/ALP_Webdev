@@ -79,12 +79,9 @@ CMD echo "=== RAILWAY STARTUP ===" && \
     echo "Vite Manifest:" && \
     cat public/build/manifest.json && \
     echo "" && \
-    echo "=== Testing Vite Helper ===" && \
-    php artisan tinker --execute="echo Vite::asset('resources/css/app.css');" && \
-    echo "=== Verifying APP_URL and ASSET_URL ===" && \
-    php artisan tinker --execute="echo 'APP_URL: ' . config('app.url'); echo PHP_EOL; echo 'ASSET_URL: ' . config('app.asset_url');" && \
+    echo "=== Testing Asset Loading ===" && \
+    php -r "echo 'Testing Vite asset path:'; echo PHP_EOL; \$manifest = json_decode(file_get_contents('public/build/manifest.json'), true); echo 'CSS file should be at: /build/' . \$manifest['resources/css/app.css']['file']; echo PHP_EOL;" && \
     echo "=== Starting migrations in background ===" && \
     (php artisan migrate --force 2>&1 || echo "Migration skipped") & \
-    echo "=== Starting Laravel Server ===" && \
-    echo "Server will NOT cache configs to allow dynamic env vars" && \
+    echo "=== Starting Laravel Server (NO CONFIG CACHE) ===" && \
     php artisan serve --host=0.0.0.0 --port=${PORT:-8000} --no-reload
