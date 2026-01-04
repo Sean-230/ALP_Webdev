@@ -13,6 +13,12 @@ APP_URL=https://festivo.up.railway.app
 ASSET_URL=https://festivo.up.railway.app
 ```
 
+**IMPORTANT**: Both APP_URL and ASSET_URL MUST use `https://` (not http://)
+This ensures:
+- Vite assets load correctly with @vite() directive
+- No browser security warnings
+- Mixed content blocked issues are avoided
+
 ### Database (MySQL)
 ```
 DB_CONNECTION=mysql

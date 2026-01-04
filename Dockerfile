@@ -62,21 +62,29 @@ EXPOSE 8000
 CMD echo "=== RAILWAY STARTUP ===" && \
     echo "PORT: ${PORT:-8000}" && \
     echo "APP_ENV: ${APP_ENV:-production}" && \
+    echo "APP_URL: ${APP_URL}" && \
+    echo "ASSET_URL: ${ASSET_URL}" && \
     echo "=== Clearing Caches ===" && \
     php artisan config:clear && \
     php artisan route:clear && \
     php artisan view:clear && \
     php artisan cache:clear && \
     echo "=== Checking Build Assets ===" && \
+    echo "Build directory:" && \
     ls -la public/build/ && \
+    echo "CSS directory:" && \
     ls -la public/css/ && \
+    echo "Images directory:" && \
     ls -la public/images/ && \
+    echo "Vite Manifest:" && \
     cat public/build/manifest.json && \
-    echo "=== Caching for Production ===" && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache && \
+    echo "" && \
+    echo "=== Testing Vite Helper ===" && \
+    php artisan tinker --execute="echo Vite::asset('resources/css/app.css');" && \
+    echo "=== Verifying APP_URL and ASSET_URL ===" && \
+    php artisan tinker --execute="echo 'APP_URL: ' . config('app.url'); echo PHP_EOL; echo 'ASSET_URL: ' . config('app.asset_url');" && \
     echo "=== Starting migrations in background ===" && \
     (php artisan migrate --force 2>&1 || echo "Migration skipped") & \
     echo "=== Starting Laravel Server ===" && \
+    echo "Server will NOT cache configs to allow dynamic env vars" && \
     php artisan serve --host=0.0.0.0 --port=${PORT:-8000} --no-reload
