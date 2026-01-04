@@ -103,6 +103,18 @@ class EventController extends Controller
             // Clean phone number (remove spaces, dashes, parentheses)
             $phoneNumber = preg_replace('/[^0-9+]/', '', $eventManager->phone_number);
             
+            // Convert to international format for WhatsApp
+            // If starts with 0, replace with +62 (Indonesia country code)
+            if (substr($phoneNumber, 0, 1) === '0') {
+                $phoneNumber = '62' . substr($phoneNumber, 1);
+            }
+            // If doesn't start with + and doesn't have country code, add +62
+            elseif (substr($phoneNumber, 0, 1) !== '+' && substr($phoneNumber, 0, 2) !== '62') {
+                $phoneNumber = '62' . $phoneNumber;
+            }
+            // Remove + if present (WhatsApp API doesn't need it in the URL)
+            $phoneNumber = str_replace('+', '', $phoneNumber);
+            
             // Prepare WhatsApp message
             $totalPrice = $event->price * $requestedQty;
             $message = "Hi, I would like to register for *{$event->name}*\n\n";
@@ -132,7 +144,19 @@ class EventController extends Controller
         $registration = EventRegister::where('user_id', Auth::id())
             ->where('event_id', $eventId)
             ->where('payment_status', 'pending')
-            ->first();
+            ->fConvert to international format for WhatsApp
+            // If starts with 0, replace with +62 (Indonesia country code)
+            if (substr($phoneNumber, 0, 1) === '0') {
+                $phoneNumber = '62' . substr($phoneNumber, 1);
+            }
+            // If doesn't start with + and doesn't have country code, add +62
+            elseif (substr($phoneNumber, 0, 1) !== '+' && substr($phoneNumber, 0, 2) !== '62') {
+                $phoneNumber = '62' . $phoneNumber;
+            }
+            // Remove + if present (WhatsApp API doesn't need it in the URL)
+            $phoneNumber = str_replace('+', '', $phoneNumber);
+            
+            // irst();
         
         if (!$registration) {
             return redirect()->back()->with('error', 'No pending registration found for this event.');
