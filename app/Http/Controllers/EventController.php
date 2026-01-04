@@ -58,7 +58,7 @@ class EventController extends Controller
             'ticket_qty' => 'required|integer|min:1|max:10',
         ]);
 
-        $event = Event::findOrFail($eventId);
+        $event = Event::with('user')->findOrFail($eventId);
         
         // Check if user is already registered for this event (pending or paid only)
         $existingRegistration = EventRegister::where('user_id', Auth::id())
@@ -88,7 +88,7 @@ class EventController extends Controller
         }
         
         // Create registration
-        EventRegister::create([
+        $registration = EventRegister::create([
             'user_id' => Auth::id(),
             'event_id' => $eventId,
             'ticket_qty' => $requestedQty,
@@ -96,7 +96,26 @@ class EventController extends Controller
             'created_at' => now(),
         ]);
         
-        return redirect()->back()->with('success', 'Registration submitted! Please wait for the event manager to approve your payment.');
+        // Get event manager's phone number
+        $eventManager = $event->user;
+        if ($eventManager && $eventManager->phone_number) {
+            // Clean phone number (remove spaces, dashes, parentheses)
+            $phoneNumber = preg_replace('/[^0-9+]/', '', $eventManager->phone_number);
+            
+            // Prepare WhatsApp message
+            $totalPrice = $event->price * $requestedQty;
+            $message = "Hi, I would like to register for *{$event->name}*\n\n";
+            $message .= "📅 Event Date: " . $event->event_date->format('F d, Y g:i A') . "\n";
+            $message .= "🎫 Tickets: {$requestedQty}\n";
+            $message .= "💰 Total: Rp " . number_format($totalPrice, 0, ',', '.') . "\n\n";
+            $message .= "Please confirm my payment request. Thank you!";
+            
+            $whatsappUrl = "https://wa.me/{$phoneNumber}?text=" . urlencode($message);
+            
+            return redirect($whatsappUrl);
+        }
+        
+        return redirect()->back()->with('success', 'Registration submitted! Please contact the event manager for payment confirmation.');
     }
 
     public function bookings()

@@ -275,8 +275,7 @@
                                             style="background-color: #25D366; color: white; font-weight: 600; border: none; border-radius: 10px; transition: all 0.3s ease;"
                                             onmouseover="this.style.backgroundColor='#128C7E';"
                                             onmouseout="this.style.backgroundColor='#25D366';">
-                                            <i class="bi bi-credit-card me-2"></i>Submit Payment Request
-                                        </button>
+                                            <i class="bi bi-whatsapp me-2"></i>Pay via WhatsApp
                                         </button>
                                     </form>
                                 @endif

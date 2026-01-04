@@ -232,6 +232,28 @@
                                 @endif
 
                                 @if (!isset($pendingApplication))
+                                    @if (!Auth::user()->hasVerifiedEmail() || empty(Auth::user()->phone_number))
+                                        <div class="alert alert-warning alert-custom p-3 mb-3" role="alert">
+                                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                            <strong>Requirements to Apply:</strong>
+                                            <ul class="mb-0 mt-2 small">
+                                                @if (!Auth::user()->hasVerifiedEmail())
+                                                    <li>✗ Verify your email address</li>
+                                                @else
+                                                    <li class="text-success">✓ Email verified</li>
+                                                @endif
+                                                @if (empty(Auth::user()->phone_number))
+                                                    <li>✗ Add and verify your phone number</li>
+                                                @else
+                                                    <li class="text-success">✓ Phone number added</li>
+                                                @endif
+                                            </ul>
+                                            <small class="text-muted d-block mt-2">
+                                                <i class="bi bi-info-circle me-1"></i>Complete the requirements above to apply for manager role.
+                                            </small>
+                                        </div>
+                                    @endif
+                                    
                                     <form method="POST" action="{{ route('profile.applyManager') }}">
                                         @csrf
 
@@ -306,7 +328,8 @@
                                         </div>
 
                                         <div class="d-grid">
-                                            <button type="submit" class="btn btn-save">
+                                            <button type="submit" class="btn btn-save"
+                                                @if(!Auth::user()->hasVerifiedEmail() || empty(Auth::user()->phone_number)) disabled @endif>
                                                 <i class="bi bi-award me-1"></i>Submit Application
                                             </button>
                                         </div>

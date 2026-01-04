@@ -66,7 +66,12 @@ class ProfileController extends Controller
 
         // Check if email is verified
         if (!$user->hasVerifiedEmail()) {
-            return Redirect::route('profile.edit')->with('error', 'You must verify your email before applying for manager role.');
+            return Redirect::route('profile.edit')->with('error', 'You must verify your account with a phone number before applying for manager role.');
+        }
+        
+        // Check if phone number is provided (required for verification)
+        if (empty($user->phone_number)) {
+            return Redirect::route('profile.edit')->with('error', 'You must add a phone number and verify your account before applying for manager role.');
         }
 
         // Check if already a manager or admin
