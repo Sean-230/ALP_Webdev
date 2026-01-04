@@ -34,7 +34,6 @@ RUN rm /etc/nginx/sites-enabled/default
 
 # Copy application
 COPY . /var/www
-RUN chown -R www-data:www-data /var/www
 
 # Install composer dependencies
 RUN composer install --optimize-autoloader --no-dev
@@ -46,10 +45,20 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 # Install npm dependencies and build assets
 RUN npm ci && npm run build
 
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www/storage \
+    && chmod -R 755 /var/www/bootstrap/cache
+
+# Laravel optimizations
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
 # Create nginx config template
 COPY <<EOF /etc/nginx/sites-available/laravel
 server {
-    listen \${PORT:-8080};
+    listen \${PORT};
     index index.php index.html;
     error_log  /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
@@ -77,9 +86,16 @@ COPY <<'EOF' /usr/local/bin/start.sh
 #!/bin/bash
 set -e
 
-# Replace PORT placeholder in nginx config
+# Set default PORT if not provided
 export PORT=${PORT:-8080}
-envsubst '\${PORT}' < /etc/nginx/sites-available/laravel > /etc/nginx/sites-enabled/laravel
+
+# Replace PORT placeholder in nginx config
+envsubst '$PORT' < /etc/nginx/sites-available/laravel > /etc/nginx/sites-enabled/laravel
+
+# Run Laravel migrations (if DATABASE_URL is set)
+if [ ! -z "$DATABASE_URL" ]; then
+    php /var/www/artisan migrate --force
+fi
 
 # Start supervisor
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
@@ -119,6 +135,6 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 EOF
 
-EXPOSE ${PORT:-8080}
+EXPOSE 8080
 
 CMD ["/usr/local/bin/start.sh"]
