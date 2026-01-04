@@ -204,7 +204,6 @@ class EventController extends Controller
         return redirect()->back()->with('success', 'Answer posted successfully!');
     }
 
-    public function 
     public function bookings()
     {
         $bookings = EventRegister::with(['event', 'user'])
