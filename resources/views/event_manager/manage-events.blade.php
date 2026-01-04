@@ -344,15 +344,6 @@
                 <!-- Q&A Tab -->
                 <div class="tab-pane fade" id="qna" role="tabpanel" aria-labelledby="qna-tab">
                     <div class="row g-4 mt-3">
-                        @php
-                            $allQnas = \App\Models\Qna::with(['event', 'user'])
-                                ->whereHas('event', function($q) {
-                                    $q->where('user_id', Auth::id());
-                                })
-                                ->orderBy('created_at', 'desc')
-                                ->get();
-                        @endphp
-
                         @forelse($allQnas as $qna)
                             <div class="col-12">
                                 <div class="card shadow-sm">

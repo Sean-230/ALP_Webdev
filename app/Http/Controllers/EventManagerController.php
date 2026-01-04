@@ -48,7 +48,13 @@ class EventManagerController extends Controller
             ->whereNull('answer')
             ->count();
 
-        return view('event_manager.manage-events', compact('events', 'pendingPayments', 'paymentStats', 'unansweredQnaCount'));
+        // Get all Q&A for this event manager's events
+        $allQnas = Qna::with(['event', 'user'])
+            ->whereIn('event_id', $eventIds)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('event_manager.manage-events', compact('events', 'pendingPayments', 'paymentStats', 'unansweredQnaCount', 'allQnas'));
     }
 
     /**
