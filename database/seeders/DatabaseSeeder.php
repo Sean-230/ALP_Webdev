@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create 3 specific role-based accounts
+        // Create 4 specific role-based accounts
         $adminUser = User::firstOrCreate(
             ['email' => 'Admin@gmail.com'],
             [
@@ -33,28 +33,85 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $eventManagerUser = User::firstOrCreate(
-            ['email' => 'Sean.tandjaja05@gmail.com'],
-            [
-                'name' => 'Event Manager',
-                'role' => 'eventManager',
-                'password' => '12345678',
-                'email_verified_at' => now(),
-            ]
-        );
-
         $regularUser = User::firstOrCreate(
-            ['email' => 'Sean.tandjaja2005@gmail.com'],
+            ['email' => 'sean.tandjaja2005@gmail.com'],
             [
-                'name' => 'User',
+                'name' => 'Sean User',
                 'role' => 'user',
                 'password' => '12345678',
                 'email_verified_at' => now(),
             ]
         );
 
-        // Only these 3 users
-        $users = collect([$adminUser, $eventManagerUser, $regularUser]);
+        $eventManagerUser = User::firstOrCreate(
+            ['email' => 'sean.tandjaja05@gmail.com'],
+            [
+                'name' => 'Sean Event Manager',
+                'role' => 'eventManager',
+                'password' => '12345678',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        $vendorManagerUser = User::firstOrCreate(
+            ['email' => 'sean.tandjaja@gmail.com'],
+            [
+                'name' => 'Sean Vendor Manager',
+                'role' => 'vendorManager',
+                'password' => '12345678',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        // Only these 4 users
+        $users = collect([$adminUser, $regularUser, $eventManagerUser, $vendorManagerUser]);
+        
+        // Create some additional users with pending applications
+        $pendingUser1 = User::create([
+            'name' => 'John Pending',
+            'email' => 'john.pending@example.com',
+            'password' => '12345678',
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
+
+        $pendingUser2 = User::create([
+            'name' => 'Sarah Applicant',
+            'email' => 'sarah.applicant@example.com',
+            'password' => '12345678',
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
+
+        $pendingUser3 = User::create([
+            'name' => 'Mike Manager',
+            'email' => 'mike.manager@example.com',
+            'password' => '12345678',
+            'role' => 'user',
+            'email_verified_at' => now(),
+        ]);
+
+        // Create pending manager applications
+        \App\Models\ManagerApplication::create([
+            'user_id' => $pendingUser1->id,
+            'role_type' => 'eventManager',
+            'status' => 'pending',
+            'created_at' => now()->subDays(3),
+        ]);
+
+        \App\Models\ManagerApplication::create([
+            'user_id' => $pendingUser2->id,
+            'role_type' => 'vendorManager',
+            'status' => 'pending',
+            'created_at' => now()->subDays(2),
+        ]);
+
+        \App\Models\ManagerApplication::create([
+            'user_id' => $pendingUser3->id,
+            'role_type' => 'eventManager',
+            'status' => 'pending',
+            'created_at' => now()->subDays(1),
+        ]);
         
         // Create categories
         $categories = Category::factory(10)->create();
