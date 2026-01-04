@@ -46,6 +46,9 @@ RUN composer dump-autoload --optimize
 # Run Laravel package discovery
 RUN php artisan package:discover --ansi
 
+# Publish Volt auth views (required for Fortify)
+RUN php artisan volt:install --force 2>&1 || echo "Volt already installed"
+
 # Try to publish Livewire Flux stubs (may fail if Flux not installed, that's ok)
 RUN php artisan vendor:publish --tag=flux-config --force 2>&1 || echo "Flux config not published (not an error if Flux not used)"
 RUN php artisan vendor:publish --tag=flux-views --force 2>&1 || echo "Flux views not published (not an error if Flux not used)"
