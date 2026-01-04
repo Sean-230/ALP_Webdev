@@ -43,13 +43,26 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
+# Configure Apache to allow .htaccess overrides
+RUN echo '<Directory /var/www/html/public>\n\
+    Options Indexes FollowSymLinks\n\
+    AllowOverride All\n\
+    Require all granted\n\
+</Directory>' > /etc/apache2/conf-available/laravel.conf && \
+    a2enconf laravel
+
 # Create startup script
 RUN echo '#!/bin/bash\n\
+set -e\n\
+echo "Clearing caches..."\n\
 php artisan config:clear\n\
 php artisan cache:clear\n\
 php artisan view:clear\n\
+echo "Running migrations..."\n\
 php artisan migrate --force\n\
-php artisan db:seed --force\n\
+echo "Seeding database..."\n\
+php artisan db:seed --force || echo "Seeding failed or already seeded"\n\
+echo "Starting Apache..."\n\
 apache2-foreground' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
 EXPOSE 80
