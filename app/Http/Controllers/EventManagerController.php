@@ -30,6 +30,17 @@ class EventManagerController extends Controller
         // Get all events created by this event manager
         $eventIds = Event::where('user_id', Auth::id())->pluck('id');
 
+        // If no events, return empty collections
+        if ($eventIds->isEmpty()) {
+            return view('event_manager.manage-events', [
+                'events' => $events,
+                'pendingPayments' => collect(),
+                'paymentStats' => ['pending' => 0, 'paid' => 0, 'total' => 0],
+                'unansweredQnaCount' => 0,
+                'allQnas' => collect()
+            ]);
+        }
+
         // Get pending payments for these events
         $pendingPayments = EventRegister::with(['user', 'event'])
             ->whereIn('event_id', $eventIds)
