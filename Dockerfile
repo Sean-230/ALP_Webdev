@@ -57,12 +57,11 @@ set -e\n\
 echo "Fixing Apache MPM..."\n\
 a2dismod mpm_event mpm_worker 2>/dev/null || true\n\
 echo "Clearing caches..."\n\
-php artisan config:clear\n\
-php artisan cache:clear\n\
-php artisan view:clear\n\
-php artisan route:clear\n\
+php artisan config:clear || true\n\
+php artisan view:clear || true\n\
+php artisan route:clear || true\n\
 echo "Running migrations..."\n\
-php artisan migrate --force\n\
+php artisan migrate --force || echo "Migration failed - check DB credentials"\n\
 echo "Seeding database..."\n\
 php artisan db:seed --force --class=DatabaseSeeder || echo "Seeding skipped"\n\
 echo "Setting Apache port to $PORT..."\n\
