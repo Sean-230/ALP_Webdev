@@ -62,8 +62,12 @@ php artisan cache:clear\n\
 php artisan view:clear\n\
 echo "Running migrations..."\n\
 php artisan migrate --force\n\
+echo "Seeding database..."\n\
+php artisan db:seed --force --class=DatabaseSeeder || echo "Seeding skipped"\n\
 echo "Setting Apache port to $PORT..."\n\
 sed -i "s/80/${PORT:-80}/g" /etc/apache2/sites-available/*.conf /etc/apache2/ports.conf\n\
+echo "Setting APP_URL..."\n\
+php artisan config:cache\n\
 echo "Starting Apache on port ${PORT:-80}..."\n\
 exec apache2-foreground' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 

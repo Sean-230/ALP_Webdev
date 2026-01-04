@@ -16,15 +16,15 @@ class QnaFactory extends Factory
      */
     public function definition(): array
     {
-        $hasAnswer = fake()->boolean(60);
+        $hasAnswer = $this->faker->boolean(60);
         
         return [
             'event_id' => \App\Models\Event::factory(),
             'user_id' => \App\Models\User::factory(),
-            'question' => fake()->sentence() . '?',
-            'answer' => $hasAnswer ? fake()->paragraph() : null,
-            'created_at' => fake()->dateTimeBetween('-1 month', 'now'),
-            'answered_at' => $hasAnswer ? fake()->dateTimeBetween('-1 month', 'now') : null,
+            'question' => $this->faker->sentence() . '?',
+            'answer' => $hasAnswer ? $this->faker->paragraph() : null,
+            'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
+            'answered_at' => $hasAnswer ? $this->faker->dateTimeBetween('-1 month', 'now') : null,
         ];
     }
 }

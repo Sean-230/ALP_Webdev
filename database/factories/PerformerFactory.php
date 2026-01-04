@@ -17,8 +17,8 @@ class PerformerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'photo' => fake()->imageUrl(300, 300, 'people', true),
+            'name' => $this->faker->name(),
+            'photo' => $this->faker->imageUrl(300, 300, 'people', true),
         ];
     }
 }

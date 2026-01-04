@@ -19,10 +19,10 @@ class EventRegisterFactory extends Factory
         return [
             'user_id' => \App\Models\User::factory(),
             'event_id' => \App\Models\Event::factory(),
-            'ticket_qty' => fake()->numberBetween(1, 10),
-            'payment_status' => fake()->randomElement(['pending', 'paid', 'failed', 'refunded']),
-            'payment_proof' => fake()->optional(0.7)->imageUrl(400, 600, 'business', true),
-            'created_at' => fake()->dateTimeBetween('-3 months', 'now'),
+            'ticket_qty' => $this->faker->numberBetween(1, 10),
+            'payment_status' => $this->faker->randomElement(['pending', 'paid', 'failed', 'refunded']),
+            'payment_proof' => $this->faker->optional(0.7)->imageUrl(400, 600, 'business', true),
+            'created_at' => $this->faker->dateTimeBetween('-3 months', 'now'),
         ];
     }
 }

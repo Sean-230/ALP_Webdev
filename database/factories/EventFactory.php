@@ -18,14 +18,14 @@ class EventFactory extends Factory
     {
         return [
             'user_id' => \App\Models\User::factory(),
-            'name' => fake()->sentence(3),
-            'description' => fake()->paragraph(3),
-            'event_date' => fake()->dateTimeBetween('now', '+6 months'),
-            'venue' => fake()->address(),
+            'name' => $this->faker->sentence(3),
+            'description' => $this->faker->paragraph(3),
+            'event_date' => $this->faker->dateTimeBetween('now', '+6 months'),
+            'venue' => $this->faker->address(),
             'category_id' => \App\Models\Category::factory(),
-            'event_picture' => fake()->imageUrl(640, 480, 'events', true),
-            'capacity' => fake()->numberBetween(50, 1000),
-            'status' => fake()->randomElement(['upcoming', 'ongoing', 'completed', 'cancelled']),
+            'event_picture' => $this->faker->imageUrl(640, 480, 'events', true),
+            'capacity' => $this->faker->numberBetween(50, 1000),
+            'status' => $this->faker->randomElement(['upcoming', 'ongoing', 'completed', 'cancelled']),
         ];
     }
 }

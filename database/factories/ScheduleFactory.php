@@ -16,8 +16,8 @@ class ScheduleFactory extends Factory
      */
     public function definition(): array
     {
-        $startTime = fake()->time('H:i:s');
-        $endTime = fake()->time('H:i:s', strtotime($startTime . ' +2 hours'));
+        $startTime = $this->faker->time('H:i:s');
+        $endTime = $this->faker->time('H:i:s', strtotime($startTime . ' +2 hours'));
         
         return [
             'event_id' => \App\Models\Event::factory(),
