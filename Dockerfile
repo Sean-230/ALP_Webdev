@@ -45,10 +45,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
 # Install npm dependencies and build assets
 RUN npm ci && npm run build
 
-# Set proper permissions
+# Set proper permissions for all files and directories
 RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage \
-    && chmod -R 755 /var/www/bootstrap/cache
+    && find /var/www -type f -exec chmod 644 {} \; \
+    && find /var/www -type d -exec chmod 755 {} \; \
+    && chmod -R 775 /var/www/storage \
+    && chmod -R 775 /var/www/bootstrap/cache
 
 # Create nginx config template
 COPY <<EOF /etc/nginx/sites-available/laravel
@@ -130,6 +132,13 @@ if [ -d "public/build" ]; then
 else
     echo "WARNING: public/build directory not found!"
 fi
+
+# Verify and fix permissions
+echo "=== Checking Permissions ==="
+ls -la public/
+ls -la public/build/ || echo "Cannot list build directory"
+chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 # Clear any old cached config from build
 php artisan config:clear
