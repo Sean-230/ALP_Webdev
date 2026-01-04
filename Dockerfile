@@ -50,11 +50,6 @@ RUN chown -R www-data:www-data /var/www \
     && chmod -R 755 /var/www/storage \
     && chmod -R 755 /var/www/bootstrap/cache
 
-# Laravel optimizations
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
-
 # Create nginx config template
 COPY <<EOF /etc/nginx/sites-available/laravel
 server {
@@ -86,15 +81,26 @@ COPY <<'EOF' /usr/local/bin/start.sh
 #!/bin/bash
 set -e
 
+cd /var/www
+
 # Set default PORT if not provided
 export PORT=${PORT:-8080}
 
 # Replace PORT placeholder in nginx config
 envsubst '$PORT' < /etc/nginx/sites-available/laravel > /etc/nginx/sites-enabled/laravel
 
-# Run Laravel migrations (if DATABASE_URL is set)
-if [ ! -z "$DATABASE_URL" ]; then
-    php /var/www/artisan migrate --force
+# Clear any old cached config from build
+php artisan config:clear
+php artisan cache:clear
+
+# Run Laravel optimizations with production environment
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Run Laravel migrations (if DB connection is available)
+if [ ! -z "$DB_HOST" ] || [ ! -z "$DATABASE_URL" ]; then
+    php artisan migrate --force || echo "Migration failed or no database connection"
 fi
 
 # Start supervisor
