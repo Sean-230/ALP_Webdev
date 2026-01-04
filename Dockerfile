@@ -91,7 +91,11 @@ CMD echo "=== RAILWAY STARTUP ===" && \
     php -r "echo 'Testing Vite asset path:'; echo PHP_EOL; \$manifest = json_decode(file_get_contents('public/build/manifest.json'), true); echo 'CSS file should be at: /build/' . \$manifest['resources/css/app.css']['file']; echo PHP_EOL; \$cssFile = 'public/build/' . \$manifest['resources/css/app.css']['file']; if (file_exists(\$cssFile)) { echo 'CSS file exists! Size: ' . filesize(\$cssFile) . ' bytes'; } else { echo 'ERROR: CSS file NOT found!'; } echo PHP_EOL;" && \
     echo "=== Starting migrations in background ===" && \
     (php artisan migrate --force 2>&1 || echo "Migration skipped") & \
+    echo "=== Creating storage link ===" && \
+    php artisan storage:link 2>&1 || echo "Storage link exists or failed" && \
     echo "=== Testing if Laravel boots ===" && \
     php artisan about 2>&1 || echo "Laravel boot failed!" && \
+    echo "=== Testing route list ===" && \
+    php artisan route:list --path=login 2>&1 || echo "Route list failed" && \
     echo "=== Starting Laravel Server (NO CONFIG CACHE) ===" && \
     php artisan serve --host=0.0.0.0 --port=${PORT:-8000} --no-reload
