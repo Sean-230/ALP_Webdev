@@ -46,6 +46,9 @@ RUN npm run build && \
     ls -la public/build/ && \
     cat public/build/manifest.json
 
+# Ensure build directory has correct permissions
+RUN chmod -R 755 public/build
+
 # Run composer scripts after files are copied
 RUN composer dump-autoload --optimize
 
@@ -80,7 +83,7 @@ CMD echo "=== RAILWAY STARTUP ===" && \
     cat public/build/manifest.json && \
     echo "" && \
     echo "=== Testing Asset Loading ===" && \
-    php -r "echo 'Testing Vite asset path:'; echo PHP_EOL; \$manifest = json_decode(file_get_contents('public/build/manifest.json'), true); echo 'CSS file should be at: /build/' . \$manifest['resources/css/app.css']['file']; echo PHP_EOL;" && \
+    php -r "echo 'Testing Vite asset path:'; echo PHP_EOL; \$manifest = json_decode(file_get_contents('public/build/manifest.json'), true); echo 'CSS file should be at: /build/' . \$manifest['resources/css/app.css']['file']; echo PHP_EOL; \$cssFile = 'public/build/' . \$manifest['resources/css/app.css']['file']; if (file_exists(\$cssFile)) { echo 'CSS file exists! Size: ' . filesize(\$cssFile) . ' bytes'; } else { echo 'ERROR: CSS file NOT found!'; } echo PHP_EOL;" && \
     echo "=== Starting migrations in background ===" && \
     (php artisan migrate --force 2>&1 || echo "Migration skipped") & \
     echo "=== Starting Laravel Server (NO CONFIG CACHE) ===" && \
