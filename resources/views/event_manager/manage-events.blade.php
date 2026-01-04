@@ -343,26 +343,27 @@
 
                 <!-- Q&A Tab -->
                 <div class="tab-pane fade" id="qna" role="tabpanel" aria-labelledby="qna-tab">
-                    <div class="row g-4 mt-3">
-                        <!-- Debug Info (Remove after testing) -->
-                        <div class="col-12">
-                            <div class="alert alert-info">
-                                <strong>Debug:</strong>
-                                @if(isset($allQnas))
-                                    Total Q&A found: {{ $allQnas->count() }}
-                                    @if($allQnas->count() === 0 && $events->count() > 0)
-                                        <br>You have {{ $events->count() }} event(s) but no questions yet.
-                                    @elseif($events->count() === 0)
-                                        <br>You haven't created any events yet.
+                    <div class="container-fluid p-4">
+                        <div class="row g-4">
+                            <!-- Debug Info (Remove after testing) -->
+                            <div class="col-12">
+                                <div class="alert alert-warning" style="font-size: 1.2rem; font-weight: bold;">
+                                    <strong>🔍 Debug:</strong>
+                                    @if(isset($allQnas))
+                                        Total Q&A found: {{ $allQnas->count() }}
+                                        @if($allQnas->count() === 0 && $events->count() > 0)
+                                            <br>You have {{ $events->count() }} event(s) but no questions yet.
+                                        @elseif($events->count() === 0)
+                                            <br>You haven't created any events yet.
+                                        @endif
+                                    @else
+                                        <span class="text-danger">ERROR: $allQnas variable is not set!</span>
                                     @endif
-                                @else
-                                    <span class="text-danger">ERROR: $allQnas variable is not set!</span>
-                                @endif
+                                </div>
                             </div>
-                        </div>
 
-                        @if(isset($allQnas))
-                            @forelse($allQnas as $qna)
+                            @if(isset($allQnas))
+                                @forelse($allQnas as $qna)
                             <div class="col-12">
                                 <div class="card shadow-sm">
                                     <div class="card-body">
@@ -444,6 +445,7 @@
                                 </div>
                             </div>
                         @endif
+                        </div>
                     </div>
                 </div>
             </div>
