@@ -54,6 +54,8 @@ RUN echo '<Directory /var/www/html/public>\n\
 # Create startup script
 RUN echo '#!/bin/bash\n\
 set -e\n\
+echo "Fixing Apache MPM..."\n\
+a2dismod mpm_event mpm_worker 2>/dev/null || true\n\
 echo "Clearing caches..."\n\
 php artisan config:clear\n\
 php artisan cache:clear\n\
@@ -61,7 +63,7 @@ php artisan view:clear\n\
 echo "Running migrations..."\n\
 php artisan migrate --force\n\
 echo "Starting Apache..."\n\
-apache2-foreground' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
+exec apache2-foreground' > /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
 EXPOSE 80
 
