@@ -328,9 +328,40 @@
                             </div>
 
                             <!-- Pagination -->
-                            <div class="mt-4 d-flex justify-content-center">
-                                {{ $pendingPayments->links() }}
-                            </div>
+                            @if($pendingPayments->hasPages())
+                                <div class="d-flex justify-content-center align-items-center mt-4 gap-3">
+                                    @if ($pendingPayments->onFirstPage())
+                                        <button class="btn" disabled
+                                            style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; opacity: 0.3; cursor: not-allowed; display: flex; align-items: center;">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </button>
+                                    @else
+                                        <a href="{{ $pendingPayments->previousPageUrl() }}" class="btn payments-pagination-link"
+                                            style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; display: flex; align-items: center;">
+                                            <i class="bi bi-chevron-left"></i>
+                                        </a>
+                                    @endif
+
+                                    <div class="d-flex gap-2 align-items-center">
+                                        @for ($i = 1; $i <= $pendingPayments->lastPage(); $i++)
+                                            <a href="{{ $pendingPayments->url($i) }}" class="payments-pagination-link"
+                                                style="width: 10px; height: 10px; border-radius: 50%; background-color: {{ $i === $pendingPayments->currentPage() ? '#360185' : '#d0d0d0' }}; cursor: pointer; transition: all 0.3s ease; display: block; {{ $i === $pendingPayments->currentPage() ? 'transform: scale(1.2);' : '' }}"></a>
+                                        @endfor
+                                    </div>
+
+                                    @if ($pendingPayments->hasMorePages())
+                                        <a href="{{ $pendingPayments->nextPageUrl() }}" class="btn payments-pagination-link"
+                                            style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; display: flex; align-items: center;">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </a>
+                                    @else
+                                        <button class="btn" disabled
+                                            style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; opacity: 0.3; cursor: not-allowed; display: flex; align-items: center;">
+                                            <i class="bi bi-chevron-right"></i>
+                                        </button>
+                                    @endif
+                                </div>
+                            @endif
                         @else
                             <div class="text-center py-5">
                                 <i class="bi bi-check-circle" style="font-size: 4rem; color: #28a745;"></i>
@@ -340,9 +371,10 @@
                         @endif
                     </div>
                 </div>
+            </div>
 
-                <!-- Q&A Tab -->
-                <div class="tab-pane fade" id="qna" role="tabpanel" aria-labelledby="qna-tab">
+            <!-- Q&A Tab -->
+            <div class="tab-pane fade" id="qna" role="tabpanel" aria-labelledby="qna-tab">
                     HELLO THIS IS THE QNA TAB!!!
                     <br><br>
                     Testing: {{ $allQnas->count() ?? 'ERROR' }}
@@ -370,6 +402,33 @@
 
 @push('scripts')
     <script>
+        // Payment requests pagination scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentLinks = document.querySelectorAll('.payments-pagination-link');
+            paymentLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                    sessionStorage.setItem('scrollToPayments', 'true');
+                    sessionStorage.setItem('savedScroll', currentScroll);
+                });
+            });
+
+            // Scroll to payments section after page load
+            if (sessionStorage.getItem('scrollToPayments') === 'true') {
+                sessionStorage.removeItem('scrollToPayments');
+                const savedScroll = sessionStorage.getItem('savedScroll');
+                if (savedScroll) {
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: parseInt(savedScroll),
+                            behavior: 'smooth'
+                        });
+                        sessionStorage.removeItem('savedScroll');
+                    }, 100);
+                }
+            }
+        });
+
         // Preserve active tab on page reload without scrolling
         document.addEventListener('DOMContentLoaded', function() {
             const hash = window.location.hash;
