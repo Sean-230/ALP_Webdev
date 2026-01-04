@@ -46,9 +46,9 @@ RUN composer dump-autoload --optimize
 # Run Laravel package discovery
 RUN php artisan package:discover --ansi
 
-# Publish Livewire Flux stubs so Tailwind can scan them during build
-RUN php artisan vendor:publish --tag=flux-config --force || echo "Flux config not available"
-RUN php artisan vendor:publish --tag=flux-views --force || echo "Flux views not available"
+# Try to publish Livewire Flux stubs (may fail if Flux not installed, that's ok)
+RUN php artisan vendor:publish --tag=flux-config --force 2>&1 || echo "Flux config not published (not an error if Flux not used)"
+RUN php artisan vendor:publish --tag=flux-views --force 2>&1 || echo "Flux views not published (not an error if Flux not used)"
 
 # Build assets with Vite (AFTER publishing Flux views)
 RUN npm run build && \
@@ -71,11 +71,12 @@ CMD echo "=== RAILWAY STARTUP ===" && \
     echo "APP_ENV: ${APP_ENV:-production}" && \
     echo "APP_URL: ${APP_URL}" && \
     echo "ASSET_URL: ${ASSET_URL}" && \
+    echo "APP_DEBUG: ${APP_DEBUG}" && \
     echo "=== Clearing Caches ===" && \
-    php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan view:clear && \
-    php artisan cache:clear && \
+    php artisan config:clear 2>&1 || echo "Config clear failed" && \
+    php artisan route:clear 2>&1 || echo "Route clear failed" && \
+    php artisan view:clear 2>&1 || echo "View clear failed" && \
+    php artisan cache:clear 2>&1 || echo "Cache clear failed" && \
     echo "=== Checking Build Assets ===" && \
     echo "Build directory:" && \
     ls -la public/build/ && \
@@ -90,5 +91,7 @@ CMD echo "=== RAILWAY STARTUP ===" && \
     php -r "echo 'Testing Vite asset path:'; echo PHP_EOL; \$manifest = json_decode(file_get_contents('public/build/manifest.json'), true); echo 'CSS file should be at: /build/' . \$manifest['resources/css/app.css']['file']; echo PHP_EOL; \$cssFile = 'public/build/' . \$manifest['resources/css/app.css']['file']; if (file_exists(\$cssFile)) { echo 'CSS file exists! Size: ' . filesize(\$cssFile) . ' bytes'; } else { echo 'ERROR: CSS file NOT found!'; } echo PHP_EOL;" && \
     echo "=== Starting migrations in background ===" && \
     (php artisan migrate --force 2>&1 || echo "Migration skipped") & \
+    echo "=== Testing if Laravel boots ===" && \
+    php artisan about 2>&1 || echo "Laravel boot failed!" && \
     echo "=== Starting Laravel Server (NO CONFIG CACHE) ===" && \
     php artisan serve --host=0.0.0.0 --port=${PORT:-8000} --no-reload
