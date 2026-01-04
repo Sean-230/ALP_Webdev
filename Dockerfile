@@ -38,10 +38,17 @@ RUN chown -R www-data:www-data /var/www
 # Install composer dependencies
 RUN composer install --optimize-autoloader --no-dev
 
-# Create nginx config
+# Install Node.js for building frontend assets
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
+
+# Install npm dependencies and build assets
+RUN npm ci && npm run build
+
+# Create nginx config template
 COPY <<EOF /etc/nginx/sites-available/laravel
 server {
-    listen 8080;
+    listen \${PORT:-8080};
     index index.php index.html;
     error_log  /var/log/nginx/error.log;
     access_log /var/log/nginx/access.log;
@@ -64,7 +71,20 @@ server {
 }
 EOF
 
-RUN ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/
+# Create startup script to handle PORT variable
+COPY <<'EOF' /usr/local/bin/start.sh
+#!/bin/bash
+set -e
+
+# Replace PORT placeholder in nginx config
+export PORT=${PORT:-8080}
+envsubst '\${PORT}' < /etc/nginx/sites-available/laravel > /etc/nginx/sites-enabled/laravel
+
+# Start supervisor
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+EOF
+
+RUN chmod +x /usr/local/bin/start.sh
 
 # Configure PHP-FPM
 RUN sed -i 's/listen = .*/listen = 127.0.0.1:9000/' /usr/local/etc/php-fpm.d/www.conf
@@ -98,6 +118,6 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 EOF
 
-EXPOSE 8080
+EXPOSE ${PORT:-8080}
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/local/bin/start.sh"]
