@@ -63,7 +63,9 @@ RUN npm run build && \
 RUN chmod -R 755 public/build
 
 # Set storage permissions (777 for Railway to ensure sessions work)
-RUN chmod -R 777 /app/storage /app/bootstrap/cache
+RUN chmod -R 777 /app/storage /app/bootstrap/cache && \
+    mkdir -p /app/storage/framework/sessions && \
+    chmod -R 777 /app/storage/framework/sessions
 
 # Expose port
 EXPOSE 8000
