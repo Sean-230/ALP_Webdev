@@ -8,7 +8,15 @@ export default {
         './vendor/livewire/flux/stubs/**/*.blade.php',
         './vendor/livewire/flux-pro/stubs/**/*.blade.php',
         './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
+        './resources/**/*.blade.php',
+        './resources/**/*.js',
+        './resources/**/*.vue',
+    ],
+
+    safelist: [
+        {
+            pattern: /^(bg|text|border|rounded|shadow|flex|grid|p|m|w|h|min|max|gap|space|items|justify|self|overflow|cursor|transition|duration|ease|opacity|z|top|bottom|left|right|inset|absolute|relative|fixed|sticky|block|inline|hidden|sr|hover|focus|active|disabled|data)/,
+        },
     ],
 
     theme: {

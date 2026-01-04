@@ -40,7 +40,17 @@ RUN npm ci
 # Copy application files
 COPY . .
 
-# Build assets with Vite
+# Run composer scripts
+RUN composer dump-autoload --optimize
+
+# Run Laravel package discovery
+RUN php artisan package:discover --ansi
+
+# Publish Livewire Flux stubs so Tailwind can scan them during build
+RUN php artisan vendor:publish --tag=flux-config --force || echo "Flux config not available"
+RUN php artisan vendor:publish --tag=flux-views --force || echo "Flux views not available"
+
+# Build assets with Vite (AFTER publishing Flux views)
 RUN npm run build && \
     echo "=== Vite Build Complete ===" && \
     ls -la public/build/ && \
@@ -48,12 +58,6 @@ RUN npm run build && \
 
 # Ensure build directory has correct permissions
 RUN chmod -R 755 public/build
-
-# Run composer scripts after files are copied
-RUN composer dump-autoload --optimize
-
-# Run Laravel package discovery
-RUN php artisan package:discover --ansi
 
 # Set permissions
 RUN chmod -R 755 /app/storage /app/bootstrap/cache
