@@ -25,7 +25,7 @@ class EventManagerController extends Controller
         $events = Event::with(['category', 'performers', 'vendors', 'eventRegisters'])
             ->where('user_id', Auth::id())
             ->orderBy('event_date', 'desc')
-            ->get();
+            ->paginate(6, ['*'], 'events_page');
 
         // Get all events created by this event manager
         $eventIds = Event::where('user_id', Auth::id())->pluck('id');
@@ -34,10 +34,10 @@ class EventManagerController extends Controller
         if ($eventIds->isEmpty()) {
             return view('event_manager.manage-events', [
                 'events' => $events,
-                'pendingPayments' => collect(),
+                'pendingPayments' => EventRegister::whereIn('event_id', [])->paginate(20, ['*'], 'payments_page'),
                 'paymentStats' => ['pending' => 0, 'paid' => 0, 'total' => 0],
                 'unansweredQnaCount' => 0,
-                'allQnas' => collect()
+                'allQnas' => Qna::whereIn('event_id', [])->paginate(10, ['*'], 'qna_page')
             ]);
         }
 
@@ -46,7 +46,7 @@ class EventManagerController extends Controller
             ->whereIn('event_id', $eventIds)
             ->where('payment_status', 'pending')
             ->orderBy('created_at', 'desc')
-            ->paginate(20);
+            ->paginate(20, ['*'], 'payments_page');
 
         $paymentStats = [
             'pending' => EventRegister::whereIn('event_id', $eventIds)->where('payment_status', 'pending')->count(),
@@ -63,7 +63,7 @@ class EventManagerController extends Controller
         $allQnas = Qna::with(['event', 'user'])
             ->whereIn('event_id', $eventIds)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10, ['*'], 'qna_page');
 
         return view('event_manager.manage-events', compact('events', 'pendingPayments', 'paymentStats', 'unansweredQnaCount', 'allQnas'));
     }

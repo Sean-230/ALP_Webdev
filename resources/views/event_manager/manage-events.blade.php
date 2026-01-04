@@ -211,6 +211,42 @@
                             </div>
                         @endforeach
                     </div>
+                    
+                    <!-- Pagination for My Events -->
+                    @if($events->hasPages())
+                        <div class="d-flex justify-content-center align-items-center mt-4 gap-3">
+                            @if ($events->onFirstPage())
+                                <button class="btn" disabled
+                                    style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; opacity: 0.3; cursor: not-allowed; display: flex; align-items: center;">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                            @else
+                                <a href="{{ $events->previousPageUrl() }}" class="btn events-pagination-link"
+                                    style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; display: flex; align-items: center;">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            @endif
+
+                            <div class="d-flex gap-2 align-items-center">
+                                @for ($i = 1; $i <= $events->lastPage(); $i++)
+                                    <a href="{{ $events->url($i) }}" class="events-pagination-link"
+                                        style="width: 10px; height: 10px; border-radius: 50%; background-color: {{ $i === $events->currentPage() ? '#360185' : '#d0d0d0' }}; cursor: pointer; transition: all 0.3s ease; display: block; {{ $i === $events->currentPage() ? 'transform: scale(1.2);' : '' }}"></a>
+                                @endfor
+                            </div>
+
+                            @if ($events->hasMorePages())
+                                <a href="{{ $events->nextPageUrl() }}" class="btn events-pagination-link"
+                                    style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; display: flex; align-items: center;">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            @else
+                                <button class="btn" disabled
+                                    style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; opacity: 0.3; cursor: not-allowed; display: flex; align-items: center;">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            @endif
+                        </div>
+                    @endif
                 @endif
             </div>
 
@@ -375,26 +411,113 @@
 
             <!-- Q&A Tab -->
             <div class="tab-pane fade" id="qna" role="tabpanel" aria-labelledby="qna-tab">
-                    HELLO THIS IS THE QNA TAB!!!
-                    <br><br>
-                    Testing: {{ $allQnas->count() ?? 'ERROR' }}
-                    <br><br>
-                    
-                    @foreach($allQnas as $index => $qna)
-                        <div style="border: 2px solid red; padding: 20px; margin: 10px; background: yellow;">
-                            <h3>Question #{{ $index + 1 }}</h3>
-                            <p><strong>From:</strong> {{ $qna->user->name }}</p>
-                            <p><strong>Event:</strong> {{ $qna->event->name }}</p>
-                            <p><strong>Question:</strong> {{ $qna->question }}</p>
-                            <hr>
-                            @if($qna->answer)
-                                <p><strong>Answer:</strong> {{ $qna->answer }}</p>
-                            @else
-                                <p style="color: red;">NOT ANSWERED YET</p>
-                            @endif
+                @if($allQnas->count() > 0)
+                    @foreach($allQnas as $qna)
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <!-- Event Badge -->
+                                <div class="mb-3 pb-3 border-bottom">
+                                    <span class="badge" style="background-color: #360185; font-size: 0.9rem;">
+                                        <i class="bi bi-calendar-event me-1"></i>{{ $qna->event->name }}
+                                    </span>
+                                    <span class="text-muted ms-2" style="font-size: 0.85rem;">
+                                        <i class="bi bi-clock"></i> {{ $qna->created_at->diffForHumans() }}
+                                    </span>
+                                </div>
+                                
+                                <!-- Question Section -->
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start mb-2">
+                                        <div class="me-3">
+                                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                                                {{ strtoupper(substr($qna->user->name, 0, 1)) }}
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1" style="color: #360185; font-weight: 600;">{{ $qna->user->name }}</h6>
+                                            <p class="mb-0" style="color: #333; line-height: 1.6;">{{ $qna->question }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Answer Section -->
+                                @if($qna->answer)
+                                    <div class="p-3 rounded" style="background-color: #f8f9fa; border-left: 3px solid #360185;">
+                                        <div class="d-flex align-items-start">
+                                            <i class="bi bi-reply-fill me-2" style="color: #360185; font-size: 1.2rem;"></i>
+                                            <div>
+                                                <strong style="color: #360185;">Your Answer:</strong>
+                                                <p class="mb-1 mt-2" style="color: #555;">{{ $qna->answer }}</p>
+                                                <small class="text-muted">
+                                                    <i class="bi bi-clock"></i> Answered {{ $qna->answered_at ? \Carbon\Carbon::parse($qna->answered_at)->diffForHumans() : 'recently' }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <form action="{{ route('events.qna.answer', $qna->id) }}" method="POST" class="mt-3">
+                                        @csrf
+                                        <div class="mb-2">
+                                            <label class="form-label" style="color: #360185; font-weight: 600;">
+                                                <i class="bi bi-chat-left-text"></i> Write Your Answer
+                                            </label>
+                                            <textarea name="answer" class="form-control" rows="3" 
+                                                placeholder="Type your answer here..." 
+                                                required
+                                                style="border: 2px solid #e0e0e0; border-radius: 8px;"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn" style="background-color: #360185; color: white; border-radius: 8px; padding: 8px 24px;">
+                                            <i class="bi bi-send-fill me-2"></i>Submit Answer
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
                         </div>
                     @endforeach
-                </div>
+                    
+                    <!-- Pagination for Q&A -->
+                    @if($allQnas->hasPages())
+                        <div class="d-flex justify-content-center align-items-center mt-4 gap-3">
+                            @if ($allQnas->onFirstPage())
+                                <button class="btn" disabled
+                                    style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; opacity: 0.3; cursor: not-allowed; display: flex; align-items: center;">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                            @else
+                                <a href="{{ $allQnas->previousPageUrl() }}" class="btn qna-pagination-link"
+                                    style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; display: flex; align-items: center;">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            @endif
+
+                            <div class="d-flex gap-2 align-items-center">
+                                @for ($i = 1; $i <= $allQnas->lastPage(); $i++)
+                                    <a href="{{ $allQnas->url($i) }}" class="qna-pagination-link"
+                                        style="width: 10px; height: 10px; border-radius: 50%; background-color: {{ $i === $allQnas->currentPage() ? '#360185' : '#d0d0d0' }}; cursor: pointer; transition: all 0.3s ease; display: block; {{ $i === $allQnas->currentPage() ? 'transform: scale(1.2);' : '' }}"></a>
+                                @endfor
+                            </div>
+
+                            @if ($allQnas->hasMorePages())
+                                <a href="{{ $allQnas->nextPageUrl() }}" class="btn qna-pagination-link"
+                                    style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; display: flex; align-items: center;">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            @else
+                                <button class="btn" disabled
+                                    style="background: none; border: none; color: #6c757d; font-size: 1.2rem; padding: 0; line-height: 1; opacity: 0.3; cursor: not-allowed; display: flex; align-items: center;">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            @endif
+                        </div>
+                    @endif
+                @else
+                    <div class="text-center py-5">
+                        <i class="bi bi-chat-left-dots" style="font-size: 4rem; color: #d0d0d0;"></i>
+                        <h4 class="mt-3" style="color: #360185;">No Questions Yet</h4>
+                        <p class="text-muted">No one has asked questions about your events yet.</p>
+                    </div>
+                @endif
+            </div>
             </div>
         </div>
     </div>
@@ -402,58 +525,58 @@
 
 @push('scripts')
     <script>
-        // Payment requests pagination scroll
+        // Preserve active tab on page reload and pagination
         document.addEventListener('DOMContentLoaded', function() {
-            const paymentLinks = document.querySelectorAll('.payments-pagination-link');
-            paymentLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                    sessionStorage.setItem('scrollToPayments', 'true');
-                    sessionStorage.setItem('savedScroll', currentScroll);
-                });
-            });
-
-            // Scroll to payments section after page load
-            if (sessionStorage.getItem('scrollToPayments') === 'true') {
-                sessionStorage.removeItem('scrollToPayments');
-                const savedScroll = sessionStorage.getItem('savedScroll');
-                if (savedScroll) {
-                    setTimeout(() => {
-                        window.scrollTo({
-                            top: parseInt(savedScroll),
-                            behavior: 'smooth'
-                        });
-                        sessionStorage.removeItem('savedScroll');
-                    }, 100);
-                }
-            }
-        });
-
-        // Preserve active tab on page reload without scrolling
-        document.addEventListener('DOMContentLoaded', function() {
+            // Check URL parameters for active tab
+            const urlParams = new URLSearchParams(window.location.search);
+            const hasPaymentsPage = urlParams.has('payments_page');
+            const hasQnaPage = urlParams.has('qna_page');
+            const hasEventsPage = urlParams.has('events_page');
             const hash = window.location.hash;
-            if (hash === '#payment-requests') {
+
+            // Activate appropriate tab based on pagination or hash
+            if (hasPaymentsPage || hash === '#payment-requests') {
                 const paymentTab = new bootstrap.Tab(document.getElementById('payment-requests-tab'));
                 paymentTab.show();
-            } else if (hash === '#qna') {
+            } else if (hasQnaPage || hash === '#qna') {
                 const qnaTab = new bootstrap.Tab(document.getElementById('qna-tab'));
                 qnaTab.show();
+            } else if (hasEventsPage) {
+                const eventsTab = new bootstrap.Tab(document.getElementById('my-events-tab'));
+                eventsTab.show();
             }
-        });
 
-        // Update URL hash when tab changes without scrolling
-        const tabButtons = document.querySelectorAll('button[data-bs-toggle="tab"]');
-        tabButtons.forEach(button => {
-            button.addEventListener('shown.bs.tab', function(event) {
-                const target = event.target.getAttribute('data-bs-target');
+            // Add active tab to pagination URLs
+            function addTabToLinks(className, tabName) {
+                const links = document.querySelectorAll('.' + className);
+                links.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const url = new URL(this.href);
+                        url.hash = '#' + tabName;
+                        window.location.href = url.href;
+                    });
+                });
+            }
 
-                if (target === '#payment-requests') {
-                    history.replaceState(null, null, '#payment-requests');
-                } else if (target === '#qna') {
-                    history.replaceState(null, null, '#qna');
-                } else {
-                    history.replaceState(null, null, window.location.pathname + window.location.search);
-                }
+            addTabToLinks('payments-pagination-link', 'payment-requests');
+            addTabToLinks('qna-pagination-link', 'qna');
+            addTabToLinks('events-pagination-link', 'my-events');
+
+            // Update URL hash when tab changes
+            const tabButtons = document.querySelectorAll('button[data-bs-toggle="tab"]');
+            tabButtons.forEach(button => {
+                button.addEventListener('shown.bs.tab', function(event) {
+                    const target = event.target.getAttribute('data-bs-target');
+
+                    if (target === '#payment-requests') {
+                        history.replaceState(null, null, '#payment-requests');
+                    } else if (target === '#qna') {
+                        history.replaceState(null, null, '#qna');
+                    } else {
+                        history.replaceState(null, null, window.location.pathname + window.location.search);
+                    }
+                });
             });
         });
     </script>
