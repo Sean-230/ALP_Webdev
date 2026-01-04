@@ -95,6 +95,8 @@ CMD echo "=== RAILWAY STARTUP ===" && \
     echo "=== Running migrations FIRST (blocking) ===" && \
     php artisan migrate --force 2>&1 && \
     echo "=== Migrations completed ===" && \
+    echo "=== Verifying sessions table exists ===" && \
+    php artisan tinker --execute="echo 'Sessions table: '; var_dump(\\Illuminate\\Support\\Facades\\Schema::hasTable('sessions'));" && \
     echo "=== Creating storage link ===" && \
     php artisan storage:link 2>&1 || echo "Storage link exists or failed" && \
     echo "=== Starting Laravel Server ===" && \
