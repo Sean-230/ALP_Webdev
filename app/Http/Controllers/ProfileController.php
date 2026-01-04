@@ -41,13 +41,6 @@ class ProfileController extends Controller
     {
         $validated = $request->validated();
         
-        // Validate phone_number if provided
-        if (isset($validated['phone_number'])) {
-            $request->validate([
-                'phone_number' => ['nullable', 'regex:/^[+]?[0-9]{10,15}$/']
-            ]);
-        }
-        
         $request->user()->fill($validated);
 
         // Only reset email verification if email is actually changed

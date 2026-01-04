@@ -103,14 +103,12 @@
                                         class="form-control form-control-sm @error('phone_number') is-invalid @enderror"
                                         id="phone_number" name="phone_number" 
                                         value="{{ old('phone_number', Auth::user()->phone_number) }}"
-                                        placeholder="+1234567890" 
-                                        pattern="[+]?[0-9]{10,15}"
-                                        title="Enter a valid phone number (10-15 digits, optional + prefix)">
+                                        placeholder="+62 812 3456 7890 or 081234567890">
                                     @error('phone_number')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                     <div class="form-text small">
-                                        <i class="bi bi-info-circle me-1"></i>Required for account verification
+                                        <i class="bi bi-info-circle me-1"></i>Required for account verification. Enter your phone number in any format.
                                     </div>
                                 </div>
 
